@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from '../components/navbar'
-import Product1 from '../components/Product1'
+import Project from '../components/Project'
 
-export default function Product() {
+export default function Projects() {
   return (
     <>
       <Navbar/>
-      <Product1/>
+      <Project/>
     </>
   )
 }

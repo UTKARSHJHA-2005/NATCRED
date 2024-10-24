@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from '../components/navbar'
-import Footer from '../components/Footer'
+import Record2 from '../components/Record2'
 
-export default function() {
+export default function Dashboard() {
   return (
     <>
       <Navbar/>
-      <Footer/>
+      <Record2/>
     </>
   )
 }

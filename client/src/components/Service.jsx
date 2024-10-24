@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { FaFingerprint, FaBolt, FaMoon, FaShieldAlt, FaHeadset } from "react-icons/fa";
 import AOS from 'aos';
-// import 'aos/dist/aos.css';
+import 'aos/dist/aos.css';
 
 const features = [
   {
@@ -66,8 +66,8 @@ const Service = () => {
   }, []);
 
   return (
-    <section className="py-10 bg-gray-50 sm:py-16 lg:py-18">
-      <p data-aos="fade-down" className="text-3xl text-center mb-[30px] font-bold leading-tight text-gray-900 sm:text-4xl xl:text-5xl font-pj">Take the step without<br/> any hassle & get results faster</p>
+    <section className="py-10 sm:py-16 lg:py-18" style={{ background: 'radial-gradient(circle,#8FD14F,beige)'}}>
+      <p data-aos="fade-down" className="text-3xl text-center mb-[30px] font-semibold leading-tight text-gray-900 sm:text-4xl xl:text-5xl font-pj">Take the step without<br/> any hassle & get results faster</p>
       <br />
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div data-aos="fade-up" className="grid grid-cols-1 gap-12 text-center sm:grid-cols-2 md:grid-cols-3 lg:gap-y-16">

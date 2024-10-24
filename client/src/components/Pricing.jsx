@@ -66,7 +66,7 @@ const plans = [
 
 const Pricing = () => {
   return (
-    <section className={commonStyles.section}>
+    <section className={commonStyles.section} style={{ background: 'radial-gradient(circle,#A2CA71,beige)'}}>
       <div className={commonStyles.container}>
         <div className="max-w-xl px-8 mx-auto text-center md:px-0">
           <h2 data-aos="fade-right" className={commonStyles.heading}>

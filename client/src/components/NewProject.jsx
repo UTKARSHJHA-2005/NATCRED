@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const NewPosts = () => {
+const NewProject = () => {
   const [image, setImage] = useState(null);
   const [content, setContent] = useState('');
 
@@ -13,18 +13,18 @@ const NewPosts = () => {
 
   const handlePublishPost = () => {
     if (!content.trim()) {
-      alert('Please enter some content for the post.');
+      alert('Please enter some content for the project.');
       return;
     }
-    console.log('Publishing post:', { image, content });
-    alert('Post published successfully!');
+    console.log('Publishing project:', { image, content });
+    alert('Project published successfully!');
     setImage(null);
     setContent('');
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-8">
-      <h2 className="text-3xl font-bold mb-8">Create a New Post</h2>
+      <h2 className="text-3xl font-bold mb-8">Post a new Project</h2>
       <div
         className="w-full max-w-2xl h-64 bg-gray-200 flex items-center justify-center rounded-lg mb-4 cursor-pointer"
         onClick={() => document.getElementById('imageInput').click()}
@@ -56,10 +56,10 @@ const NewPosts = () => {
         onClick={handlePublishPost}
         className="w-full max-w-2xl py-3 bg-green-200 text-white rounded-lg font-bold text-xl hover:bg-green-600 transition-all"
       >
-        Publish Post
+        Publish Project
       </button>
     </div>
   );
 };
 
-export default NewPosts;
+export default NewProject;
