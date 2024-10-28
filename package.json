@@ -11,6 +11,7 @@
     "react-typed": "^2.0.12",
     "react-typing-effect": "^2.0.5",
     "swiper": "^11.1.14",
-    "tradingeconomics": "^2.4.5"
+    "tradingeconomics": "^2.4.5",
+    "vite": "^5.4.10"
   }
 }

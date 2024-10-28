@@ -24,7 +24,7 @@ const NewProject = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-8">
-      <h2 className="text-3xl font-bold mb-8">Post a new Project</h2>
+      <h2 className="text-3xl font-bold mb-8">Publish a new Project</h2>
       <div
         className="w-full max-w-2xl h-64 bg-gray-200 flex items-center justify-center rounded-lg mb-4 cursor-pointer"
         onClick={() => document.getElementById('imageInput').click()}
