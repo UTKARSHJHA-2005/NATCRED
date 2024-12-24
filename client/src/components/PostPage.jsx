@@ -100,25 +100,19 @@ const PostPage = () => {
   return (
     <div className='h-full w-full' style={{ background: 'radial-gradient(circle,#8FD14F,beige)' }}>
       <div className="w-[1160px] h-full ml-[140px] p-4">
-        {posts.map((post, index) => (
-          <Link to={`/posts/${index}`} key={index}>
+        {posts.map((post) => (
             <PostCard post={post} />
-          </Link>
         ))}
       </div>
-
       <Link to="/newposts">
         <button
           className="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-gray-500 text-white text-3xl font-bold flex items-center justify-center shadow-lg hover:bg-black transition-colors duration-200"
-          aria-label="Add New Post"
-        >
+          aria-label="Add New Post">
           +
         </button>
       </Link>
-
       <Routes>
         <Route path="/NewPosts" element={<NewPosts />} />
-        <Route path="/posts/:id" element={<PostDetail posts={posts} />} />
       </Routes>
     </div>
   );

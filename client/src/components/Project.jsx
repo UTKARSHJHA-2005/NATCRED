@@ -72,7 +72,7 @@ const ProjectCard = ({ project }) => {
         <h3 data-aos='fade-up' className="text-xl font-semibold mb-2">{project.title}</h3>
         <p data-aos='fade-up' className="text-sm mb-2">by {project.owner}</p>
         <p data-aos='fade-up' className="text-sm mb-4">{project.description}</p>
-        <div data-aos='fade-up' className="text-lg font-bold mb-2">{project.amountRaised}</div>
+        <div className="text-lg font-bold mb-2">{project.amountRaised}</div>
         <div className="text-sm text-gray-300 mb-4">
           {project.contributors} contributors
         </div>

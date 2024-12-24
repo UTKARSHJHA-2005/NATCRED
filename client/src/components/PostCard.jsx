@@ -51,7 +51,7 @@ const PostCard = ({ post }) => {
     AOS.init({ duration: 1000 });
   }, []);
   return (
-    <div data-aos='fade-right' className="bg-green-800 mt-[50px] shadow-lg text-white rounded-lg p-4 mb-[50px]">
+    <div data-aos='fade-right' className="bg-green-800 mt-[10px] shadow-lg text-white rounded-lg p-4 mb-[50px]">
       <div data-aos='flip-up' className="flex mb-2">
         <img src={post.authorAvatar} alt="Author" className="w-10 h-13 rounded-full mr-3" />
         <div>

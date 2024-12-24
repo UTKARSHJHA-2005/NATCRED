@@ -70,14 +70,14 @@ const Record2 = () => {
     AOS.init({ duration: 1000 });
   }, []);
   return (
-    <div className="p-4 bg-gray-100 min-h-100vh">
+    <div className="p-4 min-h-100vh" style={{ background: '#D1FFBD' }}>
       <div data-aos='fade-down' className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <StatCard title="Carbon Credits" value="120" percentage="$190" />
         <StatCard title="Projects Invested" value="45" percentage="$2900" />
         <StatCard title="Products Bought" value="17" percentage="$450" />
         <StatCard title="Projects Succeed" value="19" percentage="$1200" />
       </div>
-      <div className="p-6 bg-gray-100 text-white h-[500px]">
+      <div className="p-6 text-white h-[500px]" style={{ background: '#D1FFBD' }}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div data-aos='flip-left' className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex justify-between items-center mb-4">
@@ -132,7 +132,6 @@ const Record2 = () => {
           </div>
         </div>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="bg-white p-4 rounded-lg shadow-lg w-99% h-[660px] col-span-10 ">
           <div data-aos='fade-right' className="w-full h-48 rounded-lg">

@@ -27,8 +27,7 @@ const NewPosts = () => {
       <h2 className="text-3xl font-bold mb-8">Create a New Post</h2>
       <div
         className="w-full max-w-2xl h-64 bg-gray-200 flex items-center justify-center rounded-lg mb-4 cursor-pointer"
-        onClick={() => document.getElementById('imageInput').click()}
-      >
+        onClick={() => document.getElementById('imageInput').click()}>
         {image ? (
           <img
             src={image}
@@ -54,7 +53,7 @@ const NewPosts = () => {
       ></textarea>
       <button
         onClick={handlePublishPost}
-        className="w-full max-w-2xl py-3 bg-green-200 text-white rounded-lg font-bold text-xl hover:bg-green-600 transition-all"
+        className="w-full max-w-2xl py-3 bg-green-200 text-black rounded-lg font-bold text-xl hover:bg-green-600 transition-all"
       >
         Publish Post
       </button>

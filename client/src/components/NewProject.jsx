@@ -50,12 +50,11 @@ const NewProject = () => {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Post Content"
-        className="w-full max-w-2xl h-40 p-4 bg-gray-700 rounded-lg text-white mb-4 resize-none"
+        className="w-full max-w-2xl h-40 p-4 bg-gray-600 rounded-lg text-white mb-4 resize-none"
       ></textarea>
       <button
         onClick={handlePublishPost}
-        className="w-full max-w-2xl py-3 bg-green-200 text-white rounded-lg font-bold text-xl hover:bg-green-600 transition-all"
-      >
+        className="w-full max-w-2xl py-3 bg-green-200 text-black rounded-lg font-bold text-xl hover:bg-green-600 transition-all">
         Publish Project
       </button>
     </div>

@@ -9,13 +9,14 @@ const commonSubTextClasses = "mt-1 text-sm font-normal text-gray-300";
 
 function Blog() {
   return (
-    <section className="py-16 bg-gray-100" style={{ background: 'radial-gradient(circle,#A2CA71,beige)'}}>      <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+    <section className="py-16 bg-gray-100" style={{ background: 'radial-gradient(circle,#A2CA71,beige)'}}>      
+    <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
       <div className="max-w-2xl mx-auto text-center">
         <h2 data-aos='fade-right' className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
           Over 1000+ people trust us
         </h2>
         <p data-aos='fade-left' className="mt-4 text-base font-normal leading-7 text-gray-600 lg:text-lg lg:mt-6 lg:leading-8">
-          We gives you the best services that makes gives a good benefit to your company.
+          We gives you the best services that makes gives a good benefit to you.
         </p>
       </div>
 

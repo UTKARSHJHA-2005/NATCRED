@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import ReactTypingEffect from 'react-typing-effect';
 import carbon from '../assets/carbon.jpg';
 import carbon3 from '../assets/carbon3.jpg';
+import { Link } from 'react-router-dom';
 import carbon4 from '../assets/carbon4.webp';
 import carbon5 from '../assets/carbon5.jpg';
 import carbon6 from '../assets/carbon6.jpg';
@@ -22,8 +23,7 @@ export default function Hero() {
   }, []);
   return (
     <>
-      <section className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0" style={{ background: 'radial-gradient(circle, #6EC207, beige)' }}
-      >
+      <section className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0" style={{ background: 'radial-gradient(circle, #6EC207, beige)' }}>
         <div className="relative px-4 mx-auto sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 data-aos='zoom-in' className="mt-5 text-4xl font-bold leading-tight text-gray-800 sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight font-pj">
@@ -49,22 +49,22 @@ export default function Hero() {
               </div>
             </div>
             <div className="relative inline-flex mt-10 group">
+              <Link to='/projects'>
               <a data-aos='fade-left'
                 href="#"
                 title="Start Trading"
                 className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
-                role="button"
-              >
+                role="button">
                 Start Trading
-              </a>
+              </a></Link>
+              <Link to='/contact'>
               <a data-aos='fade-right'
                 href="#"
                 title="Contact Us"
                 className="relative inline-flex ml-[30px] items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
-                role="button"
-              >
+                role="button">
                 Contact Us
-              </a>
+              </a></Link>
             </div>
           </div>
         </div>

@@ -50,14 +50,13 @@ const Product1 = () => {
     ];
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
             {products.map((product, index) => (
-                <div key={index} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md p-4">
+                <div key={index} className="flex flex-col mt-4 md:flex-row rounded-lg shadow-md p-4" style={{ background: '#D1FFBD' }}>
                     <img data-aos='flip-up'
                         src={product.image}
                         alt={product.title}
-                        className="w-[400px] h-[250px] object-cover rounded-lg mb-4 md:mb-0 md:mr-4"
-                    />
+                        className="w-[400px] h-[250px] object-cover rounded-lg mb-4 md:mb-0 md:mr-4"/>
                     <div className="flex flex-col justify-between flex-grow">
                         <div>
                             <h3 data-aos='zoom-in' className="text-lg font-bold mb-2">{product.title}</h3>
@@ -73,7 +72,7 @@ const Product1 = () => {
                                 <span data-aos='flip-right' className="text-lg font-bold text-red-500">{product.price}</span>
                             </div>
                             <div className="flex justify-between items-center mb-2">
-                                <p data-aos='zoom-out-down' className="text-gray-500">{product.delivery}</p>
+                                <p className="text-gray-500">{product.delivery}</p>
                             </div>
                         </div>
                         <button className="bg-yellow-500 ml-[230px] text-white hover:bg-stone-700 font-bold py-3 px-60 rounded-full text-sm mt-2 self-start">
@@ -84,8 +83,7 @@ const Product1 = () => {
                     <button
                         className="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-gray-400 text-white text-3xl font-bold flex items-center justify-center shadow-lg hover:bg-black"
                         aria-label="Want to sell your nature friendly product"
-                        title="Want to sell your nature friendly product"
-                    >
+                        title="Want to sell your nature friendly product">
                         +
                     </button>
                 </div>
