@@ -22,8 +22,7 @@ export default function EnergyProduct() {
   ];
 
   return (
-    <section className="py-16" style={{ background: 'radial-gradient(circle,#A2CA71,beige)'}}
-    >
+    <section className="py-16" style={{ background: 'radial-gradient(circle,#A2CA71,beige)'}}>
       <div className="container mx-auto px-6">
         <div data-aos='slip-down' className="flex justify-center mb-6">
           <FontAwesomeIcon icon={faSolarPanel} className="text-4xl text-black" />
