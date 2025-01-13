@@ -11,6 +11,8 @@ import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import Posts from './pages/Posts';
+import NewPosts from './components/NewPosts';
+import NewProject from './components/NewProject';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +38,8 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/signup" element={<Signup />}/>
               <Route path="/login" element={<Login />} />
+              <Route path='/newposts' element={<NewPosts />} />
+              <Route path='/newproject' element={<NewProject/>}/>
             </Routes>
           </div>
         </Router>

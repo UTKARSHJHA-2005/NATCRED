@@ -10,27 +10,22 @@ export default function Profile() {
     phone: "+91 9876543210",
     bio: "Software Engineer | Web Developer | Wanted To Invest in Enviroment |",
   });
-
   const navigate = useNavigate();
-
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       setProfileImage(URL.createObjectURL(file));
     }
   };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
     navigate('/');
   };
-
   return (
     <div style={{ background: 'radial-gradient(circle,#8FD14F,beige)'}}>
       <div className="max-w-4xl mx-auto p-6 rounded-lg shadow-lg">
@@ -126,7 +121,8 @@ export default function Profile() {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-darkred focus:border-darkred"
             ></textarea>
           </div>
-          <div className="text-right">
+          <div className="flex flex-row justify-between items-center">
+            <button className='bg-gray-400 text-white px-6 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-300'>Connect To Wallet</button>
             <button
               type="submit"
               className="bg-red-600 text-white px-6 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-300">

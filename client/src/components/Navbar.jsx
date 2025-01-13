@@ -91,7 +91,7 @@ function Navbar() {
         </header>
       </div>
       {isOpen && (
-        <div className="absolute mt-2 ml-[1100px] w-48 bg-green-300 border border-green-400 rounded-md shadow-lg z-10">
+        <div className="absolute mt-2 ml-[1200px] w-48 bg-green-300 border border-green-400 rounded-md shadow-lg z-10">
           <ul className="py-1">
             <li className="px-4 py-2 hover:bg-green-600 hover:text-white cursor-pointer">
               <Link to="/profile">Profile Settings</Link>

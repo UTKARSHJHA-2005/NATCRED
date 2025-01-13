@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import NewProject from './NewProject';
+import { Link } from 'react-router-dom';
 import AOS from 'aos'
 import 'aos/dist/aos.css';
 
@@ -37,6 +37,7 @@ const projects = [
     description:
       "Initiative to promote solar energy infrastructure, such as panels, inverters, and storage solutions, to optimize energy production and consumption. This will educate people to reduce products that emits carbon.",
     amountRaised: "$18,000",
+    value:"$100",
     contributors: 28,
     image: "https://blog.feniceenergy.com/wp-content/uploads/2024/05/distribution-of-solar-energy-in-india.jpg", 
   },
@@ -74,7 +75,7 @@ const ProjectCard = ({ project }) => {
         <p data-aos='fade-up' className="text-sm mb-4">{project.description}</p>
         <div className="text-lg font-bold mb-2">{project.amountRaised}</div>
         <div className="text-sm text-gray-300 mb-4">
-          {project.contributors} contributors
+          {project.contributors} Carbon Credits
         </div>
         <div className="flex justify-between items-center">
           <button className="bg-green-700 text-white px-4 py-2 hover:bg-green-900 rounded-lg">
@@ -97,13 +98,13 @@ const Project = () => {
           <ProjectCard key={index} project={project} />
         ))}
       </div>
+      <Link to="/newproject">
       <button
-          onClick={NewProject}
           className="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-gray-500 text-white text-3xl font-bold flex items-center justify-center shadow-lg hover:bg-black transition-colors duration-200"
           aria-label="Add New Project"
         >
           +
-        </button>
+        </button></Link>
     </div>
   );
 };
