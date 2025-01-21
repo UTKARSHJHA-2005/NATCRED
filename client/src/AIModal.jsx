@@ -20,4 +20,4 @@ export const chatSession = model.startChat({
     history: [
     ],
 });
-export const AI_Prompt="{content}";
+export const AI_Prompt="{content} and don't start with Okay.I understand and all start with the main point";

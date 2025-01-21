@@ -1,9 +1,10 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { useState,useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Signup from './pages/Signup'
 import Login from './pages/Login'
+import ProductPage from './components/ProductPage';
 import Loader from './Loader';
 import Product from './pages/Product';
 import Contact from './pages/Contact'
@@ -31,15 +32,16 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/product" element={<Product />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/posts" element={<Posts />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/signup" element={<Signup />}/>
+              <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path='/newposts' element={<NewPosts />} />
-              <Route path='/newproject' element={<NewProject/>}/>
+              <Route path='/newproject' element={<NewProject />} />
+              <Route path="/product" element={<Product />} />
+              <Route path='/product/:title' element={<ProductPage />} />
             </Routes>
           </div>
         </Router>
