@@ -62,6 +62,36 @@ const projects = [
 ];
 
 const ProjectCard = ({ project }) => {
+  const handleInvest = async () => {
+    try {
+      // Check if MetaMask is installed
+      if (typeof window.ethereum !== "undefined") {
+        // Request user's MetaMask account
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        const userAccount = accounts[0]; // Get the first account
+
+        // Transaction parameters
+        const transactionParameters = {
+          to: "0xYourProjectWalletAddress", // Replace with your wallet address
+          from: userAccount, // User's wallet address
+          value: "0x2386F26FC10000", // 0.01 ETH in hexadecimal (1 ETH = 10^18 Wei)
+        };
+
+        // Send transaction request to MetaMask
+        await window.ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
+
+        alert("Transaction sent successfully!");
+      } else {
+        alert("MetaMask is not installed. Please install MetaMask to proceed.");
+      }
+    } catch (error) {
+      console.error("Error during transaction:", error);
+      alert("Transaction failed. Please try again.");
+    }
+  };
   return (
     <div data-aos='flip-right' className="bg-green-800 cursor-pointer text-white rounded-lg shadow-lg p-4 ml-[30px] mt-[30px] md:w-[400px]">
       <img data-aos='fade-down'
@@ -78,7 +108,7 @@ const ProjectCard = ({ project }) => {
           {project.contributors} Carbon Credits
         </div>
         <div className="flex justify-between items-center">
-          <button className="bg-green-700 text-white px-4 py-2 hover:bg-green-900 rounded-lg">
+          <button onClick={handleInvest} className="bg-green-700 text-white px-4 py-2 hover:bg-green-900 rounded-lg">
             Invest
           </button>
         </div>
@@ -109,4 +139,4 @@ const Project = () => {
   );
 };
 
-export default Project;
+export default Project;          
