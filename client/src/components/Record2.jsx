@@ -84,18 +84,15 @@ const Record2 = () => {
                   {transactionsData.map((transaction, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-center border-b border-gray-300 py-2 cursor-pointer hover:bg-gray-100 rounded-lg"
-                    >
+                      className="flex justify-between items-center border-b border-gray-300 py-2 cursor-pointer hover:bg-gray-100 rounded-lg">
                       <div>
                         <p className="font-semibold text-gray-800">{transaction.projectName}</p>
                         <p className="text-sm text-gray-600">{transaction.investorName}</p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-gray-500">{transaction.date}</p>
-                        <p
-                          className={`${transaction.amount > 0 ? "text-green-500" : "text-red-500"
-                            } font-semibold`}
-                        >
+                        <p className={`${transaction.amount > 0 ? "text-green-500" : "text-red-500"
+                            } font-semibold`}>
                           {transaction.amount > 0 ? `+ $${transaction.amount}` : `- $${Math.abs(transaction.amount)}`}
                         </p>
                       </div>

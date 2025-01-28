@@ -78,18 +78,17 @@ const ProjectCard = ({ project }) => {
           from: userAccount,
           value: "0x2386F26FC10000",
         };
-        await window.ethereum.request({
+        const trans = await window.ethereum.request({
           method: "eth_sendTransaction",
           params: [transactionParameters],
         });
-
+        console.log(trans)
         alert("Transaction sent successfully!");
       } else {
         alert("MetaMask is not installed. Please install MetaMask to proceed.");
       }
     } catch (error) {
       console.error("Error during transaction:", error);
-      alert("Transaction failed. Please try again.");
     }
   };
   return (
@@ -97,15 +96,12 @@ const ProjectCard = ({ project }) => {
       <Link to="/your-project">
         <button className="absolute top-[100px] right-6 bg-green-200 px-4 py-2 rounded-full text-white hover:bg-green-400" title='My Projects'>📓</button>
       </Link>
-      <Link
-        to={`/projects/${projects.title}`}
-        state={{ project }}>
+      <Link to={`/projects/${projects.title}`} state={{ project }}>
         <div data-aos='flip-right' className="bg-green-800 cursor-pointer text-white rounded-lg shadow-lg p-4 ml-[30px] mt-[30px] md:w-[400px]">
           <img data-aos='fade-down'
             src={project.image}
             alt={project.title}
-            className="w-full h-48 object-cover rounded-t-lg"
-          />
+            className="w-full h-48 object-cover rounded-t-lg" />
           <div className="p-4">
             <h3 data-aos='fade-up' className="text-xl font-semibold mb-2">{project.title}</h3>
             <p data-aos='fade-up' className="text-sm mb-2">by {project.owner}</p>
@@ -140,8 +136,7 @@ const Project = () => {
       <Link to="/newproject">
         <button
           className="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-gray-500 text-white text-3xl font-bold flex items-center justify-center shadow-lg hover:bg-black transition-colors duration-200"
-          aria-label="Add New Project"
-        >
+          aria-label="Add New Project" title='Add New Project'>
           +
         </button></Link>
     </div>
