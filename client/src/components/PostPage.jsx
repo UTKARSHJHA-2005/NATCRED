@@ -93,7 +93,6 @@ const PostPage = () => {
         ],
       },
     ];
-
     setPosts(fetchedPosts);
   }, []);
 

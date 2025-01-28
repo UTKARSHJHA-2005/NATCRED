@@ -21,7 +21,8 @@ export default function CreditProjects() {
     AOS.init({ duration: 1000 });
   }, []);
   return (
-    <section className="py-16 bg-gray-100" style={{ background: 'radial-gradient(circle,#8FD14F,beige)'}}>        <div className="container mx-auto px-6">
+    <section className="py-16 bg-gray-100" style={{ background: 'radial-gradient(circle,#8FD14F,beige)'}}>        
+    <div className="container mx-auto px-6">
       <div className="flex justify-center mb-6">
         <FontAwesomeIcon icon={faCreditCard} className="text-4xl text-black" />
       </div>

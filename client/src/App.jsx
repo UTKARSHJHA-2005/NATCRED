@@ -14,6 +14,8 @@ import Projects from './pages/Projects';
 import Posts from './pages/Posts';
 import NewPosts from './components/NewPosts';
 import NewProject from './components/NewProject';
+import ProjectDetail from './components/ProjectDetail';
+import MyProject from './components/MyProject';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +44,8 @@ function App() {
               <Route path='/newproject' element={<NewProject />} />
               <Route path="/product" element={<Product />} />
               <Route path='/product/:title' element={<ProductPage />} />
+              <Route path='/your-project' element={<MyProject />} />
+              <Route path='/projects/:title' element={<ProjectDetail/>}/>
             </Routes>
           </div>
         </Router>

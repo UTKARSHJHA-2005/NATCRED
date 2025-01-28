@@ -18,16 +18,14 @@ export default function Signup() {
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter the Name"
             className="w-full md:w-[400px] h-[50px] mt-[10px] border-white rounded-lg px-3 bg-transparent text-white placeholder-gray-300 focus:outline-none"
-            required
-          /><br />
+            required/><br />
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Email Address"
             className="w-full md:w-[400px] h-[50px] mt-[10px] border-white rounded-lg px-3 bg-transparent text-white placeholder-gray-300 focus:outline-none"
-            required
-          /><br />
+            required/><br />
           <input
             type="password"
             value={password}

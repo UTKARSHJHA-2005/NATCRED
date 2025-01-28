@@ -63,20 +63,15 @@ const Record2 = () => {
           </button>
         </div>
       ) : (
-        // Show the main content if the wallet is connected
         <>
-          {/* Stats Section */}
           <div data-aos="fade-down" className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <StatCard title="Carbon Credits" value="120" percentage="$190" />
             <StatCard title="Projects Invested" value="45" percentage="$2900" />
             <StatCard title="Products Bought" value="17" percentage="$450" />
             <StatCard title="Projects Succeed" value="19" percentage="$1200" />
           </div>
-
-          {/* Main Content Section */}
           <div className="p-4 text-white" style={{ background: "#D1FFBD" }}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Transactions */}
               <div data-aos="flip-left" className="bg-white p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg text-black font-bold">Transactions to My Projects</h2>
@@ -108,8 +103,6 @@ const Record2 = () => {
                   ))}
                 </div>
               </div>
-
-              {/* Recent Projects */}
               <div data-aos="flip-right" className="bg-white p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg text-black font-bold">Invested In Projects</h2>
@@ -136,21 +129,17 @@ const Record2 = () => {
               </div>
             </div>
           </div>
-
-          {/* Tabs Section */}
           <div className="w-full mt-6">
             <div className="flex flex-col md:flex-row justify-center border-b border-green-500">
               <TabButton
                 label="Instrument Detail"
                 isActive={activeTab === "instrumental"}
-                onClick={() => setActiveTab("instrumental")}
-              />
+                onClick={() => setActiveTab("instrumental")}/>
               <TabButton label="Issuance" isActive={activeTab === "issuance"} onClick={() => setActiveTab("issuance")} />
               <TabButton
                 label="Cooperative Approaches"
                 isActive={activeTab === "cooperative"}
-                onClick={() => setActiveTab("cooperative")}
-              />
+                onClick={() => setActiveTab("cooperative")}/>
             </div>
             <div className="p-4 md:p-6">
               {activeTab === "instrumental" && <TabContent images={[info2, info5]} />}
@@ -192,4 +181,4 @@ const TabContent = ({ images }) => (
   </div>
 );
 
-export default Record2;
+export default Record2;     
