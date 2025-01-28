@@ -46,6 +46,7 @@ function App() {
               <Route path='/product/:title' element={<ProductPage />} />
               <Route path='/your-project' element={<MyProject />} />
               <Route path='/projects/:title' element={<ProjectDetail/>}/>
+              <Route path='/your-project/:title' element={<ProjectDetail/>}/>
             </Routes>
           </div>
         </Router>

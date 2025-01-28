@@ -27,15 +27,13 @@ const projects = [
   },
 ];
 
-// ProjectCard Component
 const ProjectCard = ({ project }) => {
   const handleInvest = () => {
-    // Handle invest button click logic
     console.log(`Investing in ${project.title}`);
   };
 
   return (
-    <Link to={`/your-project/${project.title}`}>
+    <Link to={`/your-project/${project.title}`}  state={{ project }}>
       <div data-aos='flip-right' className="bg-green-800 cursor-pointer text-white rounded-lg shadow-lg p-4 ml-[30px] mt-[30px] md:w-[400px]">
         <img data-aos='fade-down' src={project.image} alt={project.title} className="w-full h-48 object-cover rounded-t-lg" />
         <div className="p-4">
