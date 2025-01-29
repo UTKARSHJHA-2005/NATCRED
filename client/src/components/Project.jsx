@@ -96,12 +96,9 @@ const ProjectCard = ({ project }) => {
       <Link to="/your-project">
         <button className="absolute top-[100px] right-6 bg-green-200 px-4 py-2 rounded-full text-white hover:bg-green-400" title='My Projects'>📓</button>
       </Link>
-      <Link to={`/projects/${projects.title}`} state={{ project }}>
-        <div data-aos='flip-right' className="bg-green-800 cursor-pointer text-white rounded-lg shadow-lg p-4 ml-[30px] mt-[30px] md:w-[400px]">
-          <img data-aos='fade-down'
-            src={project.image}
-            alt={project.title}
-            className="w-full h-48 object-cover rounded-t-lg" />
+      <div data-aos='flip-right' className="bg-green-800 cursor-pointer text-white rounded-lg shadow-lg p-4 ml-[30px] mt-[30px] md:w-[400px]">
+        <img data-aos='fade-down' src={project.image} alt={project.title} className="w-full h-48 object-cover rounded-t-lg" />
+        <Link to={`/projects/${projects.title}`} state={{ project }}>
           <div className="p-4">
             <h3 data-aos='fade-up' className="text-xl font-semibold mb-2">{project.title}</h3>
             <p data-aos='fade-up' className="text-sm mb-2">by {project.owner}</p>
@@ -116,8 +113,8 @@ const ProjectCard = ({ project }) => {
               </button>
             </div>
           </div>
-        </div>
-      </Link>
+          </Link>
+      </div>
     </>
   );
 };

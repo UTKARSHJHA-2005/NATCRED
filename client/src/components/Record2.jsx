@@ -51,7 +51,6 @@ const Record2 = () => {
     }
   };
 
-
   return (
     <div className="p-4 min-h-screen bg-[#D1FFBD]">
       {!walletConnected ? (

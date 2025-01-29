@@ -9,6 +9,29 @@ const ProjectDetail = () => {
     useEffect(() => {
         AOS.init({ duration: 1000 }); 
     }, []);
+    const handleInvest = async () => {
+        try {
+          if (typeof window.ethereum !== "undefined") {
+            const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+            const userAccount = accounts[0];
+            const transactionParameters = {
+              to: "0x4b567f404c7fd52f948e2bc8758945b3339d5092",
+              from: userAccount,
+              value: "0x2386F26FC10000",
+            };
+            const trans = await window.ethereum.request({
+              method: "eth_sendTransaction",
+              params: [transactionParameters],
+            });
+            console.log(trans)
+            alert("Transaction sent successfully!");
+          } else {
+            alert("MetaMask is not installed. Please install MetaMask to proceed.");
+          }
+        } catch (error) {
+          console.error("Error during transaction:", error);
+        }
+      };
 
     return (
         <div className="min-h-screen p-6 text-white overflow-y-hidden" style={{ background: 'radial-gradient(circle, #6EC207, beige)' }}>
@@ -46,7 +69,7 @@ const ProjectDetail = () => {
                         <h2 className="text-xl font-bold">30</h2>
                         <p className="text-gray-300">Total Carbon Credits Bought</p>
                     </div>
-                    <button className="bg-green-600 px-4 py-2 rounded hover:bg-green-300 hover:text-black">Invest</button>
+                    <button onClick={handleInvest} className="bg-green-600 px-4 py-2 rounded hover:bg-green-300 hover:text-black">Invest</button>
                 </div>
             </div>
             <div className="mt-6 bg-green-700 p-6 rounded-lg shadow-lg" data-aos="fade-up">

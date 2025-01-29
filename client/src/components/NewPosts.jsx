@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import AI from '../assets/AI.webp';
 import { AI_Prompt,chatSession } from '../AIModal';
+import { useNavigate } from 'react-router-dom';
+import Axios from "axios";
 
 const NewPosts = () => {
   const [image, setImage] = useState(null);
   const [content, setContent] = useState('');
+  const navigate=useNavigate()
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -13,7 +16,7 @@ const NewPosts = () => {
     }
   };
 
-  const handlePublishPost = () => {
+  const handlePublishPost = async() => {
     if(!image){
       alert('Please upload an image');
       return;
@@ -22,10 +25,12 @@ const NewPosts = () => {
       alert('Please enter some content for the post.');
       return;
     }
+    const posts=await Axios.get("http://localhost:5000/Posts")
     console.log('Publishing post:', { image, content });
     alert('Post published successfully!');
     setImage(null);
     setContent('');
+    navigate("/Posts")
   };
   const GenerateAI = async () => {
     if (!content) {
