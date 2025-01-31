@@ -4,6 +4,7 @@ import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 
 const PostCard = ({ post }) => {
+  console.log(post)
   const [likes, setLikes] = useState(post.likes);
   const [dislikes, setDislikes] = useState(post.dislikes);
   const [hasLiked, setHasLiked] = useState(false);

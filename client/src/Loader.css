@@ -1,0 +1,141 @@
+/* Colors */
+:root {
+    --primary: #00ff88;
+    --secondary: #00b4d8;
+    --background: #0a192f;
+  }
+  
+  /* Animations */
+  @keyframes orbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+  }
+  
+  @keyframes shine {
+    0% { left: -50%; }
+    100% { left: 150%; }
+  }
+  
+  /* Loader Container */
+  .loader-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(45deg, #0a192f 0%, #172a45 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glow-container {
+    position: relative;
+    margin-bottom: 40px;
+  }
+  
+  /* Image Container */
+  .image-container {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  .logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .logo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%);
+    z-index: 3;
+  }
+  
+  /* Orbital Rings */
+  .orbit {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    top: -10px;
+    left: -10px;
+    border: 2px solid var(--primary);
+    border-left-color: transparent;
+    animation: orbit 3s linear infinite;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  }
+  
+  .orbit2 {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    top: -20px;
+    left: -20px;
+    border: 2px solid var(--secondary);
+    border-right-color: transparent;
+    animation: orbit 4s linear infinite reverse;
+    box-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
+  }
+  
+  /* Progress Bar */
+  .progress-container {
+    width: 40%;
+    max-width: 400px;
+    position: relative;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+    position: relative;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .progress-shine {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 30%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shine 1.5s ease-in-out infinite;
+  }
+  
+  .progress-text {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    color: var(--primary);
+    font-family: Arial, sans-serif;
+    font-size: 1.2em;
+    text-shadow: 0 0 10px var(--primary);
+    font-weight: bold;
+  }
