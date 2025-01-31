@@ -69,14 +69,14 @@ const Product1 = () => {
     }, [searchTerm]);
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col bg-[#233b5d]">
             <div className="flex justify-center my-4">
                 <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search products..."
-                    className="w-[95%] px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                    className="w-[95%] px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 " />
             </div>
             {filteredProducts.length > 0 ? (
                 filteredProducts.map((product, index) => (
@@ -86,22 +86,22 @@ const Product1 = () => {
                             to={`/product/${product.title}`}
                             state={{ product }}>
                             <div
-                                className="cursor-pointer flex flex-col md:flex-row rounded-lg shadow-md p-6"
-                                style={{ background: '#D1FFBD' }}>
+                                className="cursor-pointer flex flex-col md:flex-row rounded-lg shadow-md p-6 my-3 items-center"
+                                style={{ background: '#233b5d' }}>
                                 <img data-aos="flip-up"
                                     src={product.image}
                                     alt={product.title}
                                     className="w-[400px] h-[250px] object-cover rounded-lg mb-4 md:mb-0 md:mr-4" />
                                 <div className="flex flex-col gap-3">
-                                    <h3 data-aos="zoom-in" className="text-lg font-bold">
+                                    <h3 data-aos="zoom-in" className="text-2xl font-bold text-white">
                                         {product.title}
                                     </h3>
                                     <div className="flex items-center">
-                                        🚚 <span data-aos="zoom-in-up" className="text-sm ml-1">
+                                        🚚 <span data-aos="zoom-in-up" className="text-lg ml-1 text-white">
                                             {product.delivery}
                                         </span>
                                     </div>
-                                    <p>{product.price}</p>
+                                    <p className=' text-white'>{product.price}</p>
                                     <button className="flex flex-row bg-yellow-500 ml-[230px] text-white hover:bg-stone-700 font-bold py-3 px-60 rounded-full text-sm mt-[90px] self-start">
                                         Buy Now
                                         <RxArrowTopRight className="ml-2 mt-1 h-4 w-4 font-semibold text-blue-800 transition-all duration-200 group hover:text-blue-700 hover:underline" />

@@ -47,7 +47,7 @@ const ProductPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen" style={{ background: 'radial-gradient(circle, #6EC207, beige)' }}>
+    <div className="flex flex-col items-center justify-center min-h-screen" style={{ background: 'radial-gradient(circle, #233b5d, beige)' }}>
       <div className="p-6 bg-white shadow-lg rounded-lg border border-gray-500">
         <div className="flex flex-row">
           <div className="w-[300px] h-64">

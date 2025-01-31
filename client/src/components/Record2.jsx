@@ -52,7 +52,7 @@ const Record2 = () => {
   };
 
   return (
-    <div className="p-4 min-h-screen bg-[#D1FFBD]">
+    <div className="p-4 min-h-screen bg-[#233b5d]">
       {!walletConnected ? (
         <div className="flex justify-center items-center h-screen">
           <button
@@ -69,7 +69,7 @@ const Record2 = () => {
             <StatCard title="Products Bought" value="17" percentage="$450" />
             <StatCard title="Projects Succeed" value="19" percentage="$1200" />
           </div>
-          <div className="p-4 text-white" style={{ background: "#D1FFBD" }}>
+          <div className="p-4 text-white" style={{ background: "#233b5d" }}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div data-aos="flip-left" className="bg-white p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-center mb-4">

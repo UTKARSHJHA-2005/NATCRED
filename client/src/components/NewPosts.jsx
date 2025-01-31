@@ -95,8 +95,8 @@ const NewPosts = () => {
   };
 
   return (
-    <div className="min-h-screen text-white flex flex-col items-center p-8"
-         style={{ background: 'radial-gradient(circle, #6EC207, beige)' }}>
+    <div className="min-h-screen text-white flex flex-col items-center p-8 bg-[#233b5d]"
+         style={{ background: 'radial-gradient(circle, #233b5d, beige)' }}>
       <h2 className="text-3xl font-bold mb-8">Create a New Post</h2>
 
       {/* Image Upload Section */}
