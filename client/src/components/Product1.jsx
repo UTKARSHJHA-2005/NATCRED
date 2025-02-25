@@ -81,12 +81,11 @@ const Product1 = () => {
             {filteredProducts.length > 0 ? (
                 filteredProducts.map((product, index) => (
                     <React.Fragment key={index}>
-                        <HR.Trimmed style={{ border: '0.5px solid green', margin: '5px', width: '100%' }} />
                         <Link
                             to={`/product/${product.title}`}
                             state={{ product }}>
                             <div
-                                className="cursor-pointer flex flex-col md:flex-row rounded-lg shadow-md p-6 my-3 items-center"
+                                className="cursor-pointer border-green-600 shadow-green-300 border-2 flex flex-col md:flex-row rounded-lg shadow-lg p-6 my-3 items-center"
                                 style={{ background: '#233b5d' }}>
                                 <img data-aos="flip-up"
                                     src={product.image}
@@ -102,7 +101,7 @@ const Product1 = () => {
                                         </span>
                                     </div>
                                     <p className=' text-white'>{product.price}</p>
-                                    <button className="flex flex-row bg-yellow-500 ml-[230px] text-white hover:bg-stone-700 font-bold py-3 px-60 rounded-full text-sm mt-[90px] self-start">
+                                    <button className="flex flex-row bg-orange-400 ml-[230px] text-white hover:bg-orange-500 font-bold py-3 px-60 rounded-full text-sm mt-[90px] self-start">
                                         Buy Now
                                         <RxArrowTopRight className="ml-2 mt-1 h-4 w-4 font-semibold text-blue-800 transition-all duration-200 group hover:text-blue-700 hover:underline" />
                                     </button>
