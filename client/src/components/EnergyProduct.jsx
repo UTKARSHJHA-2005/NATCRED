@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -22,15 +22,15 @@ export default function EnergyProduct() {
   ];
 
   return (
-    <section className="py-16" style={{ background: 'radial-gradient(circle,#A2CA71,beige)'}}>
+    <section className="py-16" style={{ background: '#233b5d' }}>
       <div className="container mx-auto px-6">
         <div data-aos='slip-down' className="flex justify-center mb-6">
-          <FontAwesomeIcon icon={faSolarPanel} className="text-4xl text-black" />
+          <FontAwesomeIcon icon={faSolarPanel} className="text-4xl text-white" />
         </div>
-        <h2 data-aos='fade-down' className="text-4xl font-bold text-center mb-6">Energy Innovators</h2>
-        <p data-aos='fade-down' className="text-xl text-center mb-12">
-          Energy Innovators are pioneers driving the transition to sustainable energy solutions.
-          They develop cutting-edge technologies, such as renewable energy systems and smart grids,
+        <h2 data-aos='fade-down' className="text-4xl font-bold text-white text-center mb-6">Energy Innovators</h2>
+        <p data-aos='fade-down' className="text-xl text-green-300 text-center mb-12">
+          Energy Innovators are driving the transition to sustainable energy solutions.
+          They develop cutting-edge technologies, such as renewable energy systems,
           to enhance efficiency and reduce carbon footprints.
         </p>
         <Swiper
@@ -48,7 +48,8 @@ export default function EnergyProduct() {
         >
           {projects.map((project, index) => (
             <SwiperSlide key={index}>
-              <div data-aos='slip-down' className="bg-white shadow-lg rounded-lg overflow-hidden">
+              <div data-aos='slip-down' className="bg-white border-[#00ff88] border-[2px] shadow-2xl cursor-pointer rounded-lg overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,136,0.3)] 
+                hover:-translate-y-1 hover:scale-105 transition-transform duration-300">
                 <img data-aos='fade-down' src={project.image} alt={`Image of ${project.title}`} className="w-full h-48 object-cover" />
                 <div data-aos='flip-right' className="p-6">
                   <h3 className="text-2xl font-semibold mb-2">{project.title}</h3>
@@ -60,7 +61,8 @@ export default function EnergyProduct() {
           ))}
         </Swiper>
         <div data-aos='slip-left' className="text-center mt-8">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-black">
+          <button className="px-4 py-2 bg-blue-600 border-green-400 border-[2px] text-white rounded-lg hover:bg-black" style={{
+              boxShadow: "0px 0px 20px rgba(0, 255, 136, 0.4)"}}>
             View All Products
           </button>
         </div>

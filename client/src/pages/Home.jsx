@@ -2,12 +2,10 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import CreditProjects from '../components/CreditProjects'
 import EnergyProduct from '../components/EnergyProduct'
-import Blog from '../components/Blog'
 import Service from '../components/Service'
 import Tradeforgreen from '../components/Tradeforgreen'
 import Hero from '../components/Hero'
 import Pricing from '../components/Pricing'
-import NewsLetter from '../components/Newsletter'
 
 export default function () {
   return (
@@ -19,8 +17,6 @@ export default function () {
     <Tradeforgreen/>
     <EnergyProduct/>
     <Pricing/>
-    <Blog/>
-    <NewsLetter/>
     </>
   )
 }

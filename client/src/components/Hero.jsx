@@ -23,11 +23,15 @@ export default function Hero() {
   }, []);
   return (
     <>
-      <section className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0" style={{ background: 'radial-gradient(circle, #6EC207, beige)' }}>
+      <section className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0 bg-#172a45" //</>style={{ background: 'radial-gradient(circle, #8FD14F, #233b5d)' }}
+        style={{ background: '#172a45' }}>
         <div className="relative px-4 mx-auto sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 data-aos='zoom-in' className="mt-5 text-4xl font-bold leading-tight text-gray-800 sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight font-pj">
-              Welcome To NATCRED
+            <h1
+              data-aos='zoom-in'
+              className="mt-5 text-4xl font-bold leading-tight text-green-500 sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight font-pj"
+              style={{ textShadow: "0 0 60px rgba(0, 255, 136, 0.4)" }}
+            >              Welcome To NATCRED
             </h1>
             <div className="text-center my-8">
               <div data-aos='zoom-in-down' className="text-3xl font-bold text-white">
@@ -41,8 +45,8 @@ export default function Hero() {
                     'Invest Money',
                     'Posts Progress'
                   ]}
-                  speed={30}       
-                  eraseSpeed={40}  
+                  speed={30}
+                  eraseSpeed={40}
                   eraseDelay={1000}
                   typingDelay={500}
                 />
@@ -50,21 +54,27 @@ export default function Hero() {
             </div>
             <div className="relative inline-flex mt-10 group">
               <Link to='/projects'>
-              <a data-aos='fade-left'
-                href="#"
-                title="Start Trading"
-                className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
-                role="button">
-                Start Trading
-              </a></Link>
+                <a
+                  data-aos="fade-left"
+                  href="#"
+                  title="Start Trading"
+                  className="relative inline-flex items-center border-green-400 border-[1px] justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-green-500 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
+                  role="button"
+                  style={{
+                    boxShadow: "0 0 50px rgba(0, 255, 136, 0.4)"
+                  }}>
+                  Start Trading
+                </a></Link>
               <Link to='/contact'>
-              <a data-aos='fade-right'
-                href="#"
-                title="Contact Us"
-                className="relative inline-flex ml-[30px] items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
-                role="button">
-                Contact Us
-              </a></Link>
+                <a data-aos='fade-right'
+                  href="#"
+                  title="Contact Us"
+                  className="relative inline-flex ml-[30px] border-green-400 border-[1px] items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
+                  role="button" style={{
+                    boxShadow: "0px 0px 20px rgba(0, 255, 136, 0.4)"
+                  }}>
+                  Contact Us
+                </a></Link>
             </div>
           </div>
         </div>
