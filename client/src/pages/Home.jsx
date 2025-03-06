@@ -10,13 +10,13 @@ import Pricing from '../components/Pricing'
 export default function () {
   return (
     <>
-    <Navbar/>
-    <Hero/>
-    <Service/>
-    <CreditProjects/>
-    <Tradeforgreen/>
-    <EnergyProduct/>
-    <Pricing/>
+      <Navbar />
+      <Hero />
+      <Service />
+      <CreditProjects />
+      <Tradeforgreen />
+      <EnergyProduct />
+      <Pricing />
     </>
   )
 }

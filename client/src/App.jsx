@@ -7,7 +7,6 @@ import Login from './pages/Login'
 import ProductPage from './components/ProductPage';
 import Loader from './Loader';
 import Product from './pages/Product';
-import Contact from './pages/Contact'
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
@@ -16,6 +15,7 @@ import NewPosts from './components/NewPosts';
 import NewProject from './components/NewProject';
 import ProjectDetail from './components/ProjectDetail';
 import MyProject from './components/MyProject';
+import Contact from './components/Contact';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,12 +37,12 @@ function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/posts" element={<Posts />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/contact" element={<Contact />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path='/newposts' element={<NewPosts />} />
               <Route path='/newproject' element={<NewProject />} />
               <Route path="/product" element={<Product />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path='/product/:title' element={<ProductPage />} />
               <Route path='/your-project' element={<MyProject />} />
               <Route path='/projects/:title' element={<ProjectDetail/>}/>

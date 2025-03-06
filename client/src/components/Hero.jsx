@@ -30,8 +30,8 @@ export default function Hero() {
             <h1
               data-aos='zoom-in'
               className="mt-5 text-4xl font-bold leading-tight text-green-500 sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight font-pj"
-              style={{ textShadow: "0 0 60px rgba(0, 255, 136, 0.4)" }}
-            >              Welcome To NATCRED
+              style={{ textShadow: "0 0 60px rgba(0, 255, 136, 0.4)" }}>  
+              Welcome To NATCRED
             </h1>
             <div className="text-center my-8">
               <div data-aos='zoom-in-down' className="text-3xl font-bold text-white">
