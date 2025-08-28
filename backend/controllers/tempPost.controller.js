@@ -1,73 +1,120 @@
 import Post from "../model/tempPost.model.js";
-import cloudinary from "../utils/cloudinary.js"; // Cloudinary instance
 
-// @desc    Get all posts
-// @route   GET /api/posts
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find().sort({ createdAt: -1 });
-    const formattedPosts = posts.map(post => ({
-      author: post.author,
-      authorAvatar: post.authorAvatar,
-      date: post.createdAt.toISOString(),
-      image: post.image, // URL from Cloudinary
-      content: post.content,
-      likes: post.likes || 0,
-      dislikes: post.dislikes || 0,
-      comments: post.comments || [],
-    }));
-    res.status(200).json(formattedPosts);
+    res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ message: "Server error while fetching posts" });
   }
 };
 
-// @desc    Create a new post
-// @route   POST /api/posts
 export const createPost = async (req, res) => {
   try {
-    const { content, author, authorAvatar, likes, dislikes, comments } = req.body;
-
-    if (!req.file || !content || !author) {
-      return res.status(401).json({ message: "Image, content, and author are required." });
-    }
-
-    // Upload the image to Cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "posts", 
-      resource_type: "auto", 
-    });
-
-    // Create new post with the URL from Cloudinary
-    const newPost = new Post({
-      image: result.secure_url,  // Store the URL from Cloudinary
-      content,
-      author,
-      authorAvatar,
-      likes: likes || 0,
-      dislikes: dislikes || 0,
-      comments: comments || [],
-    });
-
-    await newPost.save();
-    res.status(201).json(newPost);
+    const { image, title, content, author, authorAvatar, likes, dislikes, comments } = req.body;
+    const newProject = new Post(req.body);
+    await newProject.save();
+    res.status(201).json(newProject);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while creating post" });
   }
 };
 
-// @desc    Delete a post
-// @route   DELETE /api/posts/:id
 export const deletePost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
-    if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+    const { id } = req.params;
+    const report = await Post.findByIdAndDelete(id);
+    if (!report) {
+      throw new ErrorHandling('Post not found', 404);
     }
-    await post.deleteOne();
-    res.status(200).json({ message: "Post deleted successfully" });
+    return res.status(200).json({
+      status: 'success',
+      message: 'Post deleted successfully',
+    });
   } catch (error) {
     res.status(500).json({ message: "Error while deleting the post" });
   }
 };
+
+export const LikePost = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const post = await Post.findById(req.params.id);
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    // If already liked → remove like
+    if (post.likedBy.includes(userId)) {
+      post.likedBy.pull(userId);
+      post.likes -= 1;
+    } else {
+      // Add like
+      post.likedBy.push(userId);
+      post.likes += 1;
+
+      // If previously disliked → remove dislike
+      if (post.dislikedBy.includes(userId)) {
+        post.dislikedBy.pull(userId);
+        post.dislikes -= 1;
+      }
+    }
+
+    await post.save();
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+export const dislikePost = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const post = await Post.findById(req.params.id);
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    // If user already disliked → remove dislike
+    if (post.dislikedBy.includes(userId)) {
+      post.dislikedBy = post.dislikedBy.filter(
+        id => id && id.toString() !== userId  // ✅ avoid null crash
+      );
+      post.dislikes = Math.max(0, post.dislikes - 1);
+    } else {
+      // Add dislike
+      post.dislikedBy.push(userId);
+      post.dislikes += 1;
+
+      // If user had liked before → remove like
+      if (post.likedBy.includes(userId)) {
+        post.likedBy = post.likedBy.filter(
+          id => id && id.toString() !== userId  // ✅ safe filter
+        );
+        post.likes = Math.max(0, post.likes - 1);
+      }
+    }
+
+    await post.save();
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+export const commentPost=async(req,res)=>{
+   try {
+    const { name, avatar, text } = req.body;
+    const post = await Post.findById(req.params.id);
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    const newComment = { name, avatar, text };
+
+    post.comments.push(newComment);
+    await post.save();
+
+    res.json({ comments: post.comments });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}

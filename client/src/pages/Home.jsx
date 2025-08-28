@@ -1,4 +1,3 @@
-import React from 'react'
 import Navbar from '../components/Navbar'
 import CreditProjects from '../components/CreditProjects'
 import EnergyProduct from '../components/EnergyProduct'

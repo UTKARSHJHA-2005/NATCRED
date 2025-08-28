@@ -1,73 +1,237 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import google from '../assets/google.jpg'
+import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles, Check, Shield } from 'lucide-react';
+import { useAuth } from '../AuthContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import app from '../db'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 export default function Signup() {
   const [name, setName] = useState("");
+  const { GoogleLogin } = useAuth()
+  const [showPassword, setShowPassword] = useState(false);
+  const { register } = useAuth()
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [err, setErr] = useState("");
+  const navigate = useNavigate()
   const [password, setPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const submit = async (e) => {
+    try {
+      await register(name, email, password);
+      navigate("/");
+    } catch (e) {
+      if (e?.response?.status === 409) {
+        setErr("User with this email already exists");
+      } else {
+        setErr(e?.response?.data?.message || "Register failed");
+      }
+    }
+  };
+  const handleGoogleClick = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const token = await result.user.getIdToken();
+
+      // Send token to backend
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/google",
+        { idToken: token },
+        { withCredentials: true }
+      );
+
+      console.log(res.data);
+      GoogleLogin(res.data);
+      navigate("/");
+    } catch (error) {
+      console.error("Google login failed:", error);
+    }
+  };
+  const getPasswordStrength = () => {
+    if (password.length === 0) return { strength: 0, text: "", color: "" };
+    if (password.length < 6) return { strength: 25, text: "Weak", color: "bg-red-500" };
+    if (password.length < 8) return { strength: 50, text: "Fair", color: "bg-yellow-500" };
+    if (password.length < 10) return { strength: 75, text: "Good", color: "bg-blue-500" };
+    return { strength: 100, text: "Strong", color: "bg-green-500" };
+  };
+
+  const passwordStrength = getPasswordStrength();
   return (
-    <div className="flex items-center justify-center min-h-screen" style={{ background: 'radial-gradient(circle, #6EC207, beige)' }}>
-      <div className="shadow-lg mt-[30px] text-center w-[90%] md:w-[500px] bg-green-700 bg-opacity-70 rounded-xl p-6 border border-green-500">
-        <div className="text-[25px] font-semibold text-white mb-4">SignUp</div>
-        <div>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter the Name"
-            className="w-full md:w-[400px] h-[50px] mt-[10px] border-white rounded-lg px-3 bg-transparent text-white placeholder-gray-300 focus:outline-none"
-            required/><br />
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter Email Address"
-            className="w-full md:w-[400px] h-[50px] mt-[10px] border-white rounded-lg px-3 bg-transparent text-white placeholder-gray-300 focus:outline-none"
-            required/><br />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter Password"
-            className="w-full md:w-[400px] h-[50px] mt-[10px] border-white rounded-lg px-3 bg-transparent text-white placeholder-gray-300 focus:outline-none"
-            required
-          /><br />
-        </div>
-        <div className="flex flex-col items-center">
-          <button
-            className="flex items-center justify-center bg-blue-500 mt-[15px] rounded-xl h-[50px] text-white hover:bg-blue-700 w-full md:w-[400px] space-x-2">
-            <img src={google} alt="google" className="w-9 h-9" />
-            <span>Continue with Google</span>
-          </button>
-        </div>
-        <div className="mt-[10px] flex items-center justify-center space-x-2">
-          <input
-            type="checkbox"
-            checked={agreed}
-            onChange={(e) => setAgreed(e.target.checked)}
-          />
-          <p className="text-[16px] font-semibold text-white">
-            Agree to the terms and conditions
-          </p>
-        </div><br />
-        <button
-          type="button"
-          className="bg-blue-800 text-white hover:bg-blue-600 rounded-xl h-[50px] w-full md:w-[400px] mt-[10px]"
-        >
-          SignUp
-        </button>
-        <div className="mt-[10px]">
-          <div className="text-[16px] text-white">
-            Already have an account?
-            <br />
-            <Link to='/login'>
+    <div className="min-h-screen flex items-center bg-[#233b5d] justify-center relative overflow-hidden py-8">
+      {/* Glassmorphism Container */}
+      <div className="relative z-10 w-full max-w-lg mx-4">
+        <div className="backdrop-blur-xl bg-white/10 rounded-3xl shadow-2xl border border-[#00ff88] shadow-[#00ff88] p-8 transform hover:scale-105 transition-all duration-300">
+
+          {/* Header with Icon */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl mb-4 shadow-lg">
+              <Shield className="w-8 h-8 text-white animate-pulse" />
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
+            <p className="text-white/70 text-sm">Join us and start your amazing journey</p>
+          </div>
+
+          {/* Error Message */}
+          {err && (
+            <div className="mb-6 p-3 bg-red-500/20 border border-red-400/30 rounded-xl text-red-100 text-sm text-center animate-bounce">
+              {err}
+            </div>
+          )}
+
+          {/* Signup Inputs */}
+          <div className="space-y-6">
+            {/* Name Input */}
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <User className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
+              </div>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full name"
+                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+                required
+              />
+            </div>
+
+            {/* Email Input */}
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Mail className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
+              </div>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+                required
+              />
+            </div>
+
+            {/* Password Input */}
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Lock className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
+              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Create a password"
+                className="w-full pl-12 pr-12 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+                required
+              />
               <button
-                className="text-white font-semibold hover:font-bold hover:text-black">
-                Click Here
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/50 hover:text-white transition-colors"
+              >
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
-            </Link>
+
+              {/* Password Strength Indicator */}
+              {password && (
+                <div className="mt-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs text-white/70">Password Strength</span>
+                    <span className={`text-xs font-semibold ${passwordStrength.color.replace('bg-', 'text-')}`}>
+                      {passwordStrength.text}
+                    </span>
+                  </div>
+                  <div className="w-full bg-white/20 rounded-full h-2">
+                    <div
+                      className={`h-2 rounded-full transition-all duration-300 ${passwordStrength.color}`}
+                      style={{ width: `${passwordStrength.strength}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Google Button */}
+            <button
+              onClick={handleGoogleClick}
+              className="w-full py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-3"
+            >
+              <svg className="w-6 h-6" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+
+            {/* Divider */}
+            <div className="relative my-6">
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white/10 text-white/70 rounded-full">or sign up with email</span>
+              </div>
+            </div>
+
+            {/* Terms and Conditions */}
+            <div className="flex items-start space-x-3">
+              <div className="flex items-center h-6">
+                <div
+                  onClick={() => setAgreed(!agreed)}
+                  className={`w-6 h-6 rounded-lg border-2 cursor-pointer transition-all duration-300 flex items-center justify-center ${agreed
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 border-transparent'
+                    : 'border-white/30 hover:border-white/50'
+                    }`}
+                >
+                  {agreed && <Check className="w-4 h-4 text-white" />}
+                </div>
+              </div>
+              <p className="text-sm text-white/70 leading-relaxed">
+                I agree to the{' '}
+                <button className="text-white font-semibold hover:text-purple-300 transition-colors underline decoration-2 underline-offset-2">
+                  Terms of Service
+                </button>{' '}
+                and{' '}
+                <button className="text-white font-semibold hover:text-purple-300 transition-colors underline decoration-2 underline-offset-2">
+                  Privacy Policy
+                </button>
+              </p>
+            </div>
+
+            {/* Signup Button */}
+            <button
+              onClick={submit}
+              disabled={isLoading || !agreed}
+              className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {isLoading ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span>Creating Account...</span>
+                </div>
+              ) : (
+                <>
+                  <span>Create Account</span>
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* Login Link */}
+          <div className="text-center mt-8">
+            <p className="text-white/70 text-sm">
+              Already have an account?{' '}
+              <button
+                onClick={() => navigate("/login")}
+                className="text-white font-semibold hover:text-purple-300 transition-colors duration-300 underline decoration-2 underline-offset-2 hover:decoration-purple-300"
+              >
+                Sign in here
+              </button>
+            </p>
           </div>
         </div>
       </div>

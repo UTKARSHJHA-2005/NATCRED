@@ -1,115 +1,89 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { RxArrowTopRight } from "react-icons/rx";
-import { HR } from "flowbite-react";
+import axios from 'axios';
 import { Link } from "react-router-dom";
 
-export const products = [
-    {
-        title: 'Solar Cookers',
-        image: 'https://m.media-amazon.com/images/I/41vdoNAC62L.jpg',
-        reviews: '4',
-        price: '₹7,698',
-        discount: '50% off',
-        delivery: 'FREE delivery',
-        icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwLk4-3xOKJNnZmp1foAKi7sZg7mjLe0Xo4g&s",
-    },
-    {
-        title: 'Solar-Powered Chargers',
-        image: 'https://www.travelandleisure.com/thmb/XHgyV_TF04Si7z3eABftAQYbTtA=/fit-in/1500x1000/filters:no_upscale():max_bytes(150000):strip_icc()/blavor-10000mah-solar-charger-power-bank-91a85c40622e42058d20104229b02454.jpg',
-        reviews: '4.2',
-        price: '₹6,799',
-        discount: '60% off',
-        delivery: 'FREE delivery',
-        icon: "https://images.squarespace-cdn.com/content/v1/658304bceabeda35f23becd0/1720661585967-MLTT7A3QAFDDTW413KIH/Etsy",
-    },
-    {
-        title: 'Plant-Based Biodegradable Cutlery',
-        image: 'https://image.made-in-china.com/226f3j00zSkIAbdqQOGM/Watsonpak-Natural-Plant-Based-Biodegradable-Food-Packaging-Wholesale-Sugarcane-Fiber-Bagasse-Pulp-Disposable-Tableware-Manufacturer-with-Napkin.webp',
-        reviews: '3.8',
-        price: '₹8,299',
-        discount: '55% off',
-        delivery: 'FREE delivery',
-        icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROZbTOjxyGFPG-ih9jbHOw7Ps78-m70fLhVg&s",
-    },
-    {
-        title: 'Smart Thermostats',
-        image: 'https://m.media-amazon.com/images/I/51qozB9MtpL._AC_UF1000,1000_QL80_.jpg',
-        reviews: '4.2',
-        price: '₹6,999',
-        discount: '40% off',
-        delivery: 'FREE delivery',
-        icon: "https://play-lh.googleusercontent.com/H_VVVQduGJEUfofF5YPszdTJVqqT46SoY-B9fIGxWHPCBH5gPGDtvbGgs3qebzNFdrS_=w240-h480-rw",
-    },
-    {
-        title: 'Solar Panels(100x50)',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM-uy4ynStbHk3EsdYgNGC3dhrlvesf_ZuAg&s',
-        reviews: '4.3',
-        price: '₹6,299',
-        discount: '64% off',
-        delivery: 'FREE delivery',
-        icon: "https://play-lh.googleusercontent.com/RxKsfT6TbB7c51BCyRwqx6mZCejuV0cs9VckJpoNlFmqyYybNlRGTdaE2QWZPrQkVQ",
-    },
-];
-
 const Product1 = () => {
+    const [product, setproduct] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredProducts, setFilteredProducts] = useState([]);
+
     useEffect(() => {
         AOS.init({ duration: 1000 });
+        getProduct();
     }, []);
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filteredProducts, setFilteredProducts] = useState(products);
-
     useEffect(() => {
-        const filtered = products.filter((product) =>
-            product.title.toLowerCase().includes(searchTerm.toLowerCase())
+        const filtered = product.filter((p) =>
+            p.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredProducts(filtered);
-    }, [searchTerm]);
+    }, [searchTerm, product]);
+
+    const getProduct = async () => {
+        try {
+            const res = await axios.get("http://localhost:5000/api/product");
+            const data = res.data;
+            setproduct(data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     return (
         <div className="flex flex-col bg-[#233b5d]">
-            <div className="flex justify-center my-4">
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search products..."
-                    className="w-[95%] px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 " />
+            <div className="flex justify-center my-4 w-full">
+                <div className="flex w-[90%]">
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search products..."
+                        className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg shadow-sm focus:outline-none focus:ring-2"
+                    />
+                    <Link to="/new-product" title='Add New Product or Shop'
+                        className="w-[60px] h-[50px] bg-[#00ff88] hover:animate-pulse flex items-center justify-center cursor-pointer shadow-[0_0_25px_rgba(0,255,136,0.5)] transition duration-300 ease-in-out hover:scale-110 rounded-r-lg">
+                        <span className="text-black text-3xl font-bold">+</span>
+                    </Link>
+                </div>
             </div>
             {filteredProducts.length > 0 ? (
-                filteredProducts.map((product, index) => (
-                    <React.Fragment key={index}>
-                        <Link
-                            to={`/product/${product.title}`}
-                            state={{ product }}>
-                            <div
-                                className="cursor-pointer border-green-600 shadow-green-300 border-2 flex flex-col md:flex-row rounded-lg shadow-lg p-6 my-3 items-center"
+                filteredProducts.map((product, index) => {
+                    let bestShop = null;
+                    if (product.Shops && product.Shops.length > 0) {
+                        bestShop = product.Shops.reduce((min, shop) =>
+                            shop.Value < min.Value ? shop : min
+                        );
+                    }
+                    return (
+                        <Link key={index} to={`/product/${product._id}`} state={{ product }}>
+                            <div className="cursor-pointer border-green-600 shadow-green-300 border-2 flex flex-col md:flex-row rounded-lg shadow-lg p-6 my-3 items-center relative max-w-full overflow-hidden"
                                 style={{ background: '#233b5d' }}>
-                                <img data-aos="flip-up"
-                                    src={product.image}
+                                <img
+                                    src={product.productimage}
                                     alt={product.title}
-                                    className="w-[400px] h-[250px] object-cover rounded-lg mb-4 md:mb-0 md:mr-4" />
+                                    className="w-[400px] h-[250px] object-cover rounded-lg mb-4 md:mb-0 md:mr-4"
+                                />
                                 <div className="flex flex-col gap-3">
-                                    <h3 data-aos="zoom-in" className="text-2xl font-bold text-white">
+                                    <h3 className="text-2xl font-bold text-white">
                                         {product.title}
                                     </h3>
-                                    <div className="flex items-center">
-                                        🚚 <span data-aos="zoom-in-up" className="text-lg ml-1 text-white">
-                                            {product.delivery}
-                                        </span>
-                                    </div>
-                                    <p className=' text-white'>{product.price}</p>
-                                    <button className="flex flex-row bg-orange-400 ml-[230px] text-white hover:bg-orange-500 font-bold py-3 px-60 rounded-full text-sm mt-[90px] self-start">
+                                    {bestShop && (
+                                        <p className="text-white font-serif text-[20px] font-semibold">
+                                            Best Price: ₹{bestShop.Value}
+                                        </p>
+                                    )}
+                                    <button data-aos="zoom-in" className="flex flex-row bg-orange-400 text-white hover:bg-orange-500 font-bold py-3 px-6 rounded-full text-sm mt-4 self-start">
                                         Buy Now
-                                        <RxArrowTopRight className="ml-2 mt-1 h-4 w-4 font-semibold text-blue-800 transition-all duration-200 group hover:text-blue-700 hover:underline" />
+                                        <RxArrowTopRight className="ml-2 mt-1 h-4 w-4 font-semibold text-blue-800 transition-all duration-200 group-hover:text-blue-700 group-hover:underline" />
                                     </button>
                                 </div>
                             </div>
                         </Link>
-                    </React.Fragment>
-                ))
+                    );
+                })
             ) : (
                 <p className="text-center text-gray-500 mt-4">No products found</p>
             )}

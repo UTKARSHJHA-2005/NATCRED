@@ -1,100 +1,172 @@
-import { useLocation } from 'react-router-dom';
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const ProductPage = () => {
-  const location = useLocation();
-  const { product } = location.state || {};
-  const products = [
-    {
-      title: `${product.title}`,
-      price: "₹9,999",
-      seller: "Amazon",
-      sellerLogo: "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
-    },
-    {
-      title: `${product.title}`,
-      price: "₹8,999",
-      seller: "JioMart",
-      sellerLogo: "https://upload.wikimedia.org/wikipedia/en/thumb/5/54/JioMart_logo.svg/1200px-JioMart_logo.svg.png",
-    },
-    {
-      title: `${product.title}`,
-      price: "₹8,599",
-      seller: "Flipkart",
-      sellerLogo: "https://cavinkare.com/wp-content/uploads/2021/12/Flipkart-Logo-removebg-preview.png",
-    },
-    {
-      title: `${product.title}`,
-      price: "₹7,999",
-      seller: "Reliance Digital",
-      sellerLogo: "https://www.thestatesman.com/wp-content/uploads/2021/05/RIL_Reliance_IANS_ED.jpg",
-    },
-    {
-      title: `${product.title}`,
-      price: "₹10,999",
-      seller: "LG",
-      sellerLogo: "https://e7.pngegg.com/pngimages/620/276/png-clipart-lg-logo-lg-v20-lg-electronics-logo-lg-corp-lg-logo-television-text-thumbnail.png",
-    },
-    {
-      title: `${product.title}`,
-      price: "₹11,999",
-      seller: "SunFlame",
-      sellerLogo: "https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/0022/3632/brand.gif?itok=-GBQhFCC",
-    },
-  ];
-  if (!product) {
-    return <p className="text-center text-gray-500 mt-4">No product details available</p>;
-  }
+  const [product, setProduct] = useState({ });
+  const { id } = useParams();
+
+  const getProduct = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/product/${id}`);
+      setProduct(res.data);
+      console.log(res.data)
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, [id]);
+
+  const sortedShops = [...(product.Shops || [])].sort(
+    (a, b) => a.Value - b.Value
+  );
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen" style={{ background: 'radial-gradient(circle, #233b5d, beige)' }}>
-      <div className="p-6 bg-white shadow-lg rounded-lg border border-gray-500">
-        <div className="flex flex-row">
-          <div className="w-[300px] h-64">
-            <img
-              src={product.image}
-              alt={product.title}
-              className="w-full h-64 object-cover border border-black rounded-lg" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100">
+      <div className="max-w-6xl mx-auto py-12 px-6">
+        {/* Main Product Card */}
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden mb-12 border border-gray-100">
+          <div className="lg:flex">
+            {/* Product Image Section */}
+            <div className="lg:w-2/5 p-8 bg-gradient-to-br from-gray-50 to-gray-100">
+              <div className="relative">
+                <img
+                  src={product.productimage}
+                  alt={product.title}
+                  className="w-full h-80 object-cover rounded-2xl shadow-lg border-4 border-white"
+                />
+                {sortedShops[0]?.discount && (
+                  <div className="absolute -top-2 -right-2 bg-red-500 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
+                    -{sortedShops[0].discount}% OFF
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* Product Details Section */}
+            <div className="lg:w-3/5 p-8 flex flex-col justify-center">
+              <h1 className="text-4xl font-bold text-gray-800 mb-6 leading-tight">
+                {product.title}
+              </h1>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 font-bold text-sm">🏷️</span>
+                  </div>
+                  <span className="text-lg text-gray-700">
+                    {sortedShops[0]?.discount}% Discount
+                  </span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                    <span className="text-green-600 font-bold text-sm">📦</span>
+                  </div>
+                  <span className="text-lg text-gray-700">
+                    {sortedShops[0]?.delivery}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                {/* Price */}
+                {sortedShops.length > 0 && (
+                  <div className="flex flex-col">
+                    <span className="text-5xl font-bold text-green-600 mb-2">
+                      ₹{sortedShops[0].Value}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      Best price guaranteed
+                    </span>
+                  </div>
+                )}
+                {/* Store Logo & Button */}
+                <div className="flex flex-col items-center space-y-4">
+                  {sortedShops.length > 0 && (
+                    <img
+                      src={sortedShops[0].logo}
+                      alt={sortedShops[0].name}
+                      className="w-20 h-20 object-cover rounded-full border-4 border-orange-200 shadow-md"
+                    />
+                  )}
+                  <button className="bg-gradient-to-r from-orange-400 to-orange-600 text-white px-8 py-3 rounded-full font-semibold text-lg hover:from-orange-500 hover:to-orange-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                    Buy Now →
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="ml-12">
-            <h1 className="text-[40px] font-semibold mb-4">{product.title}</h1>
-            <p className="text-lg mb-2">⭐ {product.reviews}/5</p>
-            <p className="text-lg mb-2">🏷️ {product.discount}</p>
-            <p className="text-lg mb-2 text-gray-500">📦 {product.delivery}</p>
-            <p className="text-lg mt-4 font-bold text-[46px]">{product.price}</p>
-          </div>
-          <div>
-            <img src={product.icon} className='w-[96%] h-28 mt-[65px] object-cover rounded-full ml-7 mr-8' />
-            <button className="flex items-center bg-orange-200 ml-[80px] mt-4 text-orange-700 px-4 py-2 rounded-md hover:bg-orange-300">
-              Buy →
-            </button>
+        </div>
+        {/* All Stores Section */}
+        <div className="space-y-6">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+            Compare All Stores
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {sortedShops.map((shop, index) => (
+              <div
+                key={index}
+                className={`group relative p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer transform hover:scale-[1.02] ${index === 0
+                    ? "bg-gradient-to-r from-green-50 to-emerald-50 border-green-300 shadow-lg"
+                    : "bg-white border-gray-200 hover:border-blue-300 hover:shadow-xl"
+                  }`}
+              >
+                {index === 0 && (
+                  <div className="absolute -top-3 left-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+                    🏆 Best Deal
+                  </div>
+                )}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <div className="relative">
+                      <img
+                        src={shop.logo}
+                        alt={shop.name}
+                        className="w-16 h-16 rounded-2xl object-cover shadow-md border-2 border-gray-100"
+                      />
+                      {index === 0 && (
+                        <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                          <span className="text-white text-xs font-bold">✓</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-xl font-bold text-gray-800">{shop.name}</h3>
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-2xl font-bold text-gray-900">
+                            ₹{shop.Value}
+                          </span>
+                          <span className="text-sm text-gray-500">+ GST</span>
+                        </div>
+                        <p className="text-gray-600 text-sm">🚚 {shop.delivery}</p>
+                        <div className="flex items-center space-x-2">
+                          <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-semibold">
+                            {shop?.discount}% OFF
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Buy Button */}
+                  <div className="flex flex-col items-end">
+                    <a href={shop.link} target="_blank" rel="noopener noreferrer"
+                      className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-md ${index === 0
+                          ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700"
+                          : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700"
+                        }`}
+                    >
+                      Buy Now →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 w-[1200px] md:grid-cols-2 gap-4 p-6">
-        {products.map((product, index) => (
-          <div
-            key={index}
-            className="flex items-center border rounded-lg p-4 hover:bg-green-200 shadow-md active:bg-green-300 cursor-pointer bg-white">
-            <img
-              src={product.sellerLogo}
-              alt={product.seller}
-              className="w-12 h-12 rounded-full mr-4"
-            />
-            <div className="flex-grow">
-              <h3 className="font-lightbold text-lg">{product.title}</h3>
-              <p className="text-gray-500">
-                <span className="font-bold text-black">{product.price}+(GST)</span>
-              </p>
-            </div>
-            <button className="flex items-center bg-orange-200 text-orange-700 px-4 py-2 rounded-md hover:bg-orange-300">
-              Buy →
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
-
   );
 };
+
 export default ProductPage;

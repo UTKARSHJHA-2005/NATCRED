@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const PostSchema = new mongoose.Schema({
   image: {
     type: String,
@@ -25,11 +24,18 @@ const PostSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  likedBy: [{ 
+    type: String 
+  }],    
+  dislikedBy: [{ 
+    type: String 
+  }],
   comments: [
     {
-      name: String,
-      avatar: String,
-      text: String,
+      name: { type: String, required: true },
+      avatar: { type: String, default: "https://placehold.co/40" },
+      text: { type: String, required: true },
+      createdAt: { type: Date, default: Date.now },
     },
   ],
   createdAt: {
