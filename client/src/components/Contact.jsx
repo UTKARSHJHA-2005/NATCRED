@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
+// This is the component where user can contact for the info.
+import React, { useState } from "react"; // React
+import { Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react"; // Icons
 
 const Contact = () => {
+  // State variables for form
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: ''
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false); // Submission State
 
+  // Handle input changes
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -17,6 +20,7 @@ const Contact = () => {
     });
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     // Simulate form submission
@@ -29,7 +33,6 @@ const Contact = () => {
 
   return (
       <section className="relative py-16 sm:py-20 lg:py-24 overflow-hidden bg-[#293c58]">
-
       <div className="relative px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
@@ -38,7 +41,6 @@ const Contact = () => {
             Get In Touch
           </div>
         </div>
-
         {/* Contact Cards */}
         <div className="grid grid-cols-1 gap-6 mb-16 md:grid-cols-3">
           {[
@@ -77,7 +79,6 @@ const Contact = () => {
             </div>
           ))}
         </div>
-
         {/* Contact Form */}
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-white/40 to-white/60 backdrop-blur-sm rounded-3xl"></div>
@@ -89,7 +90,7 @@ const Contact = () => {
                   Have a project in mind? Fill out the form below and we'll get back to you within 24 hours.
                 </p>
               </div>
-              
+              {/* After Submission or Form Fields */}
               {isSubmitted ? (
                 <div className="text-center py-12">
                   <CheckCircle className="w-16 h-16 text-emerald-500 mx-auto mb-6" />
@@ -103,68 +104,37 @@ const Contact = () => {
                       <label htmlFor="name" className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
                         Your Name
                       </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Enter your full name"
+                      <input type="text" id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="Enter your full name"
                         className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400"
-                        required
-                      />
+                        required/>
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="email" className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
                         Email Address
                       </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="Enter your email address"
+                      <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter your email address"
                         className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400"
-                        required
-                      />
+                        required/>
                     </div>
                     <div className="space-y-2 sm:col-span-2">
                       <label htmlFor="phone" className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
                         Phone Number
                       </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        placeholder="Enter your phone number"
-                        className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400"
-                      />
+                      <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Enter your phone number"
+                        className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400"/>
                     </div>
                     <div className="space-y-2 sm:col-span-2">
                       <label htmlFor="message" className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
                         Message
                       </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows={6}
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        placeholder="Tell us about your project or inquiry..."
-                        className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400 resize-none"
-                        required
-                      ></textarea>
+                      <textarea id="message" name="message" rows={6} value={formData.message} onChange={handleInputChange} placeholder="Tell us about your project or inquiry..."
+                      className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400 resize-none"
+                      required></textarea>
                     </div>
                   </div>
-                  
+                  {/* Submit Button */}
                   <div className="pt-6">
-                    <button
-                      onClick={handleSubmit}
-                      className="group relative w-full sm:w-auto inline-flex items-center justify-center px-12 py-4 text-base font-semibold text-white bg-gradient-to-r from-emerald-600 to-lime-600 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20"
-                    >
+                    <button onClick={handleSubmit} className="group relative w-full sm:w-auto inline-flex items-center justify-center px-12 py-4 text-base font-semibold text-white bg-gradient-to-r from-emerald-600 to-lime-600 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-500/20">
                       <Send className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform duration-200" />
                       Send Message
                     </button>

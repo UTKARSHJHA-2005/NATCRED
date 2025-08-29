@@ -1,18 +1,15 @@
-import { useState,useEffect } from 'react';
-import { Sparkles, Upload, User, FileText, Wand2, Send, Camera, Edit3 } from 'lucide-react';
-import { useAuth } from '../AuthContext';
-import axios from 'axios';
+// This is the page where user creates the posts.
+import { useState,useEffect } from 'react';// React
+import {  Upload, User, FileText, Wand2, Send, Camera, Edit3 } from 'lucide-react';// Icon
+import { useAuth } from '../AuthContext';// Authentication
+import axios from 'axios';// Axios
 
 const NewPosts = () => {
-  // const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  // const [content, setContent] = useState('');
-  // const [author, setAuthor] = useState('');
-  // const [authorAvatar, setAuthorAvatar] = useState(null)
-  const { user } = useAuth()
-  // const [title, setTitle] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null); // Image preview state
+  const { user } = useAuth()// User authentication
+  const [isGenerating, setIsGenerating] = useState(false);// AI generation state
+  const [isPublishing, setIsPublishing] = useState(false);// Publishing state
+  // Form data state
   const [formData, setFormData] = useState({
     title: "",
     image: "",
@@ -20,22 +17,21 @@ const NewPosts = () => {
     author: user?.name,
     authorAvatar: user?.image,
   })
+  // Handle form changes
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     console.log(formData);
   };
+  // Handle image upload
   const handleUpload = async (e) => {
     try {
       const file = e.target.files[0];
       if (!file) return;
-
       const uploadData = new FormData();
       uploadData.append("image", file);
-
       const res = await axios.post("http://localhost:5000/upload", uploadData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       console.log("Uploaded:", res.data);
       setFormData((prev) => ({ ...prev, image: res.data.url }));
       setImagePreview(URL.createObjectURL(file));
@@ -44,6 +40,7 @@ const NewPosts = () => {
     }
   };
 
+  // Handle post publishing
   const handlePublishPost = async () => {
     if (!formData.image) {
       alert("Please upload an image");
@@ -74,12 +71,14 @@ const NewPosts = () => {
     }
   };
 
+  // Some fields should be filled if the user is logged in
   useEffect(() => {
     if (user?.name) {
       setFormData((prev) => ({ ...prev, author: user.name, authorAvatar: user.image }));
     }
   }, [user]);
 
+  // Handle Generating AI Response
   const GenerateAI = async () => {
     if (!formData.content) {
       alert("Ask what you want");
@@ -112,17 +111,10 @@ const NewPosts = () => {
               <Camera className="w-5 h-5 text-purple-400" />
               Featured Image
             </label>
-            <div
-              className="group relative w-full h-64 md:h-80 bg-[#9bf7cce5] rounded-2xl border-2 border-dashed border-[#00ff88e5] hover:border-[#00ff8823] transition-all duration-300 cursor-pointer overflow-hidden"
-              onClick={() => document.getElementById('imageInput').click()}
-            >
+            <div className="group relative w-full h-64 md:h-80 bg-[#9bf7cce5] rounded-2xl border-2 border-dashed border-[#00ff88e5] hover:border-[#00ff8823] transition-all duration-300 cursor-pointer overflow-hidden" onClick={() => document.getElementById('imageInput').click()}>
               {imagePreview ? (
                 <div className="relative w-full h-full">
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300"/>
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
                     <Upload className="w-8 h-8 text-white" />
                   </div>
@@ -134,15 +126,8 @@ const NewPosts = () => {
                 </div>
               )}
             </div>
-            <input
-              id="imageInput"
-              type="file"
-              accept="image/*"
-              onChange={handleUpload}
-              className="hidden"
-            />
+            <input id="imageInput" type="file" accept="image/*" onChange={handleUpload} className="hidden"/>
           </div>
-
           {/* Form Fields */}
           <div className="space-y-6">
             {/* Title Input */}
@@ -173,7 +158,6 @@ const NewPosts = () => {
                 className="w-full p-4 bg-slate-800/50 border border-[#00ff88e5] rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-slate-800/70"
               />
             </div>
-
             {/* Content Textarea with AI Button */}
             <div className="group">
               <label className="flex items-center gap-2 text-lg font-semibold text-white mb-3">
@@ -187,14 +171,9 @@ const NewPosts = () => {
                   placeholder="Share your thoughts, ideas, or ask AI to help you create something amazing..."
                   className="w-full h-48 p-4 bg-slate-800/50 border border-[#00ff88e5] rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-slate-800/70 resize-none"
                 />
-
                 {/* AI Generate Button */}
-                <button
-                  onClick={GenerateAI}
-                  disabled={isGenerating}
-                  className="absolute top-3 right-3 p-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-purple-800 disabled:to-pink-800 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:scale-100 shadow-lg hover:shadow-purple-500/25"
-                  title="Generate AI content"
-                >
+                <button onClick={GenerateAI} disabled={isGenerating} className="absolute top-3 right-3 p-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-purple-800 disabled:to-pink-800 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:scale-100 shadow-lg hover:shadow-purple-500/25"
+                  title="Generate AI content">
                   {isGenerating ? (
                     <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   ) : (
@@ -204,15 +183,9 @@ const NewPosts = () => {
               </div>
             </div>
           </div>
-
           {/* Publish Button */}
           <div className="mt-8 pt-8 border-t border-slate-600/50">
-            <button
-              onClick={handlePublishPost}
-              disabled={isPublishing}
-              className="group relative w-full py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 hover:from-purple-500 hover:via-pink-500 hover:to-blue-500 disabled:from-slate-600 disabled:via-slate-700 disabled:to-slate-600 text-white font-bold text-xl rounded-2xl transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg hover:shadow-purple-500/25 overflow-hidden"
-            >
-              {/* Button Background Animation */}
+            <button onClick={handlePublishPost} disabled={isPublishing} className="group relative w-full py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 hover:from-purple-500 hover:via-pink-500 hover:to-blue-500 disabled:from-slate-600 disabled:via-slate-700 disabled:to-slate-600 text-white font-bold text-xl rounded-2xl transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg hover:shadow-purple-500/25 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               <div className="relative flex items-center justify-center gap-3">
                 {isPublishing ? (

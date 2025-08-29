@@ -1,26 +1,26 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import google from '../assets/google.jpg'
-import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles, Check, Shield } from 'lucide-react';
-import { useAuth } from '../AuthContext';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import app from '../db'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+// Signup Page
+import React, { useState } from 'react'// React
+import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles, Check, Shield } from 'lucide-react';// Icons
+import { useAuth } from '../AuthContext';// Authentication
+import axios from 'axios';// Axios
+import { useNavigate } from 'react-router-dom';// Routing
+import app from '../db'// Firebase DB
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";// Firebase Auth
 
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+const auth = getAuth(app);// Firebase Auth
+const provider = new GoogleAuthProvider();// Google Auth Provider
 export default function Signup() {
-  const [name, setName] = useState("");
-  const { GoogleLogin } = useAuth()
+  const [name, setName] = useState("");// Name State
+  const { GoogleLogin } = useAuth()// Google Login
   const [showPassword, setShowPassword] = useState(false);
   const { register } = useAuth()
-  const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [err, setErr] = useState("");
-  const navigate = useNavigate()
-  const [password, setPassword] = useState("");
-  const [agreed, setAgreed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);// Loader
+  const [email, setEmail] = useState("");// Email state
+  const [err, setErr] = useState("");// Error
+  const navigate = useNavigate()// Navigation
+  const [password, setPassword] = useState("");// PAassword State
+  const [agreed, setAgreed] = useState(false);// Agreed Box
+  // Only email and Password Submission
   const submit = async (e) => {
     try {
       await register(name, email, password);
@@ -33,18 +33,18 @@ export default function Signup() {
       }
     }
   };
+  // Google Registration
   const handleGoogleClick = async () => {
     try {
+      // Get token from Firebase
       const result = await signInWithPopup(auth, provider);
       const token = await result.user.getIdToken();
-
       // Send token to backend
       const res = await axios.post(
         "http://localhost:5000/api/auth/google",
         { idToken: token },
         { withCredentials: true }
-      );
-
+      )
       console.log(res.data);
       GoogleLogin(res.data);
       navigate("/");
@@ -52,6 +52,7 @@ export default function Signup() {
       console.error("Google login failed:", error);
     }
   };
+  // Password Strength 
   const getPasswordStrength = () => {
     if (password.length === 0) return { strength: 0, text: "", color: "" };
     if (password.length < 6) return { strength: 25, text: "Weak", color: "bg-red-500" };
@@ -66,7 +67,6 @@ export default function Signup() {
       {/* Glassmorphism Container */}
       <div className="relative z-10 w-full max-w-lg mx-4">
         <div className="backdrop-blur-xl bg-white/10 rounded-3xl shadow-2xl border border-[#00ff88] shadow-[#00ff88] p-8 transform hover:scale-105 transition-all duration-300">
-
           {/* Header with Icon */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl mb-4 shadow-lg">
@@ -75,14 +75,12 @@ export default function Signup() {
             <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
             <p className="text-white/70 text-sm">Join us and start your amazing journey</p>
           </div>
-
           {/* Error Message */}
           {err && (
             <div className="mb-6 p-3 bg-red-500/20 border border-red-400/30 rounded-xl text-red-100 text-sm text-center animate-bounce">
               {err}
             </div>
           )}
-
           {/* Signup Inputs */}
           <div className="space-y-6">
             {/* Name Input */}
@@ -90,52 +88,28 @@ export default function Signup() {
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <User className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
               </div>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your full name"
-                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
-                required
-              />
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your full name" className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+                required/>
             </div>
-
             {/* Email Input */}
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Mail className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
               </div>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
-                required
-              />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+                required/>
             </div>
-
             {/* Password Input */}
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Lock className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
               </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Create a password"
+              <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Create a password"
                 className="w-full pl-12 pr-12 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/50 hover:text-white transition-colors"
-              >
+                required/>
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/50 hover:text-white transition-colors">
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
-
               {/* Password Strength Indicator */}
               {password && (
                 <div className="mt-2">
@@ -146,10 +120,7 @@ export default function Signup() {
                     </span>
                   </div>
                   <div className="w-full bg-white/20 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full transition-all duration-300 ${passwordStrength.color}`}
-                      style={{ width: `${passwordStrength.strength}%` }}
-                    ></div>
+                    <div className={`h-2 rounded-full transition-all duration-300 ${passwordStrength.color}`} style={{ width: `${passwordStrength.strength}%` }}></div>
                   </div>
                 </div>
               )}

@@ -1,56 +1,42 @@
-import { useState, useEffect } from "react";
-import info1 from "../assets/info (1).png";
+// This is the componenet where userwill see its work.
+import { useState, useEffect } from "react";// React
+import info1 from "../assets/info (1).png";// Images
 import info4 from "../assets/info (4).jpeg";
 import info6 from "../assets/info (6).jpeg";
 import info5 from "../assets/info (5).jpeg";
 import info2 from "../assets/info (2).png";
 import info3 from "../assets/info (3).png";
-import AOS from "aos";
-import { ethers } from "ethers";
+import AOS from "aos";// Amnimation
+import { ethers } from "ethers";//Ethers
 import "aos/dist/aos.css";
-import CarbonCreditMarketABI from "../credit.json"; // ABI JSON after compiling
-import axios from "axios";
-import { useAuth } from "../AuthContext";
+import CarbonCreditMarketABI from "../credit.json"; // ABI 
+import axios from "axios";// Axios
+import { useAuth } from "../AuthContext";// Authentication
 
-const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";
-
-const transactionsData = [
-  { projectName: "Green Energy Initiative", investorName: "Liam Johnson", date: "2023-09-15", amount: 1000.0 },
-  { projectName: "Tech for Schools", investorName: "Olivia Smith", date: "2023-09-14", amount: 500.0 },
-  { projectName: "Water Conservation Fund", investorName: "Noah Williams", date: "2023-09-13", amount: 750.0 },
-  { projectName: "Healthcare for All", investorName: "Emma Brown", date: "2023-09-12", amount: -2000.0 },
-];
-
-const recentProjectsData = [
-  { initials: "PC", projectName: "Project Carbon", investorName: "Olive Carton", amount: 40000.0 },
-  { initials: "GS", projectName: "Green Start", investorName: "Jack Jobs", amount: 5000.0 },
-  { initials: "SF", projectName: "Solar Formation", investorName: "Isha Shaan", amount: 2500.0 },
-  { initials: "CW", projectName: "Clear Waste", investorName: "Kim-On-Yung", amount: 1000.0 },
-  { initials: "WF", projectName: "Water for All", investorName: "Sofia Davis", amount: 8000.0 },
-];
+const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";// Contract
 
 const Record2 = () => {
-  const [walletAddress, setWalletAddress] = useState(null);
-  const [signer, setSigner] = useState(null);
-  const [contract, setContract] = useState(null);
-  const { user } = useAuth()
-  const [userBalance, setUserBalance] = useState(0);
-  const [activeTab, setActiveTab] = useState("cooperative");
-  const [project, setproject] = useState(null)
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [totalBlocks, setTotalBlocks] = useState(0);
-  const username = user.name
-
+  const [walletAddress, setWalletAddress] = useState(null);// Wallet Address State
+  const [signer, setSigner] = useState(null);// Signer State
+  const [contract, setContract] = useState(null);// Contract State
+  const { user } = useAuth()// User
+  const [userBalance, setUserBalance] = useState(0);// User Balance State
+  const [activeTab, setActiveTab] = useState("cooperative");// Active Tab
+  const [project, setproject] = useState(null)// Project State
+  const [walletConnected, setWalletConnected] = useState(false);// Wallet Connected State
+  const [totalBlocks, setTotalBlocks] = useState(0);// Transaction Blocks State
+  const username = user.name// LoggedIn User name 
+  // Animation
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
-
+  // If user loggedIn, the fetch project data
   useEffect(() => {
     if (username) {
       getproject()
     }
   }, [username])
-
+  // Fetching project details
   const getproject = async () => {
     const res = await axios.get("http://localhost:5000/api/project/dashboard", {
       headers: { "Content-Type": "application/json" },
@@ -59,7 +45,7 @@ const Record2 = () => {
     setproject(res.data)
     console.log(res.data)
   }
-
+  // Same author projects
   const success = project?.filter((p) => {
     if (p.author !== user.name) return false;
     // Calculate total contributions
@@ -70,6 +56,7 @@ const Record2 = () => {
     // Return true if total contributions match Fund
     return totalContributed === p.Fund;
   });
+  // Same author contributions sum
   const success2 = project
     ?.filter((p) => p.author === user.name) // only authored by user
     .map((p) => {
@@ -77,27 +64,26 @@ const Record2 = () => {
         (sum, c) => sum + (c.Value || 0),
         0
       );
-
       return {
         ...p,
-        totalContributed, // ✅ add new field
+        totalContributed,
       };
     });
-
+  // Projects invested by loggedin user 
   const investedProjects = project
     ?.filter(
       (p) =>
         p.contributors &&
         p.contributors.some((c) => c.name === user.name)
     ) || [];
-
+  // Total projects invested by loggedin user
   const totalProjects = investedProjects.length;
-
+  // Total amount invested by loggedin user
   const totalAmount = investedProjects.reduce((sum, p) => {
     const contribution = p.contributors.find((c) => c.name === user.name);
     return sum + (contribution?.Value || 0);
   }, 0);
-
+  // Connect Wallet
   const connectWallet = async (e) => {
     e.preventDefault();
     if (window.ethereum) {
@@ -126,11 +112,9 @@ const Record2 = () => {
         const token = new ethers.Contract(tokenAddr, [
           "function balanceOf(address) view returns (uint256)"
         ], signerInstance);
-
         const bal = await token.balanceOf(wallet);
         // No floats, only integer
         setUserBalance(parseInt(ethers.formatUnits(bal, 18), 10));
-
         // Count unique blocks
         const buyEvents = await contractInstance.queryFilter("Buy", 0, "latest");
         const sellEvents = await contractInstance.queryFilter("Sell", 0, "latest");
@@ -154,14 +138,13 @@ const Record2 = () => {
     <div className="p-4 min-h-screen bg-[#233b5d]">
       {!walletConnected ? (
         <div className="flex justify-center items-center h-screen">
-          <button
-            className="bg-green-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600"
-            onClick={connectWallet}>
+          <button className="bg-green-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600" onClick={connectWallet}>
             Connect Wallet
           </button>
         </div>
       ) : (
         <>
+          {/* Cards */}
           <div data-aos="fade-down" className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <StatCard title="Carbon Credits" value={`${userBalance}`} />
             <StatCard title="Projects Invested" value={totalProjects} percentage={totalAmount} />
@@ -170,6 +153,7 @@ const Record2 = () => {
           </div>
           <div className="p-4 text-white" style={{ background: "#233b5d" }}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Transactions to my projects */}
               <div data-aos="flip-left" className="bg-white p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg text-black font-bold">Transactions to My Projects</h2>
@@ -215,6 +199,7 @@ const Record2 = () => {
                   <p className="text-gray-400">No projects found.</p>
                 )}
               </div>
+              {/* Invested in projects */}
               <div data-aos="flip-right" className="bg-white p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg text-black font-bold">Invested In Projects</h2>
@@ -253,6 +238,7 @@ const Record2 = () => {
               </div>
             </div>
           </div>
+          {/* Tabs */}
           <div className="w-full mt-6">
             <div className="flex flex-col md:flex-row justify-center border-b border-green-500">
               <TabButton label="Instrument Detail"
@@ -275,7 +261,7 @@ const Record2 = () => {
     </div>
   );
 };
-
+{/* UI Components*/}
 const StatCard = ({ title, value, percentage }) => (
   <div className="bg-white p-4 rounded-lg shadow-md flex items-center">
     <div className="flex-grow">
@@ -285,12 +271,10 @@ const StatCard = ({ title, value, percentage }) => (
     <div className="text-green-500 font-semibold">{percentage}</div>
   </div>
 );
-
 const TabButton = ({ label, isActive, onClick }) => (
   <button className={`flex-1 text-center py-2 ${isActive ? "bg-green-500 text-white font-bold" : "bg-green-100 text-green-500 font-semibold"}`}
     onClick={onClick}>{label}</button>
 );
-
 const TabContent = ({ images }) => (
   <div className="flex flex-col gap-4">
     {images.map((src, idx) => (

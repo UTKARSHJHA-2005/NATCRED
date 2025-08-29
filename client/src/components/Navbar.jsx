@@ -1,34 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logo2.png";
-import profile from "../assets/profile.jpg";
-import "./Navbar.css";
-import { useAuth } from "../AuthContext";
+// This component is used for routing towards the pages of the site.
+import React, { useState, useEffect } from "react";// React
+import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";// Icons
+import { Link, useNavigate } from "react-router-dom";// Routing
+import logo from "../assets/logo2.png";// Image
+import profile from "../assets/profile.jpg";// Image
+import "./Navbar.css";//Styling
+import { useAuth } from "../AuthContext";// Authentication
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Dropdown state for Profile options
+  const { user, logout } = useAuth();// User and logout State
+  const navigate = useNavigate() // Navigation
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);// Mobile menu state
+  // Logout 
   const handlelogout = () => {
     logout()
     navigate("/login")
   }
-  const toggleDropdown = () => setIsOpen(!isOpen);
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleDropdown = () => setIsOpen(!isOpen); // Toggle Dropdown
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen); // Toggle Mobile Menu
 
   return (
     <>
       <nav className="navbar-container">
         <div className="navbar-content">
+          {/* Logo */}
           <div className="logo-section">
             <Link to="/" className="logo-link h-16">
               <img src={logo} alt="NATCRED" className="logo-image" />
               <span className="brand-name">NATCRED</span>
             </Link>
           </div>
-
+          {/* Desktop Navigation */ }
           <div className="desktop-nav">
             <div className="nav-links">
               <Link to="/" className="nav-link">
@@ -52,6 +55,7 @@ function Navbar() {
                 <span className="link-glow"></span>
               </Link>
             </div>
+            {/* Profile Section */}
             {user ? (
               <div className="profile-section" onClick={toggleDropdown}>
                 <div className="profile-image-container">
@@ -71,15 +75,12 @@ function Navbar() {
                   </div>
                 )}
               </div>) : (
-              <button
-                onClick={() => navigate("/login")}
-                className="bg-blue-600 px-4 py-2 rounded-lg"
-              >
+              <button onClick={() => navigate("/login")} className="bg-blue-600 px-4 py-2 rounded-lg">
                 Login
               </button>
             )}
           </div>
-
+          {/* Mobile Menu */}
           <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
             {isMobileMenuOpen ? (
               <HiX className="menu-icon" />
@@ -89,7 +90,6 @@ function Navbar() {
           </button>
         </div>
       </nav>
-
       {isMobileMenuOpen && (
         <div className="mobile-nav">
           <div className="mobile-nav-content">
@@ -113,6 +113,7 @@ function Navbar() {
               <span>Posts</span>
               <div className="mobile-link-glow"></div>
             </Link>
+            {/* User for Mobile */}
             <div className="flex flex-row">
               {user ? (
                 <Link to="/profile">
@@ -121,10 +122,7 @@ function Navbar() {
                     <div className="profile-glow"></div>
                   </div>
                 </Link>) : (
-                <button
-                  onClick={() => navigate("/login")}
-                  className="bg-blue-600 px-4 py-2 rounded-lg"
-                >
+                <button onClick={() => navigate("/login")} className="bg-blue-600 px-4 py-2 rounded-lg">
                   Login
                 </button>
               )}

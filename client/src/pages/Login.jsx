@@ -1,36 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import google from '../assets/google.jpg';
-import axios from 'axios';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles } from 'lucide-react';
-import { useAuth } from '../AuthContext';
-import app from '../db'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+// Login Page
+import React, { useState, useEffect } from 'react';// React
+import { Link, useNavigate } from 'react-router-dom';// Routing
+import axios from 'axios';// Axios
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles } from 'lucide-react';// Icons
+import { useAuth } from '../AuthContext';// Authentication
+import app from '../db'// Firebase DB
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";// Firebase Method
 
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+const auth = getAuth(app);// Firebase Auth
+const provider = new GoogleAuthProvider();// Google Auth Provider
 export default function Login() {
-  const { login } = useAuth()
-  const { GoogleLogin } = useAuth()
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [err, setErr] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate()
-
+  const { login } = useAuth()// Login
+  const { GoogleLogin } = useAuth()// GoogleLogin
+  const [showPassword, setShowPassword] = useState(false);// Show Password State
+  const [email, setEmail] = useState("");// Email State
+  const [err, setErr] = useState("");// Error
+  const [isLoading, setIsLoading] = useState(false);// Loading
+  const [password, setPassword] = useState("");// Password State
+  const navigate = useNavigate()// Navigation
+  // Google Login
   const handleGoogleClick = async () => {
     try {
+      // Get token from Firebase
       const result = await signInWithPopup(auth, provider);
       const token = await result.user.getIdToken();
-
       // Send token to backend
       const res = await axios.post(
         "http://localhost:5000/api/auth/google",
         { idToken: token },
         { withCredentials: true }
       );
-
       console.log(res.data);
       GoogleLogin(res.data);
       navigate("/");
@@ -38,7 +37,7 @@ export default function Login() {
       console.error("Google login failed:", error);
     }
   };
-
+  // Only Email and Password
   const submit = async (e) => {
     e.preventDefault();
     setErr("");
@@ -75,44 +74,22 @@ export default function Login() {
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Mail className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
               </div>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
-                required
-              />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email"
+                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm" required/>
             </div>
-
             {/* Password Input */}
             <div className="relative group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Lock className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
               </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                className="w-full pl-12 pr-12 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/50 hover:text-white transition-colors"
-              >
+              <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password"
+                className="w-full pl-12 pr-12 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm" required/>
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/50 hover:text-white transition-colors">
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
-
             {/* Login Button */}
-            <button
-              onClick={submit}
-              disabled={isLoading}
-              className="w-full py-4 bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
+            <button onClick={submit} disabled={isLoading} className="w-full py-4 bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
               {isLoading ? (
                 <div className="flex items-center space-x-2">
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -126,19 +103,14 @@ export default function Login() {
               )}
             </button>
           </div>
-
           {/* Divider */}
           <div className="relative my-8">
             <div className="relative flex justify-center text-sm">
               <span className="px-4 bg-white/10 text-white/70 rounded-full">or continue with</span>
             </div>
           </div>
-
           {/* Google Button */}
-          <button
-            onClick={handleGoogleClick}
-            className="w-full py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-3"
-          >
+          <button onClick={handleGoogleClick} className="w-full py-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-3">
             <svg className="w-6 h-6" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -147,15 +119,11 @@ export default function Login() {
             </svg>
             <span>Continue with Google</span>
           </button>
-
           {/* Sign Up Link */}
           <div className="text-center mt-8">
             <p className="text-white/70 text-sm">
               New to the platform?{' '}
-              <button
-                onClick={() => navigate("/signup")}
-                className="text-white font-semibold hover:text-emerald-300 transition-colors duration-300 underline decoration-2 underline-offset-2 hover:decoration-emerald-300"
-              >
+              <button onClick={() => navigate("/signup")} className="text-white font-semibold hover:text-emerald-300 transition-colors duration-300 underline decoration-2 underline-offset-2 hover:decoration-emerald-300">
                 Create an account
               </button>
             </p>

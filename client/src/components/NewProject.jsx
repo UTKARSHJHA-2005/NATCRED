@@ -1,17 +1,18 @@
-import { useState,useEffect } from 'react';
-import axios from 'axios';
-import { AI_Prompt, chatSession } from '../AIModal';
-import { Upload, Sparkles, Send, DollarSign, User, Award, FileText } from 'lucide-react';
-import { useAuth } from '../AuthContext';
-import { ethers } from 'ethers';
-import CarbonCreditMarketABI from "../credit.json"; // ABI JSON after compiling
+// This si the page where user creates its own project.
+import { useState,useEffect } from 'react';// React
+import axios from 'axios';// Axios
+import { AI_Prompt, chatSession } from '../AIModal';// AI Generation
+import { Upload, Sparkles, Send, DollarSign, User, Award, FileText } from 'lucide-react';// Icons
+import { useAuth } from '../AuthContext';// Authentication
+import { ethers } from 'ethers';// Ethers
+import CarbonCreditMarketABI from "../credit.json";//ABI 
 
-const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";
-
+const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";// Contract
 
 const NewProject = () => {
-  const { user } = useAuth()
-  const [contract, setContract] = useState(null);
+  const { user } = useAuth()// User
+  const [contract, setContract] = useState(null);// Contract Stae
+  // Form Data State
   const [formData, setFormData] = useState({
     image: "",
     content: "",
@@ -20,12 +21,12 @@ const NewProject = () => {
     Fund: "",
     CarbonCredits: "",
   })
-  const [isGenerating, setIsGenerating] = useState(false);
-
+  const [isGenerating, setIsGenerating] = useState(false);// Generation of AI State
+  // Handle Change
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
-
+  // Handle Image Upload
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -36,7 +37,7 @@ const NewProject = () => {
     });
     handleChange("image", res.data.url);
   };
-
+  // Handle Publish Project
   const handlePublishPost = async () => {
     if (!formData.content.trim()) {
       alert("Please enter some content for the project.");
@@ -46,25 +47,21 @@ const NewProject = () => {
       alert("Please upload an image for the project.");
       return;
     }
-
     try {
       // Save project in DB
       await axios.post("http://localhost:5000/api/project", formData, {
         headers: { "Content-Type": "application/json" }
       });
-
       // Make sure contract exists
       if (!contract) {
         alert("Smart contract not initialized!");
         return;
       }
-
       // Set prices on-chain
       const buyWei = ethers.parseEther((formData.Fund/formData.CarbonCredits).toString() || "0");
       const sellWei = ethers.parseEther((parseFloat(formData.Fund/formData.CarbonCredits) + 0.01).toString() || "0");
       const tx = await contract.setPrices(buyWei, sellWei);
       await tx.wait();
-
       alert("Project published successfully!");
       setFormData({
         image: "",
@@ -84,7 +81,7 @@ const NewProject = () => {
       }
     }
   };
-
+  // Load Contract
   useEffect(() => {
     const loadContract = async () => {
       if (window.ethereum) {
@@ -98,8 +95,7 @@ const NewProject = () => {
     };
     loadContract();
   }, []);
-
-
+  // Generate AI
   const GenerateAI = async () => {
     if (!formData.content) {
       alert("Ask what you want");
@@ -132,17 +128,10 @@ const NewProject = () => {
         <div className="w-full max-w-4xl space-y-8">
           {/* Image Upload Section */}
           <div className=" bg-white/10 rounded-3xl p-8 border border-[#00ff88e5] shadow-2xl shadow-[#00ff88] transition-all duration-500 group">
-            <div
-              className="relative h-81 w-full bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl border-2 border-dashed border-[#00ff88] flex items-center justify-center cursor-pointer overflow-hidden group-hover:border-purple-400/50 transition-all duration-300"
-              onClick={() => document.getElementById('imageInput').click()}
-            >
+            <div className="relative h-81 w-full bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl border-2 border-dashed border-[#00ff88] flex items-center justify-center cursor-pointer overflow-hidden group-hover:border-purple-400/50 transition-all duration-300" onClick={() => document.getElementById('imageInput').click()}>
               {formData.image ? (
                 <div className="relative w-full h-full">
-                  <img
-                    src={formData.image}
-                    alt="Uploaded"
-                    className="object-cover w-full h-full rounded-2xl"
-                  />
+                  <img src={formData.image} alt="Uploaded" className="object-cover w-full h-full rounded-2xl"/>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl"></div>
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-sm font-medium">Click to change image</p>
@@ -162,32 +151,23 @@ const NewProject = () => {
             </div>
             <input id="imageInput" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
           </div>
+          {/* Form Field */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 group hover:bg-white/15 transition-all duration-300">
               <div className="flex items-center space-x-3 mb-3">
                 <FileText className="w-5 h-5 text-cyan-400" />
                 <label className="text-white font-medium">Project Title</label>
               </div>
-              <input
-                type="text"
-                placeholder="Enter an epic title..."
-                value={formData.title}
-                onChange={(e) => handleChange("title", e.target.value)}
-                className="w-full h-12 p-4 bg-black/30 rounded-xl text-white placeholder-white/50 border border-[#00ff88] focus:border-cyan-400 focus:outline-none transition-all duration-300"
-              />
+              <input type="text" placeholder="Enter an epic title..." value={formData.title} onChange={(e) => handleChange("title", e.target.value)}
+                className="w-full h-12 p-4 bg-black/30 rounded-xl text-white placeholder-white/50 border border-[#00ff88] focus:border-cyan-400 focus:outline-none transition-all duration-300"/>
             </div>
             <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 border border-white/20 group hover:bg-white/15 transition-all duration-300">
               <div className="flex items-center space-x-3 mb-3">
                 <User className="w-5 h-5 text-purple-400" />
                 <label className="text-white font-medium">Author</label>
               </div>
-              <input
-                type="text"
-                placeholder="Your Name..."
-                value={formData.author}
-                onChange={(e) => handleChange("author", e.target.value)}
-                className="w-full h-12 p-4 bg-black/30 rounded-xl text-white placeholder-white/50 border border-[#00ff88] focus:border-purple-400 focus:outline-none transition-all duration-300"
-              />
+              <input type="text" placeholder="Your Name..." value={formData.author} onChange={(e) => handleChange("author", e.target.value)}
+                className="w-full h-12 p-4 bg-black/30 rounded-xl text-white placeholder-white/50 border border-[#00ff88] focus:border-purple-400 focus:outline-none transition-all duration-300"/>
             </div>
             <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 border border-white/20 group hover:bg-white/15 transition-all duration-300">
               <div className="flex items-center space-x-3 mb-3">
@@ -195,8 +175,7 @@ const NewProject = () => {
                 <label className="text-white font-medium">Total Fund You Need</label>
               </div>
               <input type="text" placeholder="Set your price..." value={formData.Fund} onChange={(e) => handleChange("Fund", e.target.value)}
-                className="w-full h-12 p-4 bg-black/30 rounded-xl text-white placeholder-white/50 border border-[#00ff88] focus:border-green-400 focus:outline-none transition-all duration-300"
-              />
+                className="w-full h-12 p-4 bg-black/30 rounded-xl text-white placeholder-white/50 border border-[#00ff88] focus:border-green-400 focus:outline-none transition-all duration-300"/>
             </div>
             <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 border border-white/20 group hover:bg-white/15 transition-all duration-300">
               <div className="flex items-center space-x-3 mb-3">
@@ -217,21 +196,16 @@ const NewProject = () => {
               </button>
             </div>
             <div className="relative">
-              <textarea
-                value={formData.content}
-                onChange={(e) => handleChange("content", e.target.value)}
-                placeholder="Describe your legendary project... What makes it special? What impact will it have?"
-                className="w-full h-48 p-6 bg-black/30 rounded-2xl text-white placeholder-white/50 border border-[#00ff88] focus:border-cyan-400 focus:outline-none resize-none transition-all duration-300 text-lg leading-relaxed"
-              />
+              <textarea value={formData.content} onChange={(e) => handleChange("content", e.target.value)} placeholder="Describe your legendary project... What makes it special? What impact will it have?"
+                className="w-full h-48 p-6 bg-black/30 rounded-2xl text-white placeholder-white/50 border border-[#00ff88] focus:border-cyan-400 focus:outline-none resize-none transition-all duration-300 text-lg leading-relaxed"/>
               <div className="absolute bottom-4 right-4 text-white/40 text-sm">
                 {formData.content.length} characters
               </div>
             </div>
           </div>
+          {/* Publish Button */}
           <div className="text-center">
-            <button
-              onClick={handlePublishPost}
-              className="group relative px-12 py-6 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl text-white font-bold text-xl shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 transform hover:scale-105 active:scale-95 overflow-hidden">
+            <button onClick={handlePublishPost} className="group relative px-12 py-6 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl text-white font-bold text-xl shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 transform hover:scale-105 active:scale-95 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="relative flex items-center space-x-3">
                 <Send className="w-6 h-6" />

@@ -1,30 +1,26 @@
-import React, { useEffect,useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+// This is the component used in home page for showing projects.
+import React, { useEffect,useState } from 'react';// React
+import { Swiper, SwiperSlide } from 'swiper/react'; // Swiper
 import 'swiper/css';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import axios from 'axios'; // Axios
+import { Link } from 'react-router-dom'; // React Router
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import AOS from 'aos'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';// Icon
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons';// Icon
+import AOS from 'aos'// Animation
 import 'aos/dist/aos.css';
 
 export default function CreditProjects() {
-  // const projects = [
-  //   { title: 'Plastic Waste-to-Energy', description: 'By converting waste into energy, it provides a sustainable waste management solution but also contribute to energy security and reduce reliance on fossil fuels.It provides fuels that can be used to power vehicles, generate electricity, or as feedstock for petrochemical production. ', image: 'src/assets/pro1.jpg' },
-  //   { title: 'BioChar', description: 'The production of biochar can reduce greenhouse gas emissions by diverting organic waste from landfills, where it would decompose and release methane. It mainly focusses on sustainable land management, carbon offsetting, and soil enhancement.', image: 'src/assets/pro2.jpg' },
-  //   { title: 'Fleet Electrification', description: 'Fleet electrification includes lower operational costs due to reduced fuel expenses, decreased maintenance requirements, and potential incentives or subsidies from government programs to support clean transportation.It improves sustainable urban development.', image: 'src/assets/pro3.jpg' },
-  //   { title: 'Solar Farm', description: 'Solar projects often involve the development of solar energy infrastructure, such as panels, inverters, and storage solutions, to optimize energy production and consumption.It is critical to achieving global climate goals and advancing energy independence.', image: 'src/assets/pro4.jpg' },
-  //   { title: 'One Tree Planted', description: 'One Tree Planted encourages individuals and businesses to contribute to tree-planting initiatives through donations. Each dollar donated typically results in the planting of one tree, making it a straightforward and impactful way to support afforestation. ', image: 'src/assets/pro5.jpg' },
-  // ];
-  const [project,setproject]=useState([])
+  const [project,setproject]=useState([]) // State for storing projects
+  // Animation and project details
     useEffect(() => {
       AOS.init({ duration: 1000 });
       getProject()
     }, []);
   
+    // Getting project details from DB through axios.
     const getProject=async()=>{
       try {
         const res=await axios.get("http://localhost:5000/api/project")
@@ -39,6 +35,7 @@ export default function CreditProjects() {
   return (
     <section className="py-16 bg-gray-100" style={{ background: '#233b5d' }}>
       <div className="container mx-auto px-6">
+        {/* Header*/}
         <div className="flex justify-center mb-6">
           <FontAwesomeIcon icon={faCreditCard} className="text-4xl text-white" />
         </div>
@@ -46,12 +43,8 @@ export default function CreditProjects() {
         <p data-aos='flip-right' className="text-xl text-center mb-12 text-green-300">
           Unlocking a Low-Carbon Economy: Project Opportunities
         </p>
-        <Swiper
-          modules={[Navigation, Pagination]}
-          spaceBetween={30}
-          slidesPerView={3}
-          navigation pagination={{ clickable: true }}
-          loop={true}
+        {/* Projects */}
+        <Swiper modules={[Navigation, Pagination]} spaceBetween={30} slidesPerView={3} navigation pagination={{ clickable: true }} loop={true}
           breakpoints={{
             640: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
@@ -72,6 +65,7 @@ export default function CreditProjects() {
             </SwiperSlide>
           ))}
         </Swiper>
+        {/* View All Projects Button */}
         <div className="text-center mt-8">
           <Link to="/projects">
             <button data-aos='flip-right' className="px-4 py-2 bg-blue-600 border-green-400 border-[2px] text-white rounded-lg hover:bg-black" style={{

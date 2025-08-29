@@ -1,13 +1,15 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Upload, Package, Globe, DollarSign, Link, Percent, Clock, Check, Star, Sparkles } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+// This is the page where creates the product or shop.
+import axios from "axios";// Axios
+import React, { useEffect, useState } from "react";// React
+import { Upload, Package, Globe, DollarSign, Link, Percent, Clock, Check, Star, Sparkles } from "lucide-react";// Icons
+import { useNavigate } from "react-router-dom";// Routing
 
 export default function NewProduct() {
-    const [customProduct, setCustomProduct] = useState(false);
-    const [imageFile, setImageFile] = useState(null);
-    const [logoFile, setLogoFile] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [customProduct, setCustomProduct] = useState(false);// New product state
+    const [imageFile, setImageFile] = useState(null);// Image State 
+    const [logoFile, setLogoFile] = useState(null);// Logo State
+    const [isSubmitting, setIsSubmitting] = useState(false);// Submit State
+    // Form State
     const [formData, setFormData] = useState({
         title: "",
         website: "",
@@ -18,12 +20,13 @@ export default function NewProduct() {
         discount: "",
         deliverytime: "",
     });
-    const [product, setproduct] = useState([])
-    const navigate = useNavigate()
+    const [product, setproduct] = useState([])// Already ahve product state
+    const navigate = useNavigate()// Navigation
+    // Handle Change in form data
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-
+    // Handle Image Upload
     const handleImageChange = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -34,12 +37,12 @@ export default function NewProduct() {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setFormData({ ...formData, productimage: res.data.url });
-            setImageFile(file); 
+            setImageFile(file);
         } catch (err) {
             console.error("❌ Image upload failed:", err);
         }
     };
-
+    // Fetching product details from DB.
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -52,7 +55,7 @@ export default function NewProduct() {
         };
         fetchProducts();
     }, []);
-
+    // Handle Logo Upload
     const handleLogoChange = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -62,7 +65,6 @@ export default function NewProduct() {
             const res = await axios.post("http://localhost:5000/uploadLogo", data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-
             setFormData({ ...formData, logo: res.data.url });
             setLogoFile(file);
         } catch (err) {
@@ -70,7 +72,7 @@ export default function NewProduct() {
         }
     };
 
-    // Submit form
+    // Submit form(for Product and Shop both)
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -89,13 +91,12 @@ export default function NewProduct() {
                 ];
                 const res = await axios.put(`http://localhost:5000/api/product/${existingProduct._id}`,
                     {
-                        title: existingProduct.title,   
-                        productimage: existingProduct.productimage, 
+                        title: existingProduct.title,
+                        productimage: existingProduct.productimage,
                         Shops: updatedShops,
                     },
                     { headers: { "Content-Type": "application/json" } }
                 );
-
                 console.log("✅ Shop added to existing product:", res.data);
                 alert("Shop added to existing product!");
             } else {
@@ -114,15 +115,12 @@ export default function NewProduct() {
                         }
                     ]
                 };
-
                 const res = await axios.post("http://localhost:5000/api/product", payload, {
                     headers: { "Content-Type": "application/json" }
                 });
-
                 console.log("✅ New Product Added:", res.data);
                 alert("New Product Added Successfully!");
             }
-
             navigate('/Product');
         } catch (err) {
             console.error("❌ Error uploading product:", err);
@@ -139,37 +137,23 @@ export default function NewProduct() {
                         Add New Product
                     </h1>
                 </div>
-
                 {/* Main Form */}
                 <form onSubmit={handleSubmit} className="bg-slate-900/50 shadow-[#00ff88] backdrop-blur-xl rounded-3xl border border-[#00ff88] shadow-md p-8 space-y-6">
-
                     {/* Product Title Section */}
                     <div className="space-y-4">
                         <div className="flex items-center space-x-2 mb-3">
                             <Package className="w-5 h-5 text-purple-400" />
                             <label className="text-white font-semibold">Product Selection</label>
                         </div>
-
                         {customProduct ? (
                             <div className="relative">
-                                <input
-                                    type="text"
-                                    name="title"
-                                    value={formData.title}
-                                    onChange={handleChange}
-                                    placeholder="Enter your amazing product title"
-                                    className="w-full p-4 pl-12 rounded-2xl bg-slate-800/70 text-white border-2 border-[#00ff88] transition-all duration-300 placeholder-slate-400"
-                                />
+                                <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Enter your amazing product title"
+                                    className="w-full p-4 pl-12 rounded-2xl bg-slate-800/70 text-white border-2 border-[#00ff88] transition-all duration-300 placeholder-slate-400"/>
                                 <Star className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
                             </div>
                         ) : (
                             <div className="relative">
-                                <select
-                                    name="title"
-                                    value={formData.title}
-                                    onChange={handleChange}
-                                    className="w-full p-4 pl-12 rounded-2xl bg-slate-800/70 text-white border-2 border-[#00ff88] transition-all duration-300 appearance-none cursor-pointer"
-                                >
+                                <select name="title" value={formData.title} onChange={handleChange} className="w-full p-4 pl-12 rounded-2xl bg-slate-800/70 text-white border-2 border-[#00ff88] transition-all duration-300 appearance-none cursor-pointer">
                                     <option value="">🎯 Select your product from our collection</option>
                                     {product.map((p, idx) => (
                                         <option key={idx} value={p.title}>
@@ -183,12 +167,7 @@ export default function NewProduct() {
                         {/* Toggle Switch */}
                         <label className="flex items-center space-x-3 cursor-pointer p-4 rounded-xl bg-slate-800/30 hover:bg-slate-800/50 transition-colors">
                             <div className="relative">
-                                <input
-                                    type="checkbox"
-                                    checked={customProduct}
-                                    onChange={() => setCustomProduct(!customProduct)}
-                                    className="sr-only"
-                                />
+                                <input type="checkbox" checked={customProduct} onChange={() => setCustomProduct(!customProduct)} className="sr-only" />
                                 <div className={`w-12 h-6 rounded-full transition-colors ${customProduct ? 'bg-purple-500' : 'bg-slate-600'}`}>
                                     <div className={`w-5 h-5 bg-white rounded-full transition-transform transform ${customProduct ? 'translate-x-6' : 'translate-x-0.5'} mt-0.5`}></div>
                                 </div>
@@ -198,7 +177,6 @@ export default function NewProduct() {
                             </span>
                         </label>
                     </div>
-
                     {/* Product Image Upload - Only show when custom product */}
                     {customProduct && (
                         <div className="space-y-3 p-6 rounded-2xl bg-gradient-to-r from-purple-900/20 to-pink-900/20 border border-[#00ff88]">
@@ -206,19 +184,9 @@ export default function NewProduct() {
                                 <Upload className="w-5 h-5 text-purple-400" />
                                 <label className="text-white font-semibold">Product Image</label>
                             </div>
-
                             <div className="relative">
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                    className="hidden"
-                                    id="product-image"
-                                />
-                                <label
-                                    htmlFor="product-image"
-                                    className="flex flex-col items-center justify-center w-full p-8 border-2 border-dashed border-purple-400 rounded-xl cursor-pointer hover:border-purple-300 transition-colors bg-[slate-800/30] hover:bg-slate-800/50"
-                                >
+                                <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" id="product-image" />
+                                <label htmlFor="product-image" className="flex flex-col items-center justify-center w-full p-8 border-2 border-dashed border-purple-400 rounded-xl cursor-pointer hover:border-purple-300 transition-colors bg-[slate-800/30] hover:bg-slate-800/50">
                                     {imageFile ? (
                                         <div className="flex items-center space-x-2 text-purple-400">
                                             <Check className="w-6 h-6" />
@@ -235,7 +203,6 @@ export default function NewProduct() {
                             </div>
                         </div>
                     )}
-
                     {/* Shop Information Grid */}
                     <div className="grid md:grid-cols-2 gap-6">
                         {/* Website Name */}
@@ -244,14 +211,8 @@ export default function NewProduct() {
                                 <Globe className="w-5 h-5 text-blue-400" />
                                 <label className="text-white font-semibold">Shop Name</label>
                             </div>
-                            <input
-                                type="text"
-                                name="website"
-                                value={formData.website}
-                                onChange={handleChange}
-                                placeholder="e.g. Amazon, Flipkart"
-                                className="w-full p-4 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-blue-500 transition-all duration-300 placeholder-slate-400"
-                            />
+                            <input type="text" name="website" value={formData.website} onChange={handleChange} placeholder="e.g. Amazon, Flipkart"
+                                className="w-full p-4 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-blue-500 transition-all duration-300 placeholder-slate-400"/>
                         </div>
                         {/* Product Value */}
                         <div className="space-y-2">
@@ -259,36 +220,19 @@ export default function NewProduct() {
                                 <DollarSign className="w-5 h-5 text-green-400" />
                                 <label className="text-white font-semibold">Price</label>
                             </div>
-                            <input
-                                type="number"
-                                name="Value"
-                                value={formData.Value}
-                                onChange={handleChange}
-                                placeholder="999"
-                                className="w-full p-4 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-green-500 transition-all duration-300 placeholder-slate-400"
-                            />
+                            <input type="number" name="Value" value={formData.Value} onChange={handleChange} placeholder="999"
+                                className="w-full p-4 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-green-500 transition-all duration-300 placeholder-slate-400"/>
                         </div>
                     </div>
-
                     {/* Website Logo Upload */}
                     <div className="space-y-3">
                         <div className="flex items-center space-x-2">
                             <Upload className="w-5 h-5 text-orange-400" />
                             <label className="text-white font-semibold">Shop Logo</label>
                         </div>
-
                         <div className="relative">
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleLogoChange}
-                                className="hidden"
-                                id="logo-upload"
-                            />
-                            <label
-                                htmlFor="logo-upload"
-                                className="flex items-center justify-center w-full p-6 border-2 border-dashed border-[#00ff88] rounded-xl cursor-pointer transition-colors bg-slate-800/30 hover:bg-green-800/50"
-                            >
+                            <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" id="logo-upload"/>
+                            <label htmlFor="logo-upload" className="flex items-center justify-center w-full p-6 border-2 border-dashed border-[#00ff88] rounded-xl cursor-pointer transition-colors bg-slate-800/30 hover:bg-green-800/50">
                                 {logoFile ? (
                                     <div className="flex items-center space-x-2 text-orange-400">
                                         <Check className="w-5 h-5" />
@@ -311,58 +255,34 @@ export default function NewProduct() {
                                 <Link className="w-4 h-4 text-purple-400" />
                                 <label className="text-white text-sm font-medium">Product Link</label>
                             </div>
-                            <input
-                                type="url"
-                                name="link"
-                                value={formData.link}
-                                onChange={handleChange}
-                                placeholder="https://..."
-                                className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-purple-500 transition-all duration-300 placeholder-slate-400 text-sm"
-                            />
+                            <input type="url" name="link" value={formData.link} onChange={handleChange} placeholder="https://..."
+                                className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-purple-500 transition-all duration-300 placeholder-slate-400 text-sm" />
                         </div>
-
                         {/* Discount */}
                         <div className="space-y-2">
                             <div className="flex items-center space-x-2">
                                 <Percent className="w-4 h-4 text-red-400" />
                                 <label className="text-white text-sm font-medium">Discount</label>
                             </div>
-                            <input
-                                type="text"
-                                name="discount"
-                                value={formData.discount}
-                                onChange={handleChange}
-                                placeholder="20% OFF"
-                                className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-red-500 transition-all duration-300 placeholder-slate-400 text-sm"
-                            />
+                            <input type="text" name="discount" value={formData.discount} onChange={handleChange} placeholder="20% OFF"
+                                className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-red-500 transition-all duration-300 placeholder-slate-400 text-sm" />
                         </div>
-
                         {/* Delivery Time */}
                         <div className="space-y-2">
                             <div className="flex items-center space-x-2">
                                 <Clock className="w-4 h-4 text-yellow-400" />
                                 <label className="text-white text-sm font-medium">Delivery</label>
                             </div>
-                            <input
-                                type="text"
-                                name="deliverytime"
-                                value={formData.deliverytime}
-                                onChange={handleChange}
-                                placeholder="2-3 days"
-                                className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-yellow-500 transition-all duration-300 placeholder-slate-400 text-sm"
-                            />
+                            <input type="text" name="deliverytime" value={formData.deliverytime} onChange={handleChange} placeholder="2-3 days"
+                             className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-yellow-500 transition-all duration-300 placeholder-slate-400 text-sm"/>
                         </div>
                     </div>
-
                     {/* Submit Button */}
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
+                    <button type="submit" disabled={isSubmitting}
                         className={`w-full py-4 rounded-2xl font-bold text-lg shadow-xl transition-all duration-300 transform ${isSubmitting
                             ? 'bg-slate-600 cursor-not-allowed'
                             : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 hover:scale-105 hover:shadow-2xl active:scale-95'
-                            } text-white`}
-                    >
+                            } text-white`}>
                         {isSubmitting ? (
                             <div className="flex items-center justify-center space-x-2">
                                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -377,5 +297,6 @@ export default function NewProduct() {
                     </button>
                 </form>
             </div>
-        </div>);
+        </div>
+    );
 }

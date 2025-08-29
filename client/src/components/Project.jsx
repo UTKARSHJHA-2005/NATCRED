@@ -1,48 +1,13 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from "axios"
-import AOS from 'aos'
-import { toast, ToastContainer } from "react-toastify"
+// This is the project component where projects are shown.
+import { useEffect, useState } from 'react';// React
+import { Link } from 'react-router-dom';// Routing
+import axios from "axios"// Axios
+import AOS from 'aos'// Animation
+import { toast, ToastContainer } from "react-toastify"// Notification
 import 'aos/dist/aos.css';
-import "./Project.css"
+import "./Project.css"// Styling
 
 const ProjectCard = ({ project }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
-  const [coins, setCoins] = useState(0);
-  useEffect(() => {
-    const savedCoins = localStorage.getItem("coins");
-    if (savedCoins) {
-      setCoins(parseInt(savedCoins, 10));
-    }
-  }, []);
-
-  const handleInvest = async () => {
-    try {
-      if (typeof window.ethereum !== "undefined") {
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        const userAccount = accounts[0];
-        const transactionParameters = {
-          to: "0x4b567f404c7fd52f948e2bc8758945b3339d5092",
-          from: userAccount,
-          value: "0x2386F26FC10000",
-        };
-        const trans = await window.ethereum.request({
-          method: "eth_sendTransaction",
-          params: [transactionParameters],
-        });
-        console.log(trans)
-        toast.success("Transaction sent successfully!");
-        const newCoins = coins + 4;
-        setCoins(newCoins);
-        localStorage.setItem("coins", newCoins);
-      } else {
-        toast.error("MetaMask is not installed. Please install MetaMask to proceed.");
-      }
-    } catch (error) {
-      console.error("Error during transaction:", error);
-    }
-  };
   return (
     <>
       <div className="project-card" data-aos='flip-right'>
@@ -63,24 +28,20 @@ const ProjectCard = ({ project }) => {
             </div>
           </div>
         </Link>
-        <button onClick={handleInvest} className="invest-button">
-          <span className="button-text">Invest</span>
-          <div className="button-glow"></div>
-        </button>
       </div>
     </>
   );
 };
 
 const Project = () => {
-  const [project, setproject] = useState([])
-  const [searchTerm, setSearchTerm] = useState("");
-
+  const [project, setproject] = useState([]) // Project State
+  const [searchTerm, setSearchTerm] = useState("");// Searching
+  // Animation with Projects
   useEffect(() => {
     AOS.init({ duration: 1000 });
     getProject()
   }, []);
-
+  // Fetching Project Details
   const getProject = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/project")
@@ -91,7 +52,7 @@ const Project = () => {
       console.log(err)
     }
   }
-
+  // Filtering Projects
   const filteredProjects = project.filter(p =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.author.toLowerCase().includes(searchTerm.toLowerCase())
@@ -99,20 +60,18 @@ const Project = () => {
 
   return (
     <div className="projects-container">
+      {/* Search Bar */}
       <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search projects by title or author..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
+        <input type="text" placeholder="Search projects by title or author..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"/>
       </div>
+      {/* Project Cards */}
       <div className="projects-grid">
         {filteredProjects.map((projects, index) => (
           <ProjectCard key={index} project={projects} />
         ))}
       </div>
+      {/* Add New Project Button */}
       <Link title='Add New Project' to="/newproject" className="new-project-button">
         <div className="button-glow"></div>
         <span className="button-plus">+</span>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import './Loader.css';
-import logo from './assets/logo2.png';
+// Loader
+import React, { useState, useEffect } from 'react';// React
+import './Loader.css';// Styling
+import logo from './assets/logo2.png';// Logo
 
 const Loader = () => {
-  const [progress, setProgress] = useState(0);
-
+  const [progress, setProgress] = useState(0);// Progress state
+  // Loading time intervals
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {

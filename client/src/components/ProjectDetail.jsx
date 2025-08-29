@@ -1,32 +1,33 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+// This is the page which gives the project details.
+import { useEffect, useState } from "react";// React
+import { useNavigate, useParams } from "react-router-dom";// Routing
+import axios from "axios";// Axios
 import AOS from "aos";
-import { Eye } from "lucide-react";
+import { Eye } from "lucide-react";// Icon
 import "aos/dist/aos.css";
-import { ethers } from "ethers";
-import { useAuth } from "../AuthContext";
-import CarbonCreditMarketABI from "../credit.json";
+import { ethers } from "ethers";// Ethers
+import { useAuth } from "../AuthContext";// Authentication
+import CarbonCreditMarketABI from "../credit.json";// ABI
 
-const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";
+const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";// Contract
 
 const ProjectDetail = () => {
-    const { id } = useParams();
-    const [open, setOpen] = useState(false);
-    const [contract, setContract] = useState(null);
-    const [credits, setCredits] = useState(1);
-    const navigate = useNavigate();
-    const [showFullDescription, setShowFullDescription] = useState(false);
-    const { user } = useAuth();
-    const [project, setProject] = useState({});
+    const { id } = useParams(); // Getting ID from URL
+    const [open, setOpen] = useState(false);// Modal state
+    const [contract, setContract] = useState(null);// Contract state
+    const [credits, setCredits] = useState(1);// Credit State
+    const navigate = useNavigate();// Navigation
+    const [showFullDescription, setShowFullDescription] = useState(false);// Description in white
+    const { user } = useAuth();// User state
+    const [project, setProject] = useState({});// Project State
     const [ethRate, setEthRate] = useState(null); // USD per ETH
-
+    // Animation with Project Details and Getting eth rates.
     useEffect(() => {
         AOS.init({ duration: 1000 });
         getProject();
         fetchEthRate();
     }, [id]);
-
+    // Fetch project details
     const getProject = async () => {
         try {
             const res = await axios.get(`http://localhost:5000/api/project/${id}`);
@@ -36,7 +37,7 @@ const ProjectDetail = () => {
         }
     };
 
-    // ✅ Fetch ETH/USD price from CoinGecko
+    // Fetch ETH/USD price from CoinGecko
     const fetchEthRate = async () => {
         try {
             const res = await axios.get(
@@ -47,7 +48,7 @@ const ProjectDetail = () => {
             console.error("Failed to fetch ETH rate:", err);
         }
     };
-
+    // Delete project
     const handleDelete = async () => {
         try {
             await axios.delete(`http://localhost:5000/api/project/${id}`);
@@ -59,17 +60,12 @@ const ProjectDetail = () => {
     };
 
     // 💰 Price conversions
-    const usdPerCredit =
-        project.Fund && project.CarbonCredits
-            ? project.Fund / project.CarbonCredits
-            : 0;
-
+    const usdPerCredit = project.Fund && project.CarbonCredits ? project.Fund / project.CarbonCredits: 0;
     // ETH per 1 credit
     const ethPerCredit = ethRate ? usdPerCredit / ethRate : 0;
-
     // ETH total for chosen credits
     const totalEth = ethPerCredit * credits;
-
+    // Contract Initialization
     useEffect(() => {
         const initContract = async () => {
             if (typeof window.ethereum !== "undefined") {
@@ -87,34 +83,28 @@ const ProjectDetail = () => {
                 }
             }
         };
-
         initContract();
     }, []);
-
+    // Investment logic
     const handleInvest = async () => {
         try {
             if (!contract) {
                 alert("Contract not initialized. Please connect wallet.");
                 return;
             }
-
             const creditAmount = ethers.parseUnits(credits.toString(), 18);
             const cost = await contract.quoteBuy(creditAmount);
-
             const tx = await contract.buy(creditAmount, { value: cost });
             await tx.wait();
-
             const payload = {
                 name: user?.name || "Anonymous",
                 carboncredit: credits,
                 Value: (usdPerCredit * credits).toFixed(2),
             };
-
             await axios.post(
                 `http://localhost:5000/api/project/${project._id}/contribute`,
                 payload
             );
-
             alert("Investment successful and saved to project ✅");
             setOpen(false);
         } catch (err) {

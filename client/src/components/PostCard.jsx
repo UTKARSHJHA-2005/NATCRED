@@ -1,35 +1,33 @@
-import React, { useState } from 'react';
-import AOS from 'aos';
+// This is the card for the posts.
+import React, { useState,useEffect } from 'react';// React
+import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
-import { Heart, MessageCircle, Share, ThumbsUp, ThumbsDown, Send, MoreHorizontal } from "lucide-react"
-import { useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../AuthContext';
+import { Heart, MessageCircle, Share, ThumbsUp, ThumbsDown, Send, MoreHorizontal } from "lucide-react"// Icons
+import axios from 'axios';// Axios
+import { useAuth } from '../AuthContext';// Authentication
 
 export const PostCard = ({ post }) => {
   console.log(post)
-  const { user } = useAuth()
-  const [likes, setLikes] = useState(post.likes);
-  const [dislikes, setDislikes] = useState(post.dislikes);
-  const [comments, setComments] = useState(post.comments || []);
+  const { user } = useAuth()// User Auth
+  const [likes, setLikes] = useState(post.likes);// Likes State
+  const [dislikes, setDislikes] = useState(post.dislikes);// Dislikes State
+  const [comments, setComments] = useState(post.comments || []);// Comments State
   const [hasLiked, setHasLiked] = useState(
     post.likedBy?.includes(user?.id) || false
-  );
+  );// Liked or Not
   const [hasDisliked, setHasDisliked] = useState(
     post.dislikedBy?.includes(user?.id) || false
-  );
-  const [newComment, setNewComment] = useState("");
+  );// Disliked or Not
+  const [newComment, setNewComment] = useState(""); //New Comment State
 
   // Like handler
   const handleLike = async () => {
     if (!user) return alert("Login first!");
-
     try {
       const { data } = await axios.post(
         `http://localhost:5000/api/posts/${post._id}/like`,
         { userId: user.id }
       );
-
       setLikes(data.likes);
       setDislikes(data.dislikes);
       setHasLiked(data.likedBy.includes(user.id));
@@ -47,7 +45,6 @@ export const PostCard = ({ post }) => {
         `http://localhost:5000/api/posts/${post._id}/dislike`,
         { userId: user.id }
       );
-
       setLikes(data.likes);
       setDislikes(data.dislikes);
       setHasLiked(data.likedBy.includes(user.id));
@@ -61,26 +58,23 @@ export const PostCard = ({ post }) => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) return;
-
     try {
       const newCommentObj = {
         name: user?.name || "Anonymous",
         avatar: user?.image || "https://placehold.co/40",
         text: newComment.trim(),
       };
-
       const { data } = await axios.post(
         `http://localhost:5000/api/posts/${post._id}/comment`,
         newCommentObj
       );
-
-      setComments(data.comments); // backend returns updated comments
+      setComments(data.comments); 
       setNewComment("");
     } catch (err) {
       console.error(err);
     }
   };
-
+  // Animations
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
@@ -94,11 +88,7 @@ export const PostCard = ({ post }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="relative">
-                  <img
-                    src={post.authorAvatar}
-                    alt="Author"
-                    className="w-14 h-14 rounded-full border-3 border-gradient-to-r from-purple-400 to-pink-400 p-0.5 object-cover"
-                  />
+                  <img src={post.authorAvatar} alt="Author" className="w-14 h-14 rounded-full border-3 border-gradient-to-r from-purple-400 to-pink-400 p-0.5 object-cover"/>
                   <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-slate-800"></div>
                 </div>
                 <div>
@@ -131,37 +121,29 @@ export const PostCard = ({ post }) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               )}
-
               <div className="space-y-6">
                 <p className="text-slate-100 text-lg leading-relaxed">
                   {post.content}
                 </p>
-
                 {/* Engagement Buttons */}
                 <div className="flex items-center justify-between pt-4 border-t border-slate-700/30">
                   <div className="flex items-center space-x-6">
-                    <button
-                      onClick={handleLike}
+                    <button onClick={handleLike}
                       className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 ${hasLiked
                         ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                         : 'bg-slate-700/50 text-slate-300 hover:bg-blue-500/20 hover:text-blue-300'
-                        }`}
-                    >
+                        }`}>
                       <ThumbsUp className={`w-5 h-5 ${hasLiked ? 'fill-current' : ''}`} />
                       <span className="font-semibold">{likes}</span>
                     </button>
-
-                    <button
-                      onClick={handleDislike}
+                    <button onClick={handleDislike}
                       className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 ${hasDisliked
                         ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
                         : 'bg-slate-700/50 text-slate-300 hover:bg-red-500/20 hover:text-red-300'
-                        }`}
-                    >
+                        }`}>
                       <ThumbsDown className={`w-5 h-5 ${hasDisliked ? 'fill-current' : ''}`} />
                       <span className="font-semibold">{dislikes}</span>
                     </button>
-
                     <button className="flex items-center space-x-2 px-4 py-2 rounded-full bg-slate-700/50 text-slate-300 hover:bg-purple-500/20 hover:text-purple-300 transition-all duration-300">
                       <MessageCircle className="w-5 h-5" />
                       <span className="font-semibold">{comments.length}</span>
@@ -170,7 +152,6 @@ export const PostCard = ({ post }) => {
                 </div>
               </div>
             </div>
-
             {/* RIGHT SIDE - Comments */}
             <div className="lg:w-1/3 border-t lg:border-t-0 lg:border-l border-slate-700/30 bg-slate-800/30">
               <div className="p-6 h-full flex flex-col">
@@ -178,16 +159,11 @@ export const PostCard = ({ post }) => {
                   <MessageCircle className="w-5 h-5 text-purple-400" />
                   <span>Comments ({comments.length})</span>
                 </h4>
-
                 {/* Comments List */}
                 <div className="flex-1 space-y-4 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
                   {comments.map((comment, index) => (
                     <div key={index} className="flex space-x-3 p-3 rounded-xl bg-slate-700/20 hover:bg-slate-700/30 transition-colors">
-                      <img
-                        src={comment.avatar}
-                        alt={comment.name}
-                        className="w-10 h-10 rounded-full border-2 border-slate-600 flex-shrink-0 object-cover"
-                      />
+                      <img src={comment.avatar} alt={comment.name} className="w-10 h-10 rounded-full border-2 border-slate-600 flex-shrink-0 object-cover"/>
                       <div className="flex-1 min-w-0">
                         <div className="bg-slate-600/50 rounded-2xl p-3">
                           <span className="font-bold text-purple-300 text-sm">{comment.name}</span>
@@ -202,29 +178,16 @@ export const PostCard = ({ post }) => {
                     </div>
                   ))}
                 </div>
-
                 {/* Comment Input */}
                 <div className="mt-6 pt-4 border-t border-slate-700/30">
                   <div className="flex space-x-3">
-                    <img
-                      src={user?.image}
-                      alt="You"
-                      className="w-10 h-10 rounded-full border-2 border-slate-600 object-cover"
-                    />
+                    <img src={user?.image} alt="You" className="w-10 h-10 rounded-full border-2 border-slate-600 object-cover"/>
                     <div className="flex-1 relative">
-                      <input
-                        type="text"
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Write a thoughtful comment..."
+                      <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a thoughtful comment..."
                         className="w-full p-4 pr-12 bg-slate-700/50 rounded-2xl text-white placeholder-slate-400 border border-slate-600/50 focus:border-purple-500 focus:outline-none transition-all duration-300"
-                        onKeyDown={(e) => e.key === 'Enter' && handleCommentSubmit(e)}
-                      />
-                      <button
-                        onClick={handleCommentSubmit}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-purple-500 text-white hover:bg-purple-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled={!newComment.trim()}
-                      >
+                        onKeyDown={(e) => e.key === 'Enter' && handleCommentSubmit(e)}/>
+                      <button onClick={handleCommentSubmit} className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-purple-500 text-white hover:bg-purple-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={!newComment.trim()}>
                         <Send className="w-4 h-4" />
                       </button>
                     </div>

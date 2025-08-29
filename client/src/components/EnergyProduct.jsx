@@ -1,28 +1,24 @@
-import React, { useEffect,useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+// This si the component used in Home for products.
+import React, { useEffect,useState } from 'react';// React
+import { Swiper, SwiperSlide } from 'swiper/react';// Swiper
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import axios from 'axios';
-import AOS from 'aos';
+import axios from 'axios';// Axios
+import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
 import { Navigation, Pagination } from 'swiper/modules';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSolarPanel } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';// Icon
+import { faSolarPanel } from '@fortawesome/free-solid-svg-icons';// Icon
 
 export default function EnergyProduct() {
-  const [product,setproduct]=useState([]);
+  const [product,setproduct]=useState([]);// Product State
+  // Animation and product details
   useEffect(() => {
     AOS.init({ duration: 1000 });
     getProduct();
   }, []);
-  // const projects = [
-  //   { title: 'Smart Thermostats', description: 'Smart thermostats, allow users to optimize heating and cooling in their homes. These devices learn user behavior and adjust temperatures accordingly, ensuring energy is used efficiently. They can be controlled remotely via smartphones, enabling users to manage their energy consumption. ', image: 'src/assets/prod1.jpg' },
-  //   { title: 'Energy-Efficient Appliances', description: 'Energy Star-certified appliances, such as refrigerators, washing machines, and dishwashers, are designed to use less energy and water compared to standard models. These appliances are rigorously tested to ensure they meet energy efficiency guidelines set by the Environmental Protection Agency (EPA).', image: 'src/assets/prod2.jpg' },
-  //   { title: 'Smart Power Strips', description: 'Smart power strips help reduce "phantom" energy consumption, which occurs when electronics are plugged in but not in use. These strips can automatically cut power to devices when they enter standby mode, preventing energy waste. The households can save energy and reduce their electricity bills.', image: 'src/assets/prod4.jpg' },
-  //   { title: 'Home Energy Storage Systems', description: 'Home energy storage systems, such as the Tesla Powerwall, store excess energy generated from solar panels or the grid for later use. This technology allows homeowners to utilize renewable energy even when the sun is not shining, reducing reliance on fossil fuels and with having low energy costs. ', image: 'src/assets/prod3.jpg' },
-  //   { title: 'Solar Panels', description: 'Solar panels convert sunlight into electricity, providing a renewable energy source for homes and businesses. By installing solar photovoltaic (PV) systems, users can generate their own electricity, reducing reliance on fossil fuels and lowering energy costs. It is a viable option for reducing carbon footprints ', image: 'src/assets/prod5.png' },
-  // ];
+  // Fetching product details form DB.
   const getProduct = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/product");
@@ -36,6 +32,7 @@ export default function EnergyProduct() {
   return (
     <section className="py-16" style={{ background: '#233b5d' }}>
       <div className="container mx-auto px-6">
+        {/* Header */}
         <div data-aos='slip-down' className="flex justify-center mb-6">
           <FontAwesomeIcon icon={faSolarPanel} className="text-4xl text-white" />
         </div>
@@ -45,19 +42,13 @@ export default function EnergyProduct() {
           They develop cutting-edge technologies, such as renewable energy systems,
           to enhance efficiency and reduce carbon footprints.
         </p>
-        <Swiper
-          modules={[Navigation, Pagination]}
-          spaceBetween={30}
-          slidesPerView={3}
-          navigation
-          pagination={{ clickable: true }}
-          loop={true}
+        {/* Products */}
+        <Swiper modules={[Navigation, Pagination]} spaceBetween={30} slidesPerView={3} navigation pagination={{ clickable: true }} loop={true}
           breakpoints={{
             640: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-          }}
-        >
+          }}>
           {product.map((project, index) => (
             <SwiperSlide key={index}>
               <div data-aos='slip-down' className="bg-white border-[#00ff88] border-[2px] shadow-2xl cursor-pointer rounded-lg overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,136,0.3)] 
@@ -72,6 +63,7 @@ export default function EnergyProduct() {
             </SwiperSlide>
           ))}
         </Swiper>
+        {/* View All Button */}
         <div data-aos='slip-left' className="text-center mt-8">
           <button className="px-4 py-2 bg-blue-600 border-green-400 border-[2px] text-white rounded-lg hover:bg-black" style={{
             boxShadow: "0px 0px 20px rgba(0, 255, 136, 0.4)"

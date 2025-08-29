@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import {PostCard} from './PostCard';
-import NewPosts from './NewPosts';
-import { Link, BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './PostPage.css';
+// This is the page where postcards are assembled.
+import React, { useEffect, useState } from 'react';// React
+import {PostCard} from './PostCard';// PostCard
+import NewPosts from './NewPosts';// NewPosts Page
+import { Link, BrowserRouter as Router, Routes, Route } from 'react-router-dom';// Routing
+import './PostPage.css';// Styling
 
 const PostPage = () => {
-  const [posts, setPosts] = useState([]);
-
+  const [posts, setPosts] = useState([]);// Posts State
+  // Fetching Posts from DB.
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -21,7 +22,6 @@ const PostPage = () => {
         console.error('Error fetching posts:', error);
       }
     };
-
     fetchPosts();
   }, []);
 
@@ -39,12 +39,11 @@ const PostPage = () => {
           </div>
         )}
       </div>
-
+      {/* New Post Button */}
       <Link to="/newposts" className="new-post-button">
         <div className="button-glow"></div>
         <span className="button-plus">+</span>
       </Link>
-
       <Routes>
         <Route path="/NewPosts" element={<NewPosts />} />
       </Routes>

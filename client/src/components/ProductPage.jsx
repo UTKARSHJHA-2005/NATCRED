@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+// This is the product page .
+import React, { useEffect, useState } from "react";// React
+import axios from "axios";// Axios
+import { useParams } from "react-router-dom";// react-router-dom
 
 const ProductPage = () => {
-  const [product, setProduct] = useState({ });
-  const { id } = useParams();
-
+  const [product, setProduct] = useState({ });// Product state
+  const { id } = useParams();// Product ID from URL
+  // Fetch product data 
   const getProduct = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/api/product/${id}`);
@@ -15,11 +16,11 @@ const ProductPage = () => {
       console.error(err);
     }
   };
-
+  // Fetch product data on component mount
   useEffect(() => {
     getProduct();
   }, [id]);
-
+  // Sort shops by value
   const sortedShops = [...(product.Shops || [])].sort(
     (a, b) => a.Value - b.Value
   );
@@ -33,11 +34,7 @@ const ProductPage = () => {
             {/* Product Image Section */}
             <div className="lg:w-2/5 p-8 bg-gradient-to-br from-gray-50 to-gray-100">
               <div className="relative">
-                <img
-                  src={product.productimage}
-                  alt={product.title}
-                  className="w-full h-80 object-cover rounded-2xl shadow-lg border-4 border-white"
-                />
+                <img src={product.productimage} alt={product.title} className="w-full h-80 object-cover rounded-2xl shadow-lg border-4 border-white"/>
                 {sortedShops[0]?.discount && (
                   <div className="absolute -top-2 -right-2 bg-red-500 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
                     -{sortedShops[0].discount}% OFF
@@ -83,11 +80,7 @@ const ProductPage = () => {
                 {/* Store Logo & Button */}
                 <div className="flex flex-col items-center space-y-4">
                   {sortedShops.length > 0 && (
-                    <img
-                      src={sortedShops[0].logo}
-                      alt={sortedShops[0].name}
-                      className="w-20 h-20 object-cover rounded-full border-4 border-orange-200 shadow-md"
-                    />
+                    <img src={sortedShops[0].logo} alt={sortedShops[0].name} className="w-20 h-20 object-cover rounded-full border-4 border-orange-200 shadow-md"/>
                   )}
                   <button className="bg-gradient-to-r from-orange-400 to-orange-600 text-white px-8 py-3 rounded-full font-semibold text-lg hover:from-orange-500 hover:to-orange-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
                     Buy Now →
@@ -104,13 +97,10 @@ const ProductPage = () => {
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {sortedShops.map((shop, index) => (
-              <div
-                key={index}
-                className={`group relative p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer transform hover:scale-[1.02] ${index === 0
+              <div key={index} className={`group relative p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer transform hover:scale-[1.02] ${index === 0
                     ? "bg-gradient-to-r from-green-50 to-emerald-50 border-green-300 shadow-lg"
                     : "bg-white border-gray-200 hover:border-blue-300 hover:shadow-xl"
-                  }`}
-              >
+                  }`}>
                 {index === 0 && (
                   <div className="absolute -top-3 left-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
                     🏆 Best Deal
@@ -154,8 +144,7 @@ const ProductPage = () => {
                       className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-md ${index === 0
                           ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700"
                           : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700"
-                        }`}
-                    >
+                        }`}>
                       Buy Now →
                     </a>
                   </div>

@@ -1,8 +1,10 @@
-import React,{useEffect} from 'react';
-import AOS from 'aos';
+// Componenet used for message in Home.
+import React,{useEffect} from 'react';// react
+import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
 
 export default function Tradeforgreen() {
+  // Animations
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);

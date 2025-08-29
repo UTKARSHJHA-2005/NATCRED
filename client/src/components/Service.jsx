@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
-import { FaFingerprint, FaBolt, FaMoon, FaShieldAlt, FaHeadset } from "react-icons/fa";
-import AOS from 'aos';
+// Componenet which shows the features provided.
+import { useEffect } from "react";// React
+import { FaFingerprint, FaBolt, FaMoon, FaShieldAlt, FaHeadset } from "react-icons/fa";// Icons
+import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
 
+// Features
 const features = [
   {
     icon: <FaFingerprint className="text-blue-600 w-7 h-7" aria-label="Fingerprint icon" />,
@@ -47,14 +49,12 @@ const features = [
   },
 ];
 
-const commonStyle = "relative flex items-center justify-center mx-auto";
-
 const Service = () => {
+  // Animation
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
 
-  /*'radial-gradient(circle,#8FD14F,#233b5d)'*/
   return (
     <section className="py-10 sm:py-16 lg:py-18" style={{ background: '#233b5d' }}>
       <p data-aos="fade-down" className="text-3xl text-center mb-[30px] font-semibold leading-tight text-gray-200 sm:text-4xl xl:text-5xl font-pj">Take the step without<br /> any hassle & get results faster</p>
@@ -63,7 +63,7 @@ const Service = () => {
         <div data-aos="fade-up" className="grid grid-cols-1 gap-12 text-center sm:grid-cols-2 md:grid-cols-3 lg:gap-y-16">
           {features.map((feature, index) => (
             <div key={index}>
-              <div className={commonStyle}>
+              <div className="relative flex items-center justify-center mx-auto">
                 <div className="bg-gray-100 w-16 h-16 border-green-400 border-[2px] flex items-center justify-center rounded-full" style={{
                   boxShadow: "0 0 30px rgba(0, 255, 136, 0.4)"}}>
                   {feature.icon}

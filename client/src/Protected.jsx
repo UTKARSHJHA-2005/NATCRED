@@ -1,6 +1,7 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
-import Loader from "./Loader";
+// If not loggedin then go first login yourself 
+import { Navigate } from "react-router-dom";// Routing
+import { useAuth } from "./AuthContext";// Authentication
+import Loader from "./Loader";// Loader Componenet
 
 export default function ProtectedRoute({ children }) {
   const { user, hydrated } = useAuth();
