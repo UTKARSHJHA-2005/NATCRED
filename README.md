@@ -1,6 +1,6 @@
 # NATCRED<br/>
 NATCRED is a Carbon Credit Blockchain-based Website designed to enable transparent and efficient carbon trading. Built using the powerful MERN stack (MongoDB, Express.js, React.js, Node.js), this platform integrates blockchain technology to ensure trust, security, and real-time validation of carbon credits.<br/>
-Key Features:<br/>
+<strong>Key Features:</strong><br/>
 🌐 User-friendly Interface: A sleek, intuitive design built with React.js for seamless interaction and a responsive experience across devices.<br/>
 🔒 Blockchain-powered: Leveraging blockchain to provide immutable records and ensure the integrity of carbon credit transactions.<br/>
 ⚡ Efficient Transactions: Real-time processing of transactions and credit allocation, thanks to Node.js and Express.js backend.<br/>
