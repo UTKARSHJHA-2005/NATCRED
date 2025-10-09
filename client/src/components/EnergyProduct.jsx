@@ -7,6 +7,7 @@ import 'swiper/css/pagination';
 import axios from 'axios';// Axios
 import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
+import { Link } from 'react-router-dom'; // React Router
 import { Navigation, Pagination } from 'swiper/modules';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';// Icon
 import { faSolarPanel } from '@fortawesome/free-solid-svg-icons';// Icon
@@ -65,7 +66,7 @@ export default function EnergyProduct() {
         </Swiper>
         {/* View All Button */}
         <div data-aos='slip-left' className="text-center mt-8">
-         <Link to="/projects">
+         <Link to="/product">
           <button className="px-4 py-2 bg-blue-600 border-green-400 border-[2px] text-white rounded-lg hover:bg-black" style={{
             boxShadow: "0px 0px 20px rgba(0, 255, 136, 0.4)"
           }}>
