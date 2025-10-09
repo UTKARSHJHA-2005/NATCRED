@@ -25,7 +25,7 @@ export const PostCard = ({ post }) => {
     if (!user) return alert("Login first!");
     try {
       const { data } = await axios.post(
-        `http://localhost:5000/api/posts/${post._id}/like`,
+        `https://natcred-1.onrender.com/api/posts/${post._id}/like`,
         { userId: user.id }
       );
       setLikes(data.likes);
@@ -42,7 +42,7 @@ export const PostCard = ({ post }) => {
     if (!user) return alert("Login first!");
     try {
       const { data } = await axios.post(
-        `http://localhost:5000/api/posts/${post._id}/dislike`,
+        `https://natcred-1.onrender.com/api/posts/${post._id}/dislike`,
         { userId: user.id }
       );
       setLikes(data.likes);
@@ -65,7 +65,7 @@ export const PostCard = ({ post }) => {
         text: newComment.trim(),
       };
       const { data } = await axios.post(
-        `http://localhost:5000/api/posts/${post._id}/comment`,
+        `https://natcred-1.onrender.com/api/posts/${post._id}/comment`,
         newCommentObj
       );
       setComments(data.comments); 
