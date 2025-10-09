@@ -32,7 +32,7 @@ const NewProject = () => {
     if (!file) return;
     const formData = new FormData();
     formData.append("image", file);
-    const res = await axios.post("http://localhost:5000/upload", formData, {
+    const res = await axios.post("https://natcred-1.onrender.com/upload", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     handleChange("image", res.data.url);
@@ -49,7 +49,7 @@ const NewProject = () => {
     }
     try {
       // Save project in DB
-      await axios.post("http://localhost:5000/api/project", formData, {
+      await axios.post("https://natcred-1.onrender.com/api/project", formData, {
         headers: { "Content-Type": "application/json" }
       });
       // Make sure contract exists
