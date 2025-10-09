@@ -41,7 +41,7 @@ export default function Signup() {
       const token = await result.user.getIdToken();
       // Send token to backend
       const res = await axios.post(
-        "http://localhost:5000/api/auth/google",
+        "https://natcred-1.onrender.com/api/auth/google",
         { idToken: token },
         { withCredentials: true }
       )
