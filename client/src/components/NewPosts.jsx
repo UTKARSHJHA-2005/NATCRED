@@ -29,7 +29,7 @@ const NewPosts = () => {
       if (!file) return;
       const uploadData = new FormData();
       uploadData.append("image", file);
-      const res = await axios.post("http://localhost:5000/upload", uploadData, {
+      const res = await axios.post("https://natcred-1.onrender.com/upload", uploadData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Uploaded:", res.data);
@@ -51,7 +51,7 @@ const NewPosts = () => {
       return;
     }
     try {
-      await axios.post("http://localhost:5000/api/posts", formData, {
+      await axios.post("https://natcred-1.onrender.com/api/posts", formData, {
         headers: {
           "Content-Type": "application/json",
         }
