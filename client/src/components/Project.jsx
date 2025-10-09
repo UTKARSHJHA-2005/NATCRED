@@ -44,7 +44,7 @@ const Project = () => {
   // Fetching Project Details
   const getProject = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/project")
+      const res = await axios.get("https://natcred-1.onrender.com/api/project")
       const data = res.data;
       setproject(data)
       console.log(data)
