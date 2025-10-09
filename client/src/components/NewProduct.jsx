@@ -89,7 +89,7 @@ export default function NewProduct() {
                         logo: formData.logo,
                     }
                 ];
-                const res = await axios.put(`https://natcred-1.onrender.com/product/${existingProduct._id}`,
+                const res = await axios.put(`https://natcred-1.onrender.com/api/product/${existingProduct._id}`,
                     {
                         title: existingProduct.title,
                         productimage: existingProduct.productimage,
