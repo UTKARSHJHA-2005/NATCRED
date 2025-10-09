@@ -38,7 +38,7 @@ const Record2 = () => {
   }, [username])
   // Fetching project details
   const getproject = async () => {
-    const res = await axios.get("http://localhost:5000/api/project/dashboard", {
+    const res = await axios.get("https://natcred-1.onrender.com/api/project/dashboard", {
       headers: { "Content-Type": "application/json" },
       params: { userName: username }
     });
