@@ -31,7 +31,7 @@ export default function Profile() {
     data.append("image", file);
 
     try {
-      const res = await axios.post("http://localhost:5000/uploaduser", data, {
+      const res = await axios.post("https://natcred-1.onrender.com/uploaduser", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -70,7 +70,7 @@ export default function Profile() {
 
   const getProject = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/project")
+      const res = await axios.get("https://natcred-1.onrender.com/api/project")
       const data = res.data;
       setproject(data)
       console.log(data)
@@ -115,7 +115,7 @@ export default function Profile() {
 
   const getPosts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/posts")
+      const res = await axios.get("https://natcred-1.onrender.com/api/posts")
       const data = res.data;
       setposts(data)
       console.log(data)
@@ -195,7 +195,7 @@ export default function Profile() {
 
     const handledelete = async (id) => {
       try {
-        await axios.delete(`http://localhost:5000/api/posts/${id}`);
+        await axios.delete(`https://natcred-1.onrender.com/api/posts/${id}`);
         setposts(posts.filter((p) => p._id !== id));
         alert("Deleted successfully");
       } catch (err) {
