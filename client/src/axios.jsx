@@ -1,7 +1,7 @@
 import axios from "axios";// Axios
 // BaseURL fro axios
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "jha.utkarsh2005@gmail.com/api",
 });
 // Token Work
 api.interceptors.request.use((config) => {
