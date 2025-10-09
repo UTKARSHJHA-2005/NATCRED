@@ -25,7 +25,7 @@ const Product1 = () => {
     // Fetching Products
     const getProduct = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/product");
+            const res = await axios.get("https://natcred-1.onrender.com/api/product");
             const data = res.data;
             setproduct(data);
         } catch (err) {
