@@ -9,7 +9,7 @@ const ProductPage = () => {
   // Fetch product data 
   const getProduct = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/product/${id}`);
+      const res = await axios.get(`https://natcred-1.onrender.com/api/product/${id}`);
       setProduct(res.data);
       console.log(res.data)
     } catch (err) {
