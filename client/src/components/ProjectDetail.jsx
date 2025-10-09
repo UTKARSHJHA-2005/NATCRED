@@ -30,7 +30,7 @@ const ProjectDetail = () => {
     // Fetch project details
     const getProject = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/project/${id}`);
+            const res = await axios.get(`https://natcred-1.onrender.com/api/project/${id}`);
             setProject(res.data);
         } catch (err) {
             console.log(err);
@@ -51,7 +51,7 @@ const ProjectDetail = () => {
     // Delete project
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/project/${id}`);
+            await axios.delete(`https://natcred-1.onrender.com/api/project/${id}`);
             alert("Deleted successfully");
             navigate("/Projects");
         } catch (err) {
@@ -102,7 +102,7 @@ const ProjectDetail = () => {
                 Value: (usdPerCredit * credits).toFixed(2),
             };
             await axios.post(
-                `http://localhost:5000/api/project/${project._id}/contribute`,
+                `https://natcred-1.onrender.com/api/project/${project._id}/contribute`,
                 payload
             );
             alert("Investment successful and saved to project ✅");
