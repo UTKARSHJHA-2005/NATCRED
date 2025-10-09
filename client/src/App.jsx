@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';// React
 // Components and Pages
 import Home from './pages/Home';
 import Signup from './pages/Signup'
-import Test from './components/test';
+import Test from './components/Test';
 import Login from './pages/Login'
 import ProductPage from './components/ProductPage';
 import Loader from './Loader';
