@@ -33,7 +33,7 @@ export default function NewProduct() {
         const data = new FormData();
         data.append("productimage", file);
         try {
-            const res = await axios.post("http://localhost:5000/uploadprodimage", data, {
+            const res = await axios.post("https://natcred-1.onrender.com/uploadprodimage", data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setFormData({ ...formData, productimage: res.data.url });
@@ -46,7 +46,7 @@ export default function NewProduct() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/product");
+                const res = await axios.get("https://natcred-1.onrender.com/api/product");
                 setproduct(res.data);
                 console.log(res.data);
             } catch (err) {
@@ -62,7 +62,7 @@ export default function NewProduct() {
         const data = new FormData();
         data.append("logo", file);
         try {
-            const res = await axios.post("http://localhost:5000/uploadLogo", data, {
+            const res = await axios.post("https://natcred-1.onrender.com/uploadLogo", data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setFormData({ ...formData, logo: res.data.url });
@@ -89,7 +89,7 @@ export default function NewProduct() {
                         logo: formData.logo,
                     }
                 ];
-                const res = await axios.put(`http://localhost:5000/api/product/${existingProduct._id}`,
+                const res = await axios.put(`https://natcred-1.onrender.com/product/${existingProduct._id}`,
                     {
                         title: existingProduct.title,
                         productimage: existingProduct.productimage,
@@ -115,7 +115,7 @@ export default function NewProduct() {
                         }
                     ]
                 };
-                const res = await axios.post("http://localhost:5000/api/product", payload, {
+                const res = await axios.post("https://natcred-1.onrender.com/api/product", payload, {
                     headers: { "Content-Type": "application/json" }
                 });
                 console.log("✅ New Product Added:", res.data);
