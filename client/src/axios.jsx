@@ -1,7 +1,7 @@
 import axios from "axios";// Axios
 // BaseURL fro axios
 const api = axios.create({
-  baseURL: "https://natcred-1.onrender.com//api",
+  baseURL: "https://natcred-1.onrender.com/api",
 });
 // Token Work
 api.interceptors.request.use((config) => {
