@@ -262,9 +262,9 @@ export default function NewProduct() {
                         <div className="space-y-2">
                             <div className="flex items-center space-x-2">
                                 <Percent className="w-4 h-4 text-red-400" />
-                                <label className="text-white text-sm font-medium">Discount</label>
+                                <label className="text-white text-sm font-medium">Discount(%OFF)</label>
                             </div>
-                            <input type="text" name="discount" value={formData.discount} onChange={handleChange} placeholder="20% OFF"
+                            <input type="text" name="discount" value={formData.discount} onChange={handleChange} placeholder="20"
                                 className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-red-500 transition-all duration-300 placeholder-slate-400 text-sm" />
                         </div>
                         {/* Delivery Time */}
