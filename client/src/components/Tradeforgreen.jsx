@@ -2,6 +2,7 @@
 import React,{useEffect} from 'react';// react
 import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
+import carbon2 from '../assets/carbon2.png';
 
 export default function Tradeforgreen() {
   // Animations
@@ -10,7 +11,7 @@ export default function Tradeforgreen() {
   }, []);
 
   return (
-    <section className="relative py-16 bg-cover bg-center" style={{ backgroundImage: "url('src/assets/carbon2.png')" }}>
+<section className="relative py-16 bg-cover bg-center" style={{ backgroundImage: `url(${carbon2})` }}>
       <div className="absolute inset-0 bg-black opacity-20"></div> 
       <div data-aos='zoom-out' className="relative container mx-auto px-6">
         <div className="text-center rounded-lg text-white py-16 bg-black opacity-45">
