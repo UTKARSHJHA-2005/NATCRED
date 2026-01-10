@@ -48,7 +48,7 @@ export default function CreditProjects() {
           navigation={true} pagination={{ clickable: true }} loop={true} breakpoints={{
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-          }}>
+          }} className='pb-10'>
           {project.map((project, index) => (
             <SwiperSlide key={index}>
               <div
