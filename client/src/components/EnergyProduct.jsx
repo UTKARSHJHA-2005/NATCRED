@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+// This is the componenet of the Hero Section in which the energy products are shown.
+import React, { useEffect, useState } from 'react';// React
+import { Swiper, SwiperSlide } from 'swiper/react';// Swiper
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
-import axios from 'axios';
-import AOS from 'aos';
+import axios from 'axios';// Axios
+import AOS from 'aos';// Animations
 import 'aos/dist/aos.css';
-import { Link } from 'react-router-dom';
-import { Navigation, Pagination } from 'swiper/modules';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSolarPanel } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom'; // Routing
+import { Navigation, Pagination } from 'swiper/modules'; // Swiper
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Icons
+import { faSolarPanel } from '@fortawesome/free-solid-svg-icons'; // Icons
 
 export default function EnergyProduct() {
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState([]); // Product State
 
+  // Animation and Products Fetching at backside
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
     getProduct();
   }, []);
 
+  // Product Fetching function
   const getProduct = async () => {
     try {
       const res = await axios.get("https://natcred-1.onrender.com/api/product");
@@ -46,22 +48,12 @@ export default function EnergyProduct() {
           They develop cutting-edge technologies, such as renewable energy systems,
           to enhance efficiency and reduce carbon footprints.
         </p>
-
         {/* Swiper */}
-        <Swiper
-          modules={[Navigation, Pagination]}
-          slidesPerView={1}           // ✅ Mobile default
-          spaceBetween={20}
-          navigation={true}           // ✅ Arrows
-          pagination={{ clickable: true }}
-          loop={true}
-          centeredSlides={true}
-          breakpoints={{
+        <Swiper key={product.length} modules={[Navigation, Pagination]} slidesPerView={1} spaceBetween={20} navigation={true}
+          pagination={{ clickable: true }} loop={true} breakpoints={{
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-          }}
-          className="pb-12"
-        >
+          }} className='pb-12'>
           {product.map((item, index) => (
             <SwiperSlide key={index}>
               <div

@@ -25,8 +25,12 @@ export default function Hero() {
   }, []);
   return (
     <>
-      <section className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0 bg-#172a45" style={{ background: '#172a45' }}>
-        <div className="relative px-4 mx-auto sm:px-6 lg:px-8">
+      <section
+        className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0 bg-[#172a45]"
+        style={{
+          boxShadow: "0 40px 80px rgba(0, 0, 0, 0.6)"
+        }}
+      >        <div className="relative px-4 mx-auto sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             {/* Header*/}
             <h1 data-aos='zoom-in' className="mt-5 text-4xl font-bold leading-tight text-green-500 sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight font-pj"
@@ -76,6 +80,22 @@ export default function Hero() {
             ))}
           </Swiper>
         </div>
+        {/* Fade + inside shadow (no visible line) */}
+        <div
+          className="pointer-events-none absolute bottom-0 left-0 w-full h-48"
+          style={{
+            background: `
+      linear-gradient(
+        to bottom,
+        rgba(23,42,69,0) 0%,
+        rgba(23,42,69,0.6) 40%,
+        #233b5d 100%
+      )
+    `,
+            boxShadow: "inset 0 -40px 60px rgba(0,0,0,0.6)"
+          }}
+        />
+
       </section>
     </>
   );

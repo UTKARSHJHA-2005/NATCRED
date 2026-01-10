@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';// Swiper
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
 import { Navigation, Pagination } from 'swiper/modules';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import AOS from 'aos';
+import axios from 'axios';// Axios
+import { Link } from 'react-router-dom';// Routing
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';// Icons
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons';// Icons 
+import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
 
 export default function CreditProjects() {
-  const [project, setProject] = useState([]);
+  const [project, setProject] = useState([]); // Project State
 
+  // Animations and Project Fetching at backside
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
     getProject();
   }, []);
 
+  // Project Fetching Function
   const getProject = async () => {
     try {
       const res = await axios.get("https://natcred-1.onrender.com/api/project");
@@ -36,30 +37,18 @@ export default function CreditProjects() {
         <div className="flex justify-center mb-6">
           <FontAwesomeIcon icon={faCreditCard} className="text-4xl text-white" />
         </div>
-
         <h2 className="text-3xl md:text-4xl font-bold text-slate-100 text-center mb-4">
           Credit Reduction Projects
         </h2>
-
         <p className="text-lg md:text-xl text-center mb-12 text-green-300">
           Unlocking a Low-Carbon Economy: Project Opportunities
         </p>
-
         {/* Swiper */}
-        <Swiper
-          modules={[Navigation, Pagination]}
-          slidesPerView={1}          // ✅ Mobile default
-          spaceBetween={20}
-          navigation={true}          // ✅ Arrows
-          pagination={{ clickable: true }}
-          loop={true}
-          centeredSlides={true}
-          breakpoints={{
+        <Swiper key={project.length} modules={[Navigation, Pagination]} slidesPerView={1} spaceBetween={20}
+          navigation={true} pagination={{ clickable: true }} loop={true} breakpoints={{
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-          }}
-          className="pb-12"
-        >
+          }}>
           {project.map((project, index) => (
             <SwiperSlide key={index}>
               <div
