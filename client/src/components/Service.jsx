@@ -65,7 +65,8 @@ const Service = () => {
             <div key={index}>
               <div className="relative flex items-center justify-center mx-auto">
                 <div className="bg-gray-100 w-16 h-16 border-green-400 border-[2px] flex items-center justify-center rounded-full" style={{
-                  boxShadow: "0 0 30px rgba(0, 255, 136, 0.4)"}}>
+                  boxShadow: "0 0 30px rgba(0, 255, 136, 0.4)"
+                }}>
                   {feature.icon}
                 </div>
               </div>

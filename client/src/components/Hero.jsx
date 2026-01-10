@@ -1,6 +1,7 @@
 // This component used in Home for showing the start of project.
 import React, { useEffect, useRef } from 'react';// React
 import { Swiper, SwiperSlide } from 'swiper/react';// Swiper
+import { Autoplay } from 'swiper/modules';
 import ReactTypingEffect from 'react-typing-effect';// Typing Animation
 import carbon from '../assets/carbon.jpg';// Images
 import carbon3 from '../assets/carbon3.jpg';
@@ -15,22 +16,19 @@ export default function Hero() {
   const swiperRef = useRef(null);// Swiper State
   const images = [carbon, carbon3, carbon4, carbon5, carbon6, carbon7, carbon8];// Images
   // Swiper Effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (swiperRef.current) {
-        swiperRef.current.swiper.slideNext();
-      }
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (swiperRef.current) {
+  //       swiperRef.current.swiper.slideNext();
+  //     }
+  //   }, 2000);
+  //   return () => clearInterval(interval);
+  // }, []);
+  // bg-[#172a45]
   return (
     <>
-      <section
-        className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0 bg-[#172a45]"
-        style={{
-          boxShadow: "0 40px 80px rgba(0, 0, 0, 0.6)"
-        }}
-      >        <div className="relative px-4 mx-auto sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden py-12 sm:py-16 lg:pt-20 bg-[#233b5d]">
+        <div className="relative px-4 mx-auto sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             {/* Header*/}
             <h1 data-aos='zoom-in' className="mt-5 text-4xl font-bold leading-tight text-green-500 sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight font-pj"
@@ -71,31 +69,25 @@ export default function Hero() {
           </div>
         </div>
         {/* Images Swiper*/}
-        <div data-aos='flip-up' className="mt-16 md:mt-20 flex justify-center">
-          <Swiper ref={swiperRef} spaceBetween={10} slidesPerView={3} loop={true} autoplay={{ delay: 3000, disableOnInteraction: false }}>
+        <div data-aos="flip-up" className="relative z-20 mt-16 md:mt-20 flex justify-center">
+          <Swiper modules={[Autoplay]} spaceBetween={20} slidesPerView={1} loop={true} autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }} breakpoints={{
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}>
             {images.map((image, index) => (
               <SwiperSlide key={index} className="flex justify-center">
-                <img className="object-cover object-top w-full h-[300px] rounded-lg" src={image} alt={`Slide ${index + 1}`} />
+                <img
+                  className="object-cover w-full h-[300px] rounded-xl"
+                  src={image}
+                  alt={`Slide ${index + 1}`}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
-        {/* Fade + inside shadow (no visible line) */}
-        <div
-          className="pointer-events-none absolute bottom-0 left-0 w-full h-48"
-          style={{
-            background: `
-      linear-gradient(
-        to bottom,
-        rgba(23,42,69,0) 0%,
-        rgba(23,42,69,0.6) 40%,
-        #233b5d 100%
-      )
-    `,
-            boxShadow: "inset 0 -40px 60px rgba(0,0,0,0.6)"
-          }}
-        />
-
       </section>
     </>
   );
