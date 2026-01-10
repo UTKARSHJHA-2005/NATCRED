@@ -1,79 +1,113 @@
-// This si the component used in Home for products.
-import React, { useEffect,useState } from 'react';// React
-import { Swiper, SwiperSlide } from 'swiper/react';// Swiper
+import React, { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import axios from 'axios';// Axios
-import AOS from 'aos';// Animation
+
+import axios from 'axios';
+import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Link } from 'react-router-dom'; // React Router
+import { Link } from 'react-router-dom';
 import { Navigation, Pagination } from 'swiper/modules';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';// Icon
-import { faSolarPanel } from '@fortawesome/free-solid-svg-icons';// Icon
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSolarPanel } from '@fortawesome/free-solid-svg-icons';
 
 export default function EnergyProduct() {
-  const [product,setproduct]=useState([]);// Product State
-  // Animation and product details
+  const [product, setProduct] = useState([]);
+
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 1000, once: true });
     getProduct();
   }, []);
-  // Fetching product details form DB.
+
   const getProduct = async () => {
     try {
       const res = await axios.get("https://natcred-1.onrender.com/api/product");
-      const data = res.data;
-      setproduct(data);
+      setProduct(res.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <section className="py-16" style={{ background: '#233b5d' }}>
-      <div className="container mx-auto px-6">
+    <section className="py-16 bg-[#233b5d]">
+      <div className="container mx-auto px-4">
         {/* Header */}
-        <div data-aos='slip-down' className="flex justify-center mb-6">
+        <div className="flex justify-center mb-6">
           <FontAwesomeIcon icon={faSolarPanel} className="text-4xl text-white" />
         </div>
-        <h2 data-aos='fade-down' className="text-4xl font-bold text-white text-center mb-6">Energy Innovators</h2>
-        <p data-aos='fade-down' className="text-xl text-green-300 text-center mb-12">
+
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
+          Energy Innovators
+        </h2>
+
+        <p className="text-lg md:text-xl text-green-300 text-center mb-12 max-w-4xl mx-auto">
           Energy Innovators are driving the transition to sustainable energy solutions.
           They develop cutting-edge technologies, such as renewable energy systems,
           to enhance efficiency and reduce carbon footprints.
         </p>
-        {/* Products */}
-        <Swiper modules={[Navigation, Pagination]} spaceBetween={30} slidesPerView={3} navigation pagination={{ clickable: true }} loop={true}
+
+        {/* Swiper */}
+        <Swiper
+          modules={[Navigation, Pagination]}
+          slidesPerView={1}           // ✅ Mobile default
+          spaceBetween={20}
+          navigation={true}           // ✅ Arrows
+          pagination={{ clickable: true }}
+          loop={true}
+          centeredSlides={true}
           breakpoints={{
-            640: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-          }}>
-          {product.map((project, index) => (
+          }}
+          className="pb-12"
+        >
+          {product.map((item, index) => (
             <SwiperSlide key={index}>
-              <div data-aos='slip-down' className="bg-white border-[#00ff88] border-[2px] shadow-2xl cursor-pointer rounded-lg overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,136,0.3)] 
-                hover:-translate-y-1 hover:scale-105 transition-transform duration-300">
-                <img data-aos='fade-down' src={project.productimage} alt={`Image of ${project.title}`} className="w-full h-48 object-cover" />
-                <div data-aos='flip-right' className="p-6">
-                  <h3 className="text-2xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-gray-700 mb-4">{project.description}</p>
-                  <a href="#" className="text-blue-600 hover:underline">View Product →</a>
+              <div
+                className="bg-white border-[#00ff88] border-2 shadow-2xl cursor-pointer 
+                rounded-xl overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,136,0.3)]
+                hover:-translate-y-1 hover:scale-105 transition-all duration-300"
+              >
+                <img
+                  src={item.productimage}
+                  alt={item.title}
+                  className="w-full h-48 object-cover"
+                />
+
+                <div className="p-5">
+                  <h3 className="text-xl font-semibold mb-2">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-gray-700 mb-4 line-clamp-3">
+                    {item.description}
+                  </p>
+
+                  <Link
+                    to={`/product/${item._id}`}
+                    className="text-blue-600 hover:underline font-medium"
+                  >
+                    View Product →
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-        {/* View All Button */}
-        <div data-aos='slip-left' className="text-center mt-8">
-         <Link to="/product">
-          <button className="px-4 py-2 bg-blue-600 border-green-400 border-[2px] text-white rounded-lg hover:bg-black" style={{
-            boxShadow: "0px 0px 20px rgba(0, 255, 136, 0.4)"
-          }}>
-            View All Products
-          </button>
-        </Link>
-       </div>
+
+        {/* View All */}
+        <div className="text-center mt-8">
+          <Link to="/product">
+            <button
+              className="px-6 py-3 bg-blue-600 border-green-400 border-2 text-white 
+              rounded-lg hover:bg-black transition"
+              style={{ boxShadow: "0px 0px 20px rgba(0, 255, 136, 0.4)" }}
+            >
+              View All Products
+            </button>
+          </Link>
+        </div>
       </div>
     </section>
   );
