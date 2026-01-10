@@ -1,5 +1,5 @@
 // This is the card for the posts.
-import React, { useState,useEffect } from 'react';// React
+import React, { useState, useEffect } from 'react';// React
 import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
 import { Heart, MessageCircle, Share, ThumbsUp, ThumbsDown, Send, MoreHorizontal } from "lucide-react"// Icons
@@ -68,7 +68,7 @@ export const PostCard = ({ post }) => {
         `https://natcred-1.onrender.com/api/posts/${post._id}/comment`,
         newCommentObj
       );
-      setComments(data.comments); 
+      setComments(data.comments);
       setNewComment("");
     } catch (err) {
       console.error(err);
@@ -88,7 +88,7 @@ export const PostCard = ({ post }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="relative">
-                  <img src={post.authorAvatar} alt="Author" className="w-14 h-14 rounded-full border-3 border-gradient-to-r from-purple-400 to-pink-400 p-0.5 object-cover"/>
+                  <img src={post.authorAvatar} alt="Author" className="w-14 h-14 rounded-full border-3 border-gradient-to-r from-purple-400 to-pink-400 p-0.5 object-cover" />
                   <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-slate-800"></div>
                 </div>
                 <div>
@@ -99,7 +99,7 @@ export const PostCard = ({ post }) => {
                     {post.author}
                   </h3>
                   <p className="text-slate-400 text-sm flex items-center space-x-2">
-                    <span>{new Date(post.date).toLocaleDateString()}</span>
+                    <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                     <span className="w-1 h-1 bg-slate-500 rounded-full"></span>
                     <span className="text-blue-400 hover:text-blue-300 cursor-pointer">Follow</span>
                   </p>
@@ -163,7 +163,7 @@ export const PostCard = ({ post }) => {
                 <div className="flex-1 space-y-4 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
                   {comments.map((comment, index) => (
                     <div key={index} className="flex space-x-3 p-3 rounded-xl bg-slate-700/20 hover:bg-slate-700/30 transition-colors">
-                      <img src={comment.avatar} alt={comment.name} className="w-10 h-10 rounded-full border-2 border-slate-600 flex-shrink-0 object-cover"/>
+                      <img src={comment.avatar} alt={comment.name} className="w-10 h-10 rounded-full border-2 border-slate-600 flex-shrink-0 object-cover" />
                       <div className="flex-1 min-w-0">
                         <div className="bg-slate-600/50 rounded-2xl p-3">
                           <span className="font-bold text-purple-300 text-sm">{comment.name}</span>
@@ -181,11 +181,11 @@ export const PostCard = ({ post }) => {
                 {/* Comment Input */}
                 <div className="mt-6 pt-4 border-t border-slate-700/30">
                   <div className="flex space-x-3">
-                    <img src={user?.image} alt="You" className="w-10 h-10 rounded-full border-2 border-slate-600 object-cover"/>
+                    <img src={user?.image} alt="You" className="w-10 h-10 rounded-full border-2 border-slate-600 object-cover" />
                     <div className="flex-1 relative">
                       <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Write a thoughtful comment..."
                         className="w-full p-4 pr-12 bg-slate-700/50 rounded-2xl text-white placeholder-slate-400 border border-slate-600/50 focus:border-purple-500 focus:outline-none transition-all duration-300"
-                        onKeyDown={(e) => e.key === 'Enter' && handleCommentSubmit(e)}/>
+                        onKeyDown={(e) => e.key === 'Enter' && handleCommentSubmit(e)} />
                       <button onClick={handleCommentSubmit} className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-purple-500 text-white hover:bg-purple-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         disabled={!newComment.trim()}>
                         <Send className="w-4 h-4" />

@@ -82,7 +82,17 @@ app.use("/api/auth", auth)
 app.use("/api/posts", tempPostRoute);
 app.use("/api/project", project);
 app.use("/api/product", products);
-app.listen(PORT, () => {
-  connectDB();
-  console.log(`✅ Server is running on port ${PORT}`);
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`✅ Server running on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error("❌ Failed to start server:", err.message);
+    process.exit(1);
+  });
+app.get("/api/health", (req, res) => {
+  res.status(200).send("OK");
 });
+

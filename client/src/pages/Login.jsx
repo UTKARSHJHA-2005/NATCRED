@@ -48,6 +48,7 @@ export default function Login() {
       setErr(e?.response?.data?.message || "Login failed");
     }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#233b5d]">
       {/* Glassmorphism Container */}
@@ -75,7 +76,7 @@ export default function Login() {
                 <Mail className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
               </div>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email"
-                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm" required/>
+                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm" required />
             </div>
             {/* Password Input */}
             <div className="relative group">
@@ -83,7 +84,7 @@ export default function Login() {
                 <Lock className="h-5 w-5 text-white/50 group-focus-within:text-white transition-colors" />
               </div>
               <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password"
-                className="w-full pl-12 pr-12 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm" required/>
+                className="w-full pl-12 pr-12 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm" required />
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/50 hover:text-white transition-colors">
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
