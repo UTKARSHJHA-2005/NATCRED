@@ -38,7 +38,6 @@
 }
 
 .logo-image {
-
   filter: drop-shadow(0 0 10px var(--primary));
   border-radius: 50%;
   border: 2px solid var(--primary);
