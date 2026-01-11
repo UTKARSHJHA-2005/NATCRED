@@ -1,5 +1,5 @@
 // AI Generation through API
-import { GoogleGenerativeAI,HarmCategory, HarmBlockThreshold} from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 const apiKey = "AIzaSyCisy9jrQ8UFeIv15ldi6JJ0WSA8kT117M";
 const genAI = new GoogleGenerativeAI(apiKey);
 
@@ -15,10 +15,9 @@ const generationConfig = {
     responseMimeType: "text/plain",
 };
 
-
 export const chatSession = model.startChat({
     generationConfig,
     history: [
     ],
 });
-export const AI_Prompt="{content} and don't start with Okay.I understand and all start with the main point";
+export const AI_Prompt = "{content} and don't start with Okay.I understand and all start with the main point";

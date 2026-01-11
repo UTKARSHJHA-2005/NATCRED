@@ -39,22 +39,22 @@ function App() {
           <Router>
             <div className='overflow-x-hidden'>
               <Routes>
-                <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+                <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/projects" element={<ProtectedRoute><Projects/></ProtectedRoute>} />
-                <Route path="/posts" element={<ProtectedRoute><Posts/></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
+                <Route path="/projects" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
+                <Route path="/posts" element={<ProtectedRoute><Posts /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/dialog" element={<Dialog />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/login" element={<Login />} />
                 <Route path='/newposts' element={<ProtectedRoute><NewPosts /></ProtectedRoute>} />
-                <Route path='/newproject' element={<ProtectedRoute><NewProject/></ProtectedRoute>} />
-                <Route path="/product" element={<ProtectedRoute><Product/></ProtectedRoute>} />
+                <Route path='/newproject' element={<ProtectedRoute><NewProject /></ProtectedRoute>} />
+                <Route path="/product" element={<ProtectedRoute><Product /></ProtectedRoute>} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path='/product/:id' element={<ProtectedRoute><ProductPage/></ProtectedRoute>} />
-                <Route path='/new-product' element={<ProtectedRoute><NewProduct/></ProtectedRoute>} />
-                <Route path='/projects/:id' element={<ProtectedRoute><ProjectDetail/></ProtectedRoute>} />
+                <Route path='/product/:id' element={<ProtectedRoute><ProductPage /></ProtectedRoute>} />
+                <Route path='/new-product' element={<ProtectedRoute><NewProduct /></ProtectedRoute>} />
+                <Route path='/projects/:id' element={<ProtectedRoute><ProjectDetail /></ProtectedRoute>} />
               </Routes>
             </div>
           </Router>
