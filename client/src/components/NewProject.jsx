@@ -1,7 +1,6 @@
 // This si the page where user creates its own project.
 import { useState, useEffect } from 'react';// React
 import axios from 'axios';// Axios
-//import { AI_Prompt, chatSession } from '../AIModal';// AI Generation
 import { Upload, Sparkles, Send, DollarSign, User, Award, FileText } from 'lucide-react';// Icons
 import { useAuth } from '../AuthContext';// Authentication
 import { ethers } from 'ethers';// Ethers
@@ -104,9 +103,10 @@ const NewProject = () => {
     setIsGenerating(true);
     try {
       const res = await axios.post(
-        "http://natcred-1.onrender.com/api/generate",
+        "https://natcred-1.onrender.com/api/generate",
         {
-          prompt: formData.content
+          prompt: formData.content,
+          userId: user?.id || user?.email
         },
         {
           headers: {

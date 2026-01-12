@@ -36,7 +36,12 @@ app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 const client = new OpenAI({
   apiKey: process.env.VITE_OPENROUTER,
-  baseURL: "https://openrouter.ai/api/v1"
+  baseURL: "https://openrouter.ai/api/v1",
+  defaultHeaders: {
+    "HTTP-Referer": "https://natcred.vercel.app",
+    "X-Title": "NatCred AI",
+    "User-Agent": "NatCred-Backend/1.0"
+  }
 });
 const uploadDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadDir)) {
@@ -88,9 +93,16 @@ app.use("/api/posts", tempPostRoute);
 app.use("/api/project", project);
 app.use("/api/product", products);
 app.post("/api/generate", async (req, res) => {
-  const { prompt } = req.body;
-
   try {
+    const { prompt } = req.body;
+
+    if (!prompt) {
+      return res.status(400).json({
+        success: false,
+        error: "Prompt is required"
+      });
+    }
+
     const response = await client.chat.completions.create({
       model: "tngtech/tng-r1t-chimera:free",
       messages: [
@@ -113,10 +125,14 @@ app.post("/api/generate", async (req, res) => {
       content: response.choices[0].message.content
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: err.message });
+    console.error("AI ERROR:", err);
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
   }
 });
+
 
 connectDB()
   .then(() => {
