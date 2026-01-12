@@ -82,9 +82,6 @@ const ProductPage = () => {
                   {sortedShops.length > 0 && (
                     <img src={sortedShops[0].logo} alt={sortedShops[0].name} className="w-20 h-20 object-cover rounded-full border-4 border-orange-200 shadow-md" />
                   )}
-                  <button className="bg-gradient-to-r from-orange-400 to-orange-600 text-white px-8 py-3 rounded-full font-semibold text-lg hover:from-orange-500 hover:to-orange-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    Buy Now →
-                  </button>
                 </div>
               </div>
             </div>
@@ -137,16 +134,6 @@ const ProductPage = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                  {/* Buy Button */}
-                  <div className="flex flex-col items-end">
-                    <a href={shop.link} target="_blank" rel="noopener noreferrer"
-                      className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-md ${index === 0
-                        ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700"
-                        : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700"
-                        }`}>
-                      Buy Now →
-                    </a>
                   </div>
                 </div>
               </div>
