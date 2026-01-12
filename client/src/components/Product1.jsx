@@ -1,4 +1,4 @@
-// This is teh component used in Product Page for showing the products.
+// This is the component used in the Product Page for showing the products.
 import { useEffect, useState } from 'react';// React
 import AOS from 'aos';// Animation
 import 'aos/dist/aos.css';
@@ -39,7 +39,7 @@ const Product1 = () => {
             <div className="flex justify-center my-4 w-full">
                 <div className="flex w-[90%]">
                     <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search products..."
-                        className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg shadow-sm focus:outline-none focus:ring-2"/>
+                        className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg shadow-sm focus:outline-none focus:ring-2" />
                     <Link to="/new-product" title='Add New Product or Shop'
                         className="w-[60px] h-[50px] bg-[#00ff88] hover:animate-pulse flex items-center justify-center cursor-pointer shadow-[0_0_25px_rgba(0,255,136,0.5)] transition duration-300 ease-in-out hover:scale-110 rounded-r-lg">
                         <span className="text-black text-3xl font-bold">+</span>
@@ -73,10 +73,6 @@ const Product1 = () => {
                                             Best Price: ₹{bestShop.Value}
                                         </p>
                                     )}
-                                    <button data-aos="zoom-in" className="flex flex-row bg-orange-400 text-white hover:bg-orange-500 font-bold py-3 px-6 rounded-full text-sm mt-4 self-start">
-                                        Buy Now
-                                        <RxArrowTopRight className="ml-2 mt-1 h-4 w-4 font-semibold text-blue-800 transition-all duration-200 group-hover:text-blue-700 group-hover:underline" />
-                                    </button>
                                 </div>
                             </div>
                         </Link>
