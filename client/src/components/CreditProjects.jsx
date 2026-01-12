@@ -1,3 +1,4 @@
+// This is the component of Home page in which the projetcs are shown.
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';// Swiper
 import 'swiper/css';
@@ -34,13 +35,13 @@ export default function CreditProjects() {
     <section className="py-16 bg-[#233b5d]">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="flex justify-center mb-6">
+        <div data-aos="fade-up" className="flex justify-center mb-6">
           <FontAwesomeIcon icon={faCreditCard} className="text-4xl text-white" />
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-100 text-center mb-4">
+        <h2 data-aos="fade-up" className="text-3xl md:text-4xl font-bold text-slate-100 text-center mb-4">
           Credit Reduction Projects
         </h2>
-        <p className="text-lg md:text-xl text-center mb-12 text-green-300">
+        <p data-aos="fade-down" className="text-lg md:text-xl text-center mb-12 text-green-300">
           Unlocking a Low-Carbon Economy: Project Opportunities
         </p>
         {/* Swiper */}
@@ -51,9 +52,7 @@ export default function CreditProjects() {
           }} className='pb-10'>
           {project.map((project, index) => (
             <SwiperSlide key={index}>
-              <div
-                className="bg-white border-[#00ff88] border-2 shadow-2xl cursor-pointer 
-                rounded-xl overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,136,0.3)]
+              <div data-aos="flip-right" className="bg-white border-[#00ff88] border-2 shadow-2xl cursor-pointer rounded-xl overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,136,0.3)]
                 hover:-translate-y-1 hover:scale-105 transition-all duration-300"
               >
                 <img
@@ -84,7 +83,7 @@ export default function CreditProjects() {
         </Swiper>
 
         {/* View All */}
-        <div className="text-center mt-8">
+        <div data-aos="zoom-out" className="text-center mt-8">
           <Link to="/projects">
             <button className="px-6 py-3 bg-blue-600 border-green-400 border-2 text-white rounded-lg hover:bg-black transition">
               View All Projects
