@@ -75,8 +75,7 @@ function Navbar() {
                   </div>
                 )}
               </div>) : (
-              <button onClick={() => navigate("/login")} className="bg-[#233b5d] border-2 hover:scale-105 transition-all duration-300 hover:bg-green-200 hover:text-black border-green-400 text-white px-4 py-2 rounded-lg" style={{ boxShadow: "0px 0px 20px rgba(0, 255, 136, 0.4)" }}
-              >
+              <button onClick={() => navigate("/login")} className="bg-[#233b5d] border-2 hover:scale-105 transition-all duration-300 hover:bg-green-200 hover:text-black border-green-400 text-white px-4 py-2 rounded-lg" style={{ boxShadow: "0px 0px 20px rgba(0, 255, 136, 0.4)" }}>
                 Login
               </button>
             )}

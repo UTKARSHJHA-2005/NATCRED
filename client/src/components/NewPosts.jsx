@@ -1,6 +1,6 @@
 // This is the page where user creates the posts.
-import { useState,useEffect } from 'react';// React
-import {  Upload, User, FileText, Wand2, Send, Camera, Edit3 } from 'lucide-react';// Icon
+import { useState, useEffect } from 'react';// React
+import { Upload, User, FileText, Wand2, Send, Camera, Edit3 } from 'lucide-react';// Icon
 import { useAuth } from '../AuthContext';// Authentication
 import axios from 'axios';// Axios
 
@@ -80,16 +80,37 @@ const NewPosts = () => {
 
   // Handle Generating AI Response
   const GenerateAI = async () => {
-    if (!formData.content) {
-      alert("Ask what you want");
+    if (!formData.content.trim()) {
+      alert("Ask something or write a base idea first");
       return;
     }
+
     setIsGenerating(true);
-    setTimeout(() => {
-      const generatedContent = `${formData.content}\n\nThis is enhanced AI-generated content that expands on your ideas with creative insights and engaging storytelling elements.`;
-      setFormData((prev) => ({ ...prev, content: generatedContent }));
+    try {
+      const res = await fetch("http://natcred-1.onrender.com/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `Expand and improve this content in a professional and engaging way:\n\n${formData.content}`
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setFormData(prev => ({
+          ...prev,
+          content: data.content
+        }));
+      } else {
+        alert("AI generation failed");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("AI service error");
+    } finally {
       setIsGenerating(false);
-    }, 3000);
+    }
   };
 
   return (
@@ -114,7 +135,7 @@ const NewPosts = () => {
             <div className="group relative w-full h-64 md:h-80 bg-[#9bf7cce5] rounded-2xl border-2 border-dashed border-[#00ff88e5] hover:border-[#00ff8823] transition-all duration-300 cursor-pointer overflow-hidden" onClick={() => document.getElementById('imageInput').click()}>
               {imagePreview ? (
                 <div className="relative w-full h-full">
-                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300"/>
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
                     <Upload className="w-8 h-8 text-white" />
                   </div>
@@ -126,7 +147,7 @@ const NewPosts = () => {
                 </div>
               )}
             </div>
-            <input id="imageInput" type="file" accept="image/*" onChange={handleUpload} className="hidden"/>
+            <input id="imageInput" type="file" accept="image/*" onChange={handleUpload} className="hidden" />
           </div>
           {/* Form Fields */}
           <div className="space-y-6">

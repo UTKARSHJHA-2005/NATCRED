@@ -11,6 +11,7 @@ import auth from "./routes/user.routes.js"
 import multer from "multer";
 import project from "./routes/Project.routes.js";
 import { v2 as cloudinary } from "cloudinary";
+import OpenAI from "openai";
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -33,6 +34,10 @@ app.use((req, res, next) => {
 });
 app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
+const client = new OpenAI({
+  apiKey: process.env.VITE_OPENROUTER,
+  baseURL: "https://openrouter.ai/api/v1"
+});
 const uploadDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
@@ -82,6 +87,37 @@ app.use("/api/auth", auth)
 app.use("/api/posts", tempPostRoute);
 app.use("/api/project", project);
 app.use("/api/product", products);
+app.post("/api/generate", async (req, res) => {
+  const { prompt } = req.body;
+
+  try {
+    const response = await client.chat.completions.create({
+      model: "tngtech/tng-r1t-chimera:free",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a professional content writer. Expand clearly. Do not use markdown symbols like *, ###, or -."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 800
+    });
+
+    res.json({
+      success: true,
+      content: response.choices[0].message.content
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
@@ -95,4 +131,3 @@ connectDB()
 app.get("/api/health", (req, res) => {
   res.status(200).send("OK");
 });
-
