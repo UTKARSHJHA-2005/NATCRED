@@ -8,6 +8,7 @@ import "aos/dist/aos.css";
 import { ethers } from "ethers";// Ethers
 import { useAuth } from "../AuthContext";// Authentication
 import CarbonCreditMarketABI from "../credit.json";// ABI
+import { ToastContainer, toast } from 'react-toastify';// Pop-ups
 
 const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";// Contract
 
@@ -52,7 +53,7 @@ const ProjectDetail = () => {
     const handleDelete = async () => {
         try {
             await axios.delete(`https://natcred-1.onrender.com/api/project/${id}`);
-            alert("Deleted successfully");
+            toast.success("Deleted successfully");
             navigate("/Projects");
         } catch (err) {
             console.error("Delete error:", err);
@@ -60,7 +61,7 @@ const ProjectDetail = () => {
     };
 
     // 💰 Price conversions
-    const usdPerCredit = project.Fund && project.CarbonCredits ? project.Fund / project.CarbonCredits: 0;
+    const usdPerCredit = project.Fund && project.CarbonCredits ? project.Fund / project.CarbonCredits : 0;
     // ETH per 1 credit
     const ethPerCredit = ethRate ? usdPerCredit / ethRate : 0;
     // ETH total for chosen credits
@@ -89,7 +90,7 @@ const ProjectDetail = () => {
     const handleInvest = async () => {
         try {
             if (!contract) {
-                alert("Contract not initialized. Please connect wallet.");
+                toast.error("Contract not initialized. Please connect wallet.");
                 return;
             }
             const creditAmount = ethers.parseUnits(credits.toString(), 18);
@@ -105,11 +106,11 @@ const ProjectDetail = () => {
                 `https://natcred-1.onrender.com/api/project/${project._id}/contribute`,
                 payload
             );
-            alert("Investment successful and saved to project ✅");
+            toast.success("Investment successful and saved to project ✅");
             setOpen(false);
         } catch (err) {
             console.error("Investment failed:", err);
-            alert("Investment failed. Please try again.");
+            toast.error("Investment failed. Please try again.");
         }
     };
 
@@ -351,6 +352,7 @@ const ProjectDetail = () => {
             ) : (
                 <p>No contributions yet</p>
             )}
+            <ToastContainer />
         </div>
     );
 };

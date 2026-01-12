@@ -3,6 +3,7 @@ import axios from "axios";// Axios
 import React, { useEffect, useState } from "react";// React
 import { Upload, Package, Globe, DollarSign, Link, Percent, Clock, Check, Star, Sparkles } from "lucide-react";// Icons
 import { useNavigate } from "react-router-dom";// Routing
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function NewProduct() {
     const [customProduct, setCustomProduct] = useState(false);// New product state
@@ -98,7 +99,7 @@ export default function NewProduct() {
                     { headers: { "Content-Type": "application/json" } }
                 );
                 console.log("✅ Shop added to existing product:", res.data);
-                alert("Shop added to existing product!");
+                toast.success("Shop added to existing product!");
             } else {
                 // create new product
                 const payload = {
@@ -119,12 +120,12 @@ export default function NewProduct() {
                     headers: { "Content-Type": "application/json" }
                 });
                 console.log("✅ New Product Added:", res.data);
-                alert("New Product Added Successfully!");
+                toast.success("New Product Added Successfully!");
             }
             navigate('/Product');
         } catch (err) {
             console.error("❌ Error uploading product:", err);
-            alert("Error uploading product!");
+            toast.error("Error uploading product!");
         }
     };
 
@@ -148,7 +149,7 @@ export default function NewProduct() {
                         {customProduct ? (
                             <div className="relative">
                                 <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Enter your amazing product title"
-                                    className="w-full p-4 pl-12 rounded-2xl bg-slate-800/70 text-white border-2 border-[#00ff88] transition-all duration-300 placeholder-slate-400"/>
+                                    className="w-full p-4 pl-12 rounded-2xl bg-slate-800/70 text-white border-2 border-[#00ff88] transition-all duration-300 placeholder-slate-400" />
                                 <Star className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-400" />
                             </div>
                         ) : (
@@ -212,7 +213,7 @@ export default function NewProduct() {
                                 <label className="text-white font-semibold">Shop Name</label>
                             </div>
                             <input type="text" name="website" value={formData.website} onChange={handleChange} placeholder="e.g. Amazon, Flipkart"
-                                className="w-full p-4 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-blue-500 transition-all duration-300 placeholder-slate-400"/>
+                                className="w-full p-4 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-blue-500 transition-all duration-300 placeholder-slate-400" />
                         </div>
                         {/* Product Value */}
                         <div className="space-y-2">
@@ -221,7 +222,7 @@ export default function NewProduct() {
                                 <label className="text-white font-semibold">Price</label>
                             </div>
                             <input type="number" name="Value" value={formData.Value} onChange={handleChange} placeholder="999"
-                                className="w-full p-4 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-green-500 transition-all duration-300 placeholder-slate-400"/>
+                                className="w-full p-4 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-green-500 transition-all duration-300 placeholder-slate-400" />
                         </div>
                     </div>
                     {/* Website Logo Upload */}
@@ -231,7 +232,7 @@ export default function NewProduct() {
                             <label className="text-white font-semibold">Shop Logo</label>
                         </div>
                         <div className="relative">
-                            <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" id="logo-upload"/>
+                            <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" id="logo-upload" />
                             <label htmlFor="logo-upload" className="flex items-center justify-center w-full p-6 border-2 border-dashed border-[#00ff88] rounded-xl cursor-pointer transition-colors bg-slate-800/30 hover:bg-green-800/50">
                                 {logoFile ? (
                                     <div className="flex items-center space-x-2 text-orange-400">
@@ -274,7 +275,7 @@ export default function NewProduct() {
                                 <label className="text-white text-sm font-medium">Delivery</label>
                             </div>
                             <input type="text" name="deliverytime" value={formData.deliverytime} onChange={handleChange} placeholder="2-3 days"
-                             className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-yellow-500 transition-all duration-300 placeholder-slate-400 text-sm"/>
+                                className="w-full p-3 rounded-xl bg-slate-800/70 text-white border-2 border-[#00ff88] focus:border-yellow-500 transition-all duration-300 placeholder-slate-400 text-sm" />
                         </div>
                     </div>
                     {/* Submit Button */}
@@ -297,6 +298,7 @@ export default function NewProduct() {
                     </button>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 }

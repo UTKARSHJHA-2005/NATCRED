@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Routing
 import api from "../axios";
-import "../components/Project.css"
-import AOS from 'aos';
+import "../components/Project.css" // CSS
+import AOS from 'aos'; // Animations
 import 'aos/dist/aos.css';
-import { Camera, User, Mail, Phone, FileText, Wallet, LogOut, Save, Settings, Grid, MessageSquare, ChevronRight, Edit3, Shield, Bell } from 'lucide-react';
-import { MessageCircle, Share, ThumbsUp, ThumbsDown, Send, ArchiveX, Bookmark, ArrowRight, ArrowLeft } from "lucide-react"
-import axios from "axios";
-import profile from "../assets/profile.jpg";
+import { Camera, User, Mail, Phone, FileText, Wallet, LogOut, Save, Settings, Grid, MessageSquare, ChevronRight, Edit3, Shield, Bell } from 'lucide-react'; // Icons
+import { MessageCircle, Share, ThumbsUp, ThumbsDown, Send, ArchiveX, Bookmark, ArrowRight, ArrowLeft } from "lucide-react"; // Icons
+import axios from "axios"; // Axios
+import profile from "../assets/profile.jpg"; // Image
 import { useAuth } from "../AuthContext";
+import { ToastContainer, toast } from 'react-toastify'; // Pop-ups
 
 export default function Profile() {
   const [profileImage, setProfileImage] = useState(null);
@@ -109,7 +110,7 @@ export default function Profile() {
         console.error("Error connecting to MetaMask:", error);
       }
     } else {
-      alert("MetaMask is not installed. Please install it to connect your wallet.");
+      toast.info("MetaMask is not installed. Please install it to connect your wallet.");
     }
   };
 
@@ -197,7 +198,7 @@ export default function Profile() {
       try {
         await axios.delete(`https://natcred-1.onrender.com/api/posts/${id}`);
         setposts(posts.filter((p) => p._id !== id));
-        alert("Deleted successfully");
+        toast.success("Deleted successfully");
       } catch (err) {
         console.error("Delete error:", err);
       }
@@ -249,7 +250,7 @@ export default function Profile() {
                   <button className="p-2 rounded-lg bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 hover:text-white transition-all duration-200">
                     <Bookmark className="w-4 h-4" />
                   </button>
-                  <button onClick={()=>handledelete(post._id)} className="p-2 rounded-lg bg-red-700 text-slate-300 hover:bg-red-600/50 hover:text-white transition-all duration-200">
+                  <button onClick={() => handledelete(post._id)} className="p-2 rounded-lg bg-red-700 text-slate-300 hover:bg-red-600/50 hover:text-white transition-all duration-200">
                     <ArchiveX className="w-4 h-4" />
                   </button>
                 </div>
@@ -386,11 +387,11 @@ export default function Profile() {
         }
       );
       console.log("Updated User:", res.data.user);
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
       navigate("/")
     } catch (err) {
       console.error("Profile update failed:", err);
-      alert(err?.response?.data?.message || "Error updating profile");
+      toast.error(err?.response?.data?.message || "Error updating profile");
     }
   };
   const [activeTab, setActiveTab] = useState("profile");
@@ -413,13 +414,6 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-900">
       <div className="max-w-6xl mx-auto p-6">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center space-x-2 bg-white/5 backdrop-blur-sm rounded-full px-6 py-3 border border-white/10 mb-4">
-            <Settings className="w-5 h-5 text-purple-400" />
-            <h1 className="text-2xl font-bold text-white">Profile Settings</h1>
-          </div>
-        </div>
         {/* Navigation Tabs */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {tabs.map((tab) => {
@@ -443,7 +437,7 @@ export default function Profile() {
               {/* Profile Picture */}
               <div className="text-center mb-6">
                 <div className="relative inline-block">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 rounded-full blur opacity-75"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full blur opacity-75"></div>
                   <img
                     src={formData.image}
                     alt="Profile"
@@ -726,6 +720,7 @@ export default function Profile() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

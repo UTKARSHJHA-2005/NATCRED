@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';// React
 import { Upload, User, FileText, Wand2, Send, Camera, Edit3 } from 'lucide-react';// Icon
 import { useAuth } from '../AuthContext';// Authentication
 import axios from 'axios';// Axios
+import { ToastContainer, toast } from 'react-toastify';
 
 const NewPosts = () => {
   const [imagePreview, setImagePreview] = useState(null); // Image preview state
@@ -43,11 +44,11 @@ const NewPosts = () => {
   // Handle post publishing
   const handlePublishPost = async () => {
     if (!formData.image) {
-      alert("Please upload an image");
+      toast.apply("Please upload an image");
       return;
     }
     if (!formData.content.trim()) {
-      alert("Please enter some content for the post.");
+      toast.apply("Please enter some content for the post.");
       return;
     }
     try {
@@ -56,7 +57,7 @@ const NewPosts = () => {
           "Content-Type": "application/json",
         }
       });
-      alert("Posts published successfully!");
+      toast.success("Posts published successfully!");
       setFormData({
         image: "",
         title: "",
@@ -81,7 +82,7 @@ const NewPosts = () => {
   // Handle Generating AI Response
   const GenerateAI = async () => {
     if (!formData.content.trim()) {
-      alert("Ask something or write a base idea first");
+      toast.info("Ask something or write a base idea first");
       return;
     }
 
@@ -103,11 +104,11 @@ const NewPosts = () => {
           content: data.content
         }));
       } else {
-        alert("AI generation failed");
+        toast.error("AI generation failed. Please try again later.");
       }
     } catch (err) {
       console.error(err);
-      alert("AI service error");
+      toast.error("AI service error. Please try again later.");
     } finally {
       setIsGenerating(false);
     }
@@ -225,6 +226,7 @@ const NewPosts = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

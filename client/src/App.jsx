@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Routing
 import { useState, useEffect } from 'react';// React
+import 'react-toastify/dist/ReactToastify.css'; // Pop-Ups
 // Components and Pages
 import Home from './pages/Home';
 import Signup from './pages/Signup'

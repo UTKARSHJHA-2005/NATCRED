@@ -5,6 +5,7 @@ import 'aos/dist/aos.css';
 import { Heart, MessageCircle, Share, ThumbsUp, ThumbsDown, Send, MoreHorizontal } from "lucide-react"// Icons
 import axios from 'axios';// Axios
 import { useAuth } from '../AuthContext';// Authentication
+import { ToastContainer, toast } from 'react-toastify';// Pop-ups
 
 export const PostCard = ({ post }) => {
   console.log(post)
@@ -22,7 +23,7 @@ export const PostCard = ({ post }) => {
 
   // Like handler
   const handleLike = async () => {
-    if (!user) return alert("Login first!");
+    if (!user) return toast.info("Login first!");
     try {
       const { data } = await axios.post(
         `https://natcred-1.onrender.com/api/posts/${post._id}/like`,
@@ -39,7 +40,7 @@ export const PostCard = ({ post }) => {
 
   // Dislike handler
   const handleDislike = async () => {
-    if (!user) return alert("Login first!");
+    if (!user) return toast.info("Login first!");
     try {
       const { data } = await axios.post(
         `https://natcred-1.onrender.com/api/posts/${post._id}/dislike`,
@@ -198,6 +199,7 @@ export const PostCard = ({ post }) => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

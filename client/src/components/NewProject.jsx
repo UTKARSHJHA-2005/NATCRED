@@ -1,10 +1,11 @@
 // This si the page where user creates its own project.
 import { useState, useEffect } from 'react';// React
 import axios from 'axios';// Axios
-import { Upload, Sparkles, Send, DollarSign, User, Award, FileText } from 'lucide-react';// Icons
+import { Upload, Send, DollarSign, User, Award, Wand2, FileText } from 'lucide-react';// Icons
 import { useAuth } from '../AuthContext';// Authentication
 import { ethers } from 'ethers';// Ethers
 import CarbonCreditMarketABI from "../credit.json";//ABI 
+import { ToastContainer, toast } from 'react-toastify';
 
 const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";// Contract
 
@@ -39,11 +40,11 @@ const NewProject = () => {
   // Handle Publish Project
   const handlePublishPost = async () => {
     if (!formData.content.trim()) {
-      alert("Please enter some content for the project.");
+      toast.warning("Please enter some content for the project.");
       return;
     }
     if (!formData.image) {
-      alert("Please upload an image for the project.");
+      toast.warning("Please upload an image for the project.");
       return;
     }
     try {
@@ -53,7 +54,7 @@ const NewProject = () => {
       });
       // Make sure contract exists
       if (!contract) {
-        alert("Smart contract not initialized!");
+        toast.error("Smart contract not initialized!");
         return;
       }
       // Set prices on-chain
@@ -61,7 +62,7 @@ const NewProject = () => {
       const sellWei = ethers.parseEther((parseFloat(formData.Fund / formData.CarbonCredits) + 0.01).toString() || "0");
       const tx = await contract.setPrices(buyWei, sellWei);
       await tx.wait();
-      alert("Project published successfully!");
+      toast.success("Project published successfully!");
       setFormData({
         image: "",
         content: "",
@@ -97,7 +98,7 @@ const NewProject = () => {
   // Generate AI
   const GenerateAI = async () => {
     if (!formData.content.trim()) {
-      alert("Ask what you want");
+      toast.info("Ask what you want");
       return;
     }
     setIsGenerating(true);
@@ -118,11 +119,11 @@ const NewProject = () => {
       if (res.data.success) {
         handleChange("content", res.data.content);
       } else {
-        alert(res.data.error || "AI generation failed");
+        toast.error(res.data.error || "AI generation failed");
       }
     } catch (error) {
       console.error("AI Generate Error:", error);
-      alert("Failed to generate content. Please try again.");
+      toast.error("Failed to generate content. Please try again later.");
     } finally {
       setIsGenerating(false);
     }
@@ -205,8 +206,9 @@ const NewProject = () => {
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-white">Project Description</h3>
               <button onClick={GenerateAI} disabled={isGenerating} className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-300 disabled:opacity-50 transform hover:scale-105 active:scale-95">
-                <Sparkles className={`w-5 h-5 ${isGenerating ? 'animate-spin' : 'animate-pulse'}`} />
-                <span>{isGenerating ? 'Generating...' : 'AI Enhance'}</span>
+                <span>{isGenerating ?
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  : <Wand2 className="w-6 h-6 text-white" />}</span>
               </button>
             </div>
             <div className="relative">
@@ -232,6 +234,7 @@ const NewProject = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

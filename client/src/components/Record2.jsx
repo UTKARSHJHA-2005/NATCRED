@@ -12,6 +12,7 @@ import "aos/dist/aos.css";
 import CarbonCreditMarketABI from "../credit.json"; // ABI 
 import axios from "axios";// Axios
 import { useAuth } from "../AuthContext";// Authentication
+import { ToastContainer } from "react-toastify";
 
 const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";// Contract
 
@@ -129,7 +130,7 @@ const Record2 = () => {
         console.error("Error connecting to MetaMask:", error);
       }
     } else {
-      alert("MetaMask is not installed. Please install it to connect your wallet.");
+      toast.info("MetaMask is not installed. Please install it to connect your wallet.");
     }
   };
 
@@ -258,10 +259,11 @@ const Record2 = () => {
           </div>
         </>
       )}
+      <ToastContainer />
     </div>
   );
 };
-{/* UI Components*/}
+{/* UI Components*/ }
 const StatCard = ({ title, value, percentage }) => (
   <div className="bg-white p-4 rounded-lg shadow-md flex items-center">
     <div className="flex-grow">
