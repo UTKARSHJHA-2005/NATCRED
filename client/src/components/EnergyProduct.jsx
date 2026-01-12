@@ -35,15 +35,15 @@ export default function EnergyProduct() {
     <section className="py-16 bg-[#233b5d]">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="flex justify-center mb-6">
+        <div data-aos="fade-down" className="flex justify-center mb-6">
           <FontAwesomeIcon icon={faSolarPanel} className="text-4xl text-white" />
         </div>
 
-        <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
+        <h2 data-aos="fade-down" className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
           Energy Innovators
         </h2>
 
-        <p className="text-lg md:text-xl text-green-300 text-center mb-12 max-w-4xl mx-auto">
+        <p data-aos="fade-up" className="text-lg md:text-xl text-green-300 text-center mb-12 max-w-4xl mx-auto">
           Energy Innovators are driving the transition to sustainable energy solutions.
           They develop cutting-edge technologies, such as renewable energy systems,
           to enhance efficiency and reduce carbon footprints.
@@ -56,7 +56,7 @@ export default function EnergyProduct() {
           }} className='pb-12'>
           {product.map((item, index) => (
             <SwiperSlide key={index}>
-              <div
+              <div data-aos="flip-left"
                 className="bg-white border-[#00ff88] border-2 shadow-2xl cursor-pointer 
                 rounded-xl overflow-hidden hover:shadow-[0_0_40px_rgba(0,255,136,0.3)]
                 hover:-translate-y-1 hover:scale-105 transition-all duration-300"
@@ -89,7 +89,7 @@ export default function EnergyProduct() {
         </Swiper>
 
         {/* View All */}
-        <div className="text-center mt-8">
+        <div data-aos="zoom-in" className="text-center mt-8">
           <Link to="/product">
             <button
               className="px-6 py-3 bg-blue-600 border-green-400 border-2 text-white 
