@@ -1,6 +1,7 @@
 // This is the component where user can contact for the info.
 import React, { useState } from "react"; // React
 import { Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react"; // Icons
+import { ToastContainer, toast } from "react-toastify";
 
 const Contact = () => {
   // State variables for form
@@ -23,16 +24,16 @@ const Contact = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate form submission
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({ name: '', email: '', phone: '', message: '' });
     }, 3000);
+    toast.success("Message sent successfully!");
   };
 
   return (
-      <section className="relative py-16 sm:py-20 lg:py-24 overflow-hidden bg-[#293c58]">
+    <section className="relative py-16 sm:py-20 lg:py-24 overflow-hidden bg-[#293c58]">
       <div className="relative px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
@@ -106,7 +107,7 @@ const Contact = () => {
                       </label>
                       <input type="text" id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="Enter your full name"
                         className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400"
-                        required/>
+                        required />
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="email" className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
@@ -114,22 +115,22 @@ const Contact = () => {
                       </label>
                       <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter your email address"
                         className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400"
-                        required/>
+                        required />
                     </div>
                     <div className="space-y-2 sm:col-span-2">
                       <label htmlFor="phone" className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
                         Phone Number
                       </label>
                       <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Enter your phone number"
-                        className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400"/>
+                        className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400" />
                     </div>
                     <div className="space-y-2 sm:col-span-2">
                       <label htmlFor="message" className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
                         Message
                       </label>
                       <textarea id="message" name="message" rows={6} value={formData.message} onChange={handleInputChange} placeholder="Tell us about your project or inquiry..."
-                      className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400 resize-none"
-                      required></textarea>
+                        className="w-full px-6 py-4 text-gray-900 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 placeholder:text-gray-400 resize-none"
+                        required></textarea>
                     </div>
                   </div>
                   {/* Submit Button */}
@@ -145,6 +146,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };
