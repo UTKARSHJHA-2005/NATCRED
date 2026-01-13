@@ -10,9 +10,10 @@ import { useAuth } from "../AuthContext";// Authentication
 import CarbonCreditMarketABI from "../credit.json";// ABI
 import { ToastContainer, toast } from 'react-toastify';// Pop-ups
 
-const CONTRACT_ADDRESS = "0x44fF6dc521a0ED1DA75450bE19623603b4063B27";// Contract
+const CONTRACT_ADDRESS = "0x80476Af493BF04Af9231945f93650ceC8984B735";// Contract
 
 const ProjectDetail = () => {
+    const [contractCost, setContractCost] = useState(null);// Contract Cost State
     const { id } = useParams(); // Getting ID from URL
     const [open, setOpen] = useState(false);// Modal state
     const [contract, setContract] = useState(null);// Contract state
@@ -69,34 +70,84 @@ const ProjectDetail = () => {
     // Contract Initialization
     useEffect(() => {
         const initContract = async () => {
-            if (typeof window.ethereum !== "undefined") {
-                try {
-                    const provider = new ethers.BrowserProvider(window.ethereum);
-                    const signer = await provider.getSigner();
-                    const contractInstance = new ethers.Contract(
-                        CONTRACT_ADDRESS,
-                        CarbonCreditMarketABI,
-                        signer
-                    );
-                    setContract(contractInstance);
-                } catch (err) {
-                    console.error("Failed to init contract:", err);
-                }
+            if (typeof window.ethereum === "undefined") {
+                console.error("MetaMask not found");
+                return;
+            }
+            try {
+                const provider = new ethers.BrowserProvider(window.ethereum);
+                await provider.send("eth_requestAccounts", []);
+                const signer = await provider.getSigner();
+                const contractInstance = new ethers.Contract(
+                    CONTRACT_ADDRESS,
+                    CarbonCreditMarketABI,
+                    signer
+                );
+                setContract(contractInstance);
+            } catch (err) {
+                console.error("Contract init failed:", err);
             }
         };
         initContract();
     }, []);
-    // Investment logic
-    const handleInvest = async () => {
-        try {
-            if (!contract) {
-                toast.error("Contract not initialized. Please connect wallet.");
+
+    const totalRaised = project.contributors
+        ? project.contributors.reduce((sum, contrib) => sum + Number(contrib.Value || 0), 0)
+        : 0;
+
+    const fundedPercent = project.Fund
+        ? Math.min((totalRaised / project.Fund) * 100, 100)
+        : 0;
+
+    // Fetch cost safely using callStatic
+    useEffect(() => {
+        const fetchCost = async () => {
+            if (!contract || !credits || credits <= 0) {
+                setContractCost(null);
                 return;
             }
-            const creditAmount = ethers.parseUnits(credits.toString(), 18);
-            const cost = await contract.quoteBuy(creditAmount);
-            const tx = await contract.buy(creditAmount, { value: cost });
+            try {
+                const creditAmount = ethers.parseUnits(String(credits), 0); // BigInt
+
+                // Try to get the quote - if the function doesn't exist or reverts, 
+                // fall back to manual calculation
+                let cost;
+                try {
+                    cost = await contract.quoteBuy.staticCall(creditAmount);
+                } catch (quoteError) {
+                    console.warn("quoteBuy not available, using manual calculation:", quoteError);
+                    // Fallback: calculate based on ETH rate
+                    // totalEth is already calculated from ethPerCredit * credits
+                    cost = ethers.parseEther(totalEth.toFixed(18));
+                }
+
+                setContractCost(cost);
+            } catch (err) {
+                console.error("Quote failed:", err);
+                // Final fallback: use manual calculation
+                if (ethRate && usdPerCredit) {
+                    const fallbackCost = ethers.parseEther(totalEth.toFixed(18));
+                    setContractCost(fallbackCost);
+                } else {
+                    setContractCost(null);
+                }
+            }
+        };
+        fetchCost();
+    }, [contract, credits, totalEth, ethRate, usdPerCredit]);
+
+    // Handle investment
+    const handleInvest = async () => {
+        if (!contract || !credits || credits <= 0 || !contractCost) {
+            toast.error("Invalid investment attempt");
+            return;
+        }
+        try {
+            const creditAmount = ethers.parseUnits(String(credits), 0);
+            const tx = await contract.buy(creditAmount, { value: contractCost });
             await tx.wait();
+            toast.success("Investment successful ✅");
+            setOpen(false);
             const payload = {
                 name: user?.name || "Anonymous",
                 carboncredit: credits,
@@ -106,13 +157,13 @@ const ProjectDetail = () => {
                 `https://natcred-1.onrender.com/api/project/${project._id}/contribute`,
                 payload
             );
-            toast.success("Investment successful and saved to project ✅");
-            setOpen(false);
+            getProject(); // refresh project details
         } catch (err) {
             console.error("Investment failed:", err);
-            toast.error("Investment failed. Please try again.");
+            toast.error(err?.reason || err?.message || "Investment failed");
         }
     };
+
 
     return (
         <div className="min-h-screen p-4 md:p-8 text-white" style={{ background: '#233b5d' }}>
@@ -141,7 +192,7 @@ const ProjectDetail = () => {
                             By {project.author}
                         </p>
                         <p className="mt-4 text-white leading-relaxed">{project?.content && (
-                            <p>{project.content.slice(0, 778)}</p>
+                            <span>{project.content.slice(0, 778)}</span>
                         )}
                         </p>
                         <button
@@ -167,17 +218,11 @@ const ProjectDetail = () => {
                         <div className="mt-6 bg-blue-800 bg-opacity-50 p-4 rounded-lg">
                             <div className="w-full bg-gray-200 rounded-full h-2.5">
                                 <div className="bg-green-500 h-2.5 rounded-full"
-                                    style={{
-                                        width: `${project.contributors && project.contributors.length > 0 ? Math.round(
-                                            (project.Fund / project.contributors.reduce((sum, contrib) => sum + contrib.Value, 0)) * 100)
-                                            : 0}%`
-                                    }}
+                                    style={{ width: `${fundedPercent}%` }}
                                 ></div>
                             </div>
                             <div className="flex justify-between mt-2 text-sm text-blue-200">
-                                <span>{project.contributors && project.contributors.length > 0
-                                    ? Math.round((project.Fund / project.contributors.reduce((sum, contrib) => sum + contrib.Value, 0)) * 100)
-                                    : 0}% Funded</span>
+                                <span>{Math.round(fundedPercent)}% Funded</span>
                             </div>
                         </div>
                     </div>
@@ -276,7 +321,10 @@ const ProjectDetail = () => {
                                     {/* Carbon Credits Input */}
                                     <div>
                                         <label className="block text-sm font-medium">Carbon Credits</label>
-                                        <input type="number" value={credits} onChange={(e) => setCredits(Number(e.target.value))}
+                                        <input type="number" value={credits} onChange={(e) => {
+                                            const value = Number(e.target.value);
+                                            setCredits(value > 0 ? value : 1);
+                                        }}
                                             className="w-full border text-black rounded-lg px-3 py-2 mt-1 focus:ring-2 focus:ring-indigo-400 outline-none"
                                             placeholder="Enter credits" />
                                     </div>
@@ -285,7 +333,11 @@ const ProjectDetail = () => {
                                         <label className="block text-sm font-medium">Rate per Credit</label>
                                         <input
                                             type="text"
-                                            value={ethRate ? `${totalEth.toFixed(6)} ETH` : "Fetching ETH price..."}
+                                            value={
+                                                contractCost
+                                                    ? `${ethers.formatEther(contractCost)} ETH`
+                                                    : "Calculating..."
+                                            }
                                             disabled
                                             className="w-full border rounded-lg text-black px-3 py-2 mt-1 bg-gray-100 cursor-not-allowed"
                                         />
