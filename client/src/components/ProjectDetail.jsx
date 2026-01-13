@@ -10,7 +10,7 @@ import { useAuth } from "../AuthContext";// Authentication
 import CarbonCreditMarketABI from "../credit.json";// ABI
 import { ToastContainer, toast } from 'react-toastify';// Pop-ups
 
-const CONTRACT_ADDRESS = "0xd9145CCE52D386f254917e481eB44e9943F39138";// Contract
+const CONTRACT_ADDRESS = "0x44fF6dc521a0ED1DA75450bE19623603b4063B27";// Contract
 
 const ProjectDetail = () => {
     const { id } = useParams(); // Getting ID from URL
