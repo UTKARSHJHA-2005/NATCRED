@@ -14,7 +14,7 @@ import axios from "axios";// Axios
 import { useAuth } from "../AuthContext";// Authentication
 import { ToastContainer } from "react-toastify";
 
-const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";// Contract
+const CONTRACT_ADDRESS = "0x80476Af493BF04Af9231945f93650ceC8984B735";// Contract
 
 const Record2 = () => {
   const [walletAddress, setWalletAddress] = useState(null);// Wallet Address State
@@ -158,9 +158,9 @@ const Record2 = () => {
               <div data-aos="flip-left" className="bg-white p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg text-black font-bold">Transactions to My Projects</h2>
-                  <a href="#" className="text-sm text-green-600 hover:text-green-800">
+                  {/* <a href="#" className="text-sm text-green-600 hover:text-green-800">
                     View All &rarr;
-                  </a>
+                  </a> */}
                 </div>
                 {project && project.length > 0 ? (
                   <div className="space-y-4">

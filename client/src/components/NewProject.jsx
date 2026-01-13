@@ -7,7 +7,7 @@ import { ethers } from 'ethers';// Ethers
 import CarbonCreditMarketABI from "../credit.json";//ABI 
 import { ToastContainer, toast } from 'react-toastify';
 
-const CONTRACT_ADDRESS = "0x9d8b6788D47f3478594f6F819410c7cdfFdB63F6";// Contract
+const CONTRACT_ADDRESS = "0x80476Af493BF04Af9231945f93650ceC8984B735";// Contract
 
 const NewProject = () => {
   const { user } = useAuth()// User
