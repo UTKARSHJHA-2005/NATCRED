@@ -104,7 +104,7 @@ app.post("/api/generate", async (req, res) => {
     }
 
     const response = await client.chat.completions.create({
-      model: "tngtech/tng-r1t-chimera:free",
+      model: "openrouter/free",
       messages: [
         {
           role: "system",
