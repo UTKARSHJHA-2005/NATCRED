@@ -89,11 +89,20 @@ const NewPosts = () => {
     setIsGenerating(true);
     try {
       const res = await fetch("http://natcred-1.onrender.com/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: `Expand and improve this content in a professional and engaging way:\n\n${formData.content}`
-        })
+       {
+          prompt: formData.content,
+          userId: user?.id || user?.email
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+        // method: "POST",
+        // headers: { "Content-Type": "application/json" },
+        // body: JSON.stringify({
+        //   prompt: `Expand and improve this content in a professional and engaging way:\n\n${formData.content}`
+        // })
       });
 
       const data = await res.json();
