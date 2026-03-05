@@ -88,7 +88,7 @@ const NewPosts = () => {
 
     setIsGenerating(true);
     try {
-      const res = await fetch("http://natcred-1.onrender.com/api/generate",
+      const res = await fetch("https://natcred-1.onrender.com/api/generate",
        {
           prompt: formData.content,
           userId: user?.id || user?.email
