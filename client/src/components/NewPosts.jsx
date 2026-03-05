@@ -81,60 +81,45 @@ const NewPosts = () => {
 
   // Handle Generating AI Response
   const GenerateAI = async () => {
-    if (!formData.content.trim()) {
-      toast.info("Ask something or write a base idea first");
-      return;
-    }
+  if (!formData.content.trim()) {
+    toast.info("Ask something or write a base idea first");
+    return;
+  }
 
-    setIsGenerating(true);
-    try {
-      // const res = await fetch("https://natcred-1.onrender.com/api/generate",
-      //  {
-      //     prompt: formData.content,
-      //     userId: user?.id || user?.email
-      //   },
-      //   {
-      //     headers: {
-      //       "Content-Type": "application/json"
-      //     }
-      //   }
-        // method: "POST",
-        // headers: { "Content-Type": "application/json" },
-        // body: JSON.stringify({
-        //   prompt: `Expand and improve this content in a professional and engaging way:\n\n${formData.content}`
-        // })
-      // );
-      const res = await axios.post(
-        "https://natcred-1.onrender.com/api/generate",
-        {
-          prompt: formData.content,
-          userId: user?.id || user?.email
-        },
-        {
-          headers: {
-            "Content-Type": "application/json"
-          }
+  setIsGenerating(true);
+
+  try {
+    const res = await axios.post(
+      "https://natcred-1.onrender.com/api/generate",
+      {
+        prompt: formData.content,
+        userId: user?.id || user?.email
+      },
+      {
+        headers: {
+          "Content-Type": "application/json"
         }
-      );
-
-      const data = await res.json();
-
-      if (data.success) {
-        setFormData(prev => ({
-          ...prev,
-          content: data.content
-        }));
-      } else {
-        toast.error("AI generation failed. Please try again later.");
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("AI service error. Please try again later.");
-    } finally {
-      setIsGenerating(false);
-    }
-  };
+    );
 
+    const data = res.data;
+
+    if (data.success) {
+      setFormData(prev => ({
+        ...prev,
+        content: data.content
+      }));
+    } else {
+      toast.error("AI generation failed. Please try again later.");
+    }
+
+  } catch (err) {
+    console.error(err);
+    toast.error("AI service error. Please try again later.");
+  } finally {
+    setIsGenerating(false);
+  }
+};
   return (
     <div className="min-h-screen bg-[#172a45] p-4 md:p-8">
       <div className="relative z-10 max-w-4xl mx-auto">
