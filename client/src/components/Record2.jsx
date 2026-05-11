@@ -13,7 +13,6 @@ import CarbonCreditMarketABI from "../credit.json"; // ABI
 import axios from "axios"; // Axios
 import { toast, ToastContainer } from "react-toastify"; // Toast Notifications
 import { useAuth } from "../AuthContext"; // Authentication
-import { ToastContainer } from "react-toastify";
 
 const CONTRACT_ADDRESS = "0x80476Af493BF04Af9231945f93650ceC8984B735"; // Contract
 
