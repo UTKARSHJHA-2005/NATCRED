@@ -132,6 +132,8 @@ export const google = async (req, res) => {
     res.json({ token, user });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ message: "Google login failed" });
+    res.status(400).json({
+      "Google Login Failed": { message: err.message, code: err.code },
+    });
   }
 };
