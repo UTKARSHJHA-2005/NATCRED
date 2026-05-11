@@ -35,8 +35,28 @@ export default function Login() {
       console.log(res.data);
       GoogleLogin(res.data);
       navigate("/");
+      toast.success("Logged in with Google successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } catch (error) {
       console.error("Google login failed:", error);
+      toast.error("Google login failed!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
   // Only Email and Password
@@ -46,8 +66,28 @@ export default function Login() {
     try {
       await login(email, password);
       navigate("/");
+      toast.success("Logged in with Email successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } catch (e) {
       setErr(e?.response?.data?.message || "Login failed");
+      toast.error("Login failed!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
